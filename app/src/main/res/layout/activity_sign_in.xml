@@ -54,7 +54,7 @@
         app:endIconMode="clear_text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/signIN_phoneNumberInput">
+        app:layout_constraintTop_toBottomOf="@+id/signIn_phoneNumberInput">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/signIn_password_input"
