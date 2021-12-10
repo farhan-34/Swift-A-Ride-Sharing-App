@@ -27,5 +27,16 @@ class SignInActivity : AppCompatActivity() {
         signIn_forgotPasswordBtn.setOnClickListener{
             startActivity(Intent(this, ForgotPasswordActivity::class.java))
         }
+
+        //checking phone number
+        //link to check the functions of this input method
+        //https://reposhub.com/android/textview-edittext/AlmogBaku-IntlPhoneInput.html
+        if(signIn_phoneNumberInput.isValid){
+            //get value of the phone number
+        }
+        signIn_phoneNumberInput.setOnKeyboardDone { _, isValid ->
+            if(isValid){
+            }
+        }
     }
 }
