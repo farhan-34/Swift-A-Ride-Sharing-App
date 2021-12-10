@@ -10,6 +10,15 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Swift">
         <activity
+            android:name=".frontEnd.activities.ForgotPasswordActivity"
+            android:exported="true" />
+        <activity
+            android:name=".frontEnd.activities.RiderRegisterActivity"
+            android:exported="true" />
+        <activity
+            android:name=".frontEnd.activities.SignInActivity"
+            android:exported="true" />
+        <activity
             android:name=".frontEnd.activities.SplashScreenActivity"
             android:exported="true">
             <intent-filter>
