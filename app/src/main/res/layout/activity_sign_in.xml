@@ -21,48 +21,40 @@
         app:srcCompat="@drawable/swift_white_logo"
         tools:ignore="ImageContrastCheck" />
 
-    <com.google.android.material.textfield.TextInputLayout
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:id="@+id/signIn_phoneNumber_layout"
-        app:boxCornerRadiusTopStart="20dp"
-        app:boxCornerRadiusBottomEnd="20dp"
-        app:boxCornerRadiusBottomStart="20dp"
-        app:boxCornerRadiusTopEnd="20dp"
+
+    <net.rimoto.intlphoneinput.IntlPhoneInput
+        android:id="@+id/signIn_phoneNumberInput"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="64dp"
-        android:hint="@string/phone_number"
-        app:boxBackgroundColor="@color/white"
+        android:layout_marginTop="92dp"
+        android:padding="9dp"
+        app:flagPaddingBottom="4dp"
+        app:flagPaddingEnd="4dp"
+        app:flagPaddingStart="4dp"
+        android:background="@drawable/rectangle"
+        app:flagPaddingTop="4dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/signIn_swiftLogo"
-        app:endIconMode="clear_text">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/signIn_phoneNumber_input"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="phone"
-            android:textSize="18sp" />
-    </com.google.android.material.textfield.TextInputLayout>
-
+        app:textColor="#000000"
+        app:textSize="14sp" />
 
     <com.google.android.material.textfield.TextInputLayout
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:id="@+id/signIn_password_layout"
-        app:boxCornerRadiusTopStart="20dp"
-        app:boxCornerRadiusBottomEnd="20dp"
-        app:boxCornerRadiusBottomStart="20dp"
-        app:boxCornerRadiusTopEnd="20dp"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:hint="@string/password"
         app:boxBackgroundColor="@color/white"
+        app:boxCornerRadiusBottomEnd="20dp"
+        app:boxCornerRadiusBottomStart="20dp"
+        app:boxCornerRadiusTopEnd="20dp"
+        app:boxCornerRadiusTopStart="20dp"
+        app:endIconMode="clear_text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/signIn_phoneNumber_layout"
-        app:endIconMode="clear_text">
+        app:layout_constraintTop_toBottomOf="@+id/signIN_phoneNumberInput">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/signIn_password_input"
@@ -108,8 +100,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:text="Create One"
         android:clickable="true"
+        android:text="Create One"
         android:textColor="@color/blue"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -117,7 +109,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView"
         app:layout_constraintVertical_bias="0.0"
-        tools:ignore="HardcodedText,KeyboardInaccessibleWidget" />
+        tools:ignore="HardcodedText,KeyboardInaccessibleWidget,TouchTargetSizeCheck" />
 
     <TextView
         android:id="@+id/signIn_forgotPasswordBtn"
