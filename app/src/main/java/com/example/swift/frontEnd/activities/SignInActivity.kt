@@ -35,8 +35,15 @@ class SignInActivity : AppCompatActivity() {
             //get value of the phone number
         }
         signIn_phoneNumberInput.setOnKeyboardDone { _, isValid ->
+            //TODO: after checking valid inputs redirect to home page
+
             if(isValid){
             }
+
+        }
+
+        login_button.setOnClickListener{
+            startActivity(Intent(this, ForRiderDriverOfferListAndChatActivity::class.java))
         }
     }
 }
