@@ -1,7 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Swift</string>
-    <string name="phone_number">Phone Number</string>
-    <string name="password">Password</string>
     <string name="confirm_password">Confirm Password</string>
     <string name="reset_password">Reset Password</string>
     <string name="new_password">New Password</string>

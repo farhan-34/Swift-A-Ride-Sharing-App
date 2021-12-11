@@ -10,8 +10,15 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Swift">
         <activity
-            android:name=".frontEnd.activities.ForgotPasswordActivity"
-            android:exported="true" />
+            android:name=".frontEnd.activities.ResetPasswordActivity"
+            android:exported="false" />
+        <activity
+            android:name=".frontEnd.activities.ReceiveOtpForPasswordResetActivity"
+            android:exported="false" />
+        <activity
+            android:name=".frontEnd.activities.SendOtpForPasswordResetActivity"
+            android:exported="true"
+            android:parentActivityName=".frontEnd.activities.SignInActivity" />
         <activity
             android:name=".frontEnd.activities.RiderRegisterActivity"
             android:exported="true" />
