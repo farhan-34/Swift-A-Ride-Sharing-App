@@ -31,7 +31,6 @@
         android:layout_marginTop="10dp"
         android:hint="Name*"
         app:boxBackgroundColor="@color/white"
-
         app:boxCornerRadiusBottomEnd="18dp"
         app:boxCornerRadiusBottomStart="18dp"
         app:boxCornerRadiusTopEnd="18dp"

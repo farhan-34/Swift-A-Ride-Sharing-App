@@ -4,13 +4,20 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/Farhan/Desktop/Swift/app/src/main/res/drawable/ic_error.xml" value="1.328125" />
+        <entry key="..\:/Users/Farhan/Desktop/Swift/app/src/main/res/drawable/radious.xml" value="0.22135416666666666" />
         <entry key="..\:/Users/Farhan/Desktop/Swift/app/src/main/res/drawable/rectangle.xml" value="0.22135416666666666" />
+        <entry key="..\:/Users/Farhan/Desktop/Swift/app/src/main/res/layout/activity_for_rider_driver_offer_list_and_chat.xml" value="0.22" />
         <entry key="..\:/Users/Farhan/Desktop/Swift/app/src/main/res/layout/activity_forgot_password.xml" value="0.19114583333333332" />
         <entry key="..\:/Users/Farhan/Desktop/Swift/app/src/main/res/layout/activity_main.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/Farhan/Desktop/Swift/app/src/main/res/layout/activity_rider_menu_slider.xml" value="0.35260416666666666" />
         <entry key="..\:/Users/Farhan/Desktop/Swift/app/src/main/res/layout/activity_rider_register.xml" value="0.33" />
         <entry key="..\:/Users/Farhan/Desktop/Swift/app/src/main/res/layout/activity_sign_in.xml" value="0.25" />
         <entry key="..\:/Users/Farhan/Desktop/Swift/app/src/main/res/layout/activity_splash_screen.xml" value="0.25" />
         <entry key="..\:/Users/Farhan/Desktop/Swift/app/src/main/res/layout/gender_dropdwon_list_item.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/Farhan/Desktop/Swift/app/src/main/res/layout/menu_header.xml" value="0.20520833333333333" />
+        <entry key="..\:/Users/Farhan/Desktop/Swift/app/src/main/res/layout/rider_floting_menu.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/Farhan/Desktop/Swift/app/src/main/res/layout/rider_menu_drawer.xml" value="0.20520833333333333" />
+        <entry key="..\:/Users/Farhan/Desktop/Swift/app/src/main/res/menu/slider_menu.xml" value="0.20520833333333333" />
       </map>
     </option>
   </component>
