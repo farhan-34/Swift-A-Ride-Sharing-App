@@ -25,7 +25,7 @@ class SignInActivity : AppCompatActivity() {
         }
 
         signIn_forgotPasswordBtn.setOnClickListener{
-            startActivity(Intent(this, ForgotPasswordActivity::class.java))
+            startActivity(Intent(this, SendOtpForPasswordResetActivity::class.java))
         }
 
         //checking phone number
