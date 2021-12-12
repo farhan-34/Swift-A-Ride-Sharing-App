@@ -2,15 +2,17 @@ package com.example.swift.frontEnd.activities
 
 import android.os.Bundle
 import android.view.Gravity
+import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import com.example.swift.R
+import com.google.android.material.navigation.NavigationView
 import kotlinx.android.synthetic.main.rider_menu_slider.*
 
 
-class ForRiderDriverOfferListAndChatActivity : AppCompatActivity() {
+class ForRiderDriverOfferListAndChatActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_for_rider_driver_offer_list_and_chat)
@@ -38,6 +40,8 @@ class ForRiderDriverOfferListAndChatActivity : AppCompatActivity() {
             }
         })
 
+
+        rider_nav_view.setNavigationItemSelectedListener(this)
     }
 
     override fun onBackPressed() {
@@ -47,5 +51,9 @@ class ForRiderDriverOfferListAndChatActivity : AppCompatActivity() {
         }else {
             super.onBackPressed()
         }
+    }
+
+    override fun onNavigationItemSelected(item: MenuItem): Boolean {
+        return true
     }
 }

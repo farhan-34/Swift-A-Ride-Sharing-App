@@ -18,16 +18,35 @@
 
         <com.google.android.material.navigation.NavigationView
             android:id="@+id/rider_nav_view"
+            app:itemIconTint="@color/drawer_color_selector"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="start"
             android:background="@color/main_orange_color"
             app:headerLayout="@layout/rider_menu_header"
-            app:itemTextColor="@color/white"
-            app:menu="@menu/rider_slider_menu" />
+            app:itemTextColor="@color/drawer_color_selector"
+            app:menu="@menu/rider_slider_menu">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom">
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="70dp"
+                    android:layout_marginBottom="20dp"
+                    android:text="Become A Driver"
+                    android:textColor="@color/main_orange_color"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+                    android:backgroundTint="@color/white"
+                    android:id="@+id/rider_becomeDriver_btn"/>
+
+
+            </LinearLayout>
+        </com.google.android.material.navigation.NavigationView>
 
     </androidx.drawerlayout.widget.DrawerLayout>
-
 
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -39,6 +58,7 @@
         android:background="@color/error_red"
         android:src="@drawable/ic_menu"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="SpeakableTextPresentCheck" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
