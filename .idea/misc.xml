@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/Farhan/Desktop/Swift/app/src/main/res/drawable/drawer_color_selecter.xml" value="0.3828125" />
         <entry key="..\:/Users/Farhan/Desktop/Swift/app/src/main/res/drawable/ic_error.xml" value="1.328125" />
         <entry key="..\:/Users/Farhan/Desktop/Swift/app/src/main/res/drawable/radious.xml" value="0.22135416666666666" />
         <entry key="..\:/Users/Farhan/Desktop/Swift/app/src/main/res/drawable/rectangle.xml" value="0.22135416666666666" />
@@ -13,10 +14,15 @@
         <entry key="..\:/Users/Farhan/Desktop/Swift/app/src/main/res/layout/activity_rider_register.xml" value="0.33" />
         <entry key="..\:/Users/Farhan/Desktop/Swift/app/src/main/res/layout/activity_sign_in.xml" value="0.25" />
         <entry key="..\:/Users/Farhan/Desktop/Swift/app/src/main/res/layout/activity_splash_screen.xml" value="0.25" />
+        <entry key="..\:/Users/Farhan/Desktop/Swift/app/src/main/res/layout/drawer_color_selecter.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/Farhan/Desktop/Swift/app/src/main/res/layout/fragment_home_page.xml" value="0.33" />
+        <entry key="..\:/Users/Farhan/Desktop/Swift/app/src/main/res/layout/fragment_rider_ride_history.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/Farhan/Desktop/Swift/app/src/main/res/layout/gender_dropdwon_list_item.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/Farhan/Desktop/Swift/app/src/main/res/layout/menu_header.xml" value="0.20520833333333333" />
         <entry key="..\:/Users/Farhan/Desktop/Swift/app/src/main/res/layout/rider_floting_menu.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/Farhan/Desktop/Swift/app/src/main/res/layout/rider_menu_drawer.xml" value="0.20520833333333333" />
+        <entry key="..\:/Users/Farhan/Desktop/Swift/app/src/main/res/layout/rider_menu_slider.xml" value="0.26856884057971014" />
+        <entry key="..\:/Users/Farhan/Desktop/Swift/app/src/main/res/menu/rider_slider_menu.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/Farhan/Desktop/Swift/app/src/main/res/menu/slider_menu.xml" value="0.20520833333333333" />
       </map>
     </option>

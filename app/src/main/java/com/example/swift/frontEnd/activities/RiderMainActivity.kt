@@ -1,19 +1,25 @@
 package com.example.swift.frontEnd.activities
 
+import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.view.Gravity
+import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import com.example.swift.R
-import kotlinx.android.synthetic.main.rider_menu_slider.*
+import com.example.swift.frontEnd.fragments.RiderHomePageFragment
+import com.example.swift.frontEnd.fragments.RiderRideHistoryFragment
+import com.google.android.material.navigation.NavigationView
+import kotlinx.android.synthetic.main.activity_rider_main.*
 
 
-class ForRiderDriverOfferListAndChatActivity : AppCompatActivity() {
+class RiderMainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_for_rider_driver_offer_list_and_chat)
+        requestedOrientation =  (ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
+        setContentView(R.layout.activity_rider_main)
 
         activate_menu.setOnClickListener {
             rider_drawer.openDrawer(Gravity.LEFT)
@@ -38,6 +44,8 @@ class ForRiderDriverOfferListAndChatActivity : AppCompatActivity() {
             }
         })
 
+
+        rider_nav_view.setNavigationItemSelectedListener(this)
     }
 
     override fun onBackPressed() {
@@ -47,5 +55,19 @@ class ForRiderDriverOfferListAndChatActivity : AppCompatActivity() {
         }else {
             super.onBackPressed()
         }
+    }
+
+    override fun onNavigationItemSelected(item: MenuItem): Boolean {
+        when(item.itemId){
+            R.id.nav_home -> {
+                supportFragmentManager.beginTransaction().replace(R.id.rider_main_fragment_container, RiderHomePageFragment()).commit()
+            }
+            R.id.nav_riderRideHistory -> {
+                supportFragmentManager.beginTransaction().replace(R.id.rider_main_fragment_container, RiderRideHistoryFragment()).commit()
+            }
+        }
+
+        rider_drawer.closeDrawer(GravityCompat.START)
+        return true
     }
 }

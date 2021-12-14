@@ -19,15 +19,10 @@
         <item android:id="@+id/nav_riderPanic"
             android:icon="@drawable/ic_panic"
             android:title="Panic Button" />
-    </group>
-
-    <group android:checkableBehavior="single">
         <item android:id="@+id/nav_logout"
             android:icon="@drawable/ic_logout"
             android:title="Logout"/>
+
     </group>
-    <group android:checkableBehavior="single">
-        <item android:id="@+id/nav_switchToDriver"
-            android:title="Become A Driver"/>
-    </group>
+
 </menu>
