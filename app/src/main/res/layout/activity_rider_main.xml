@@ -5,6 +5,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/rider_main_fragment_container"/>
+
     <androidx.drawerlayout.widget.DrawerLayout
         android:id="@+id/rider_drawer"
         android:layout_width="match_parent"

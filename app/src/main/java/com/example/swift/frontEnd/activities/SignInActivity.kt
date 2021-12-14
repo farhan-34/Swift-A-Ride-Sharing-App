@@ -43,7 +43,7 @@ class SignInActivity : AppCompatActivity() {
         }
 
         login_button.setOnClickListener{
-            startActivity(Intent(this, ForRiderDriverOfferListAndChatActivity::class.java))
+            startActivity(Intent(this, RiderMainActivity::class.java))
         }
     }
 }
