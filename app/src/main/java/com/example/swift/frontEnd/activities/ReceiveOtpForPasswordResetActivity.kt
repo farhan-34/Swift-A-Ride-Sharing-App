@@ -27,6 +27,7 @@ class ReceiveOtpForPasswordResetActivity : AppCompatActivity() {
         btn_receive_OTP_passReset.setOnClickListener {
             val intent = Intent(this, ResetPasswordActivity::class.java)
             //intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+
             startActivity(intent)
             finish()
         }
