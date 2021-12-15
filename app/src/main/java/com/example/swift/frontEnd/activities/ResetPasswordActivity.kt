@@ -9,26 +9,30 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.core.widget.doOnTextChanged
 import com.example.swift.R
-import kotlinx.android.synthetic.main.activity_receive_otp_for_password_reset.*
 import kotlinx.android.synthetic.main.activity_reset_password.*
-import kotlinx.android.synthetic.main.activity_rider_register.*
 
 class ResetPasswordActivity : AppCompatActivity() {
 
     //flags
-    var flag_new = false
-    var flag_confirm = false
+    private var flag_new = false
+    private var flag_confirm = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         requestedOrientation =  (ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
         setContentView(R.layout.activity_reset_password)
 
+        //setting actionbar attributes
+        val actionBar = supportActionBar
+        actionBar!!.title = "Reset Password"
+        actionBar.setDisplayHomeAsUpEnabled(true)
+
         checkInputs()
 
         resetPass_btn_reset.setOnClickListener {
             if(flag_new and flag_confirm){
                 startActivity(Intent(this, SignInActivity::class.java))
+                finish()
             }
             else{
                 Toast.makeText(applicationContext, "Enter Correct Password", Toast.LENGTH_SHORT).show()
