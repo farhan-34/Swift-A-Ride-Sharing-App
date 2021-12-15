@@ -1,5 +1,6 @@
 package com.example.swift.frontEnd.activities
 
+import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.view.Gravity
@@ -44,6 +45,10 @@ class RiderMainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSe
             }
         })
 
+
+        rider_becomeDriver_btn.setOnClickListener {
+            startActivity(Intent(this, DriverRegistrationActivity::class.java))
+        }
 
         rider_nav_view.setNavigationItemSelectedListener(this)
     }
