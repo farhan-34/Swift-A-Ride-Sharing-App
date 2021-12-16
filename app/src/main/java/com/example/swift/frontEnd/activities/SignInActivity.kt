@@ -13,6 +13,7 @@ class SignInActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         requestedOrientation =  (ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
         setContentView(R.layout.activity_sign_in)
+        supportActionBar?.hide()
 
         var html = "<u><b>Create One<b></u>"
         signIn_createBtn.text = Html.fromHtml(html)

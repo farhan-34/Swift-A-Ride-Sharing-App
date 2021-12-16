@@ -13,6 +13,7 @@ class SplashScreenActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         requestedOrientation =  (ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
         setContentView(R.layout.activity_splash_screen)
+        supportActionBar?.hide()
 
 
         // TODO: uncomment and Set correct value later
