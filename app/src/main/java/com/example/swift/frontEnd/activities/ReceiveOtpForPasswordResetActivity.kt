@@ -15,12 +15,21 @@ class ReceiveOtpForPasswordResetActivity : AppCompatActivity() {
         requestedOrientation =  (ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
         setContentView(R.layout.activity_receive_otp_for_password_reset)
 
+        //setting actionbar attributes
+        val actionBar = supportActionBar
+        actionBar!!.title = "OTP Verification"
+        actionBar.setDisplayHomeAsUpEnabled(true)
+
         setupOTPInputs()
 
         receiveOTP_mobile_textView.text = intent.getStringExtra("mobile")
 
         btn_receive_OTP_passReset.setOnClickListener {
-            startActivity(Intent(this, ResetPasswordActivity::class.java))
+            val intent = Intent(this, ResetPasswordActivity::class.java)
+            //intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+
+            startActivity(intent)
+            finish()
         }
 
     }
@@ -34,7 +43,7 @@ class ReceiveOtpForPasswordResetActivity : AppCompatActivity() {
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                if(!s.toString().trim().isEmpty()){
+                if(s.toString().trim().isNotEmpty()){
                     otp_input_code2.requestFocus()
                 }
             }
@@ -51,7 +60,7 @@ class ReceiveOtpForPasswordResetActivity : AppCompatActivity() {
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                if(!s.toString().trim().isEmpty()){
+                if(s.toString().trim().isNotEmpty()){
                     otp_input_code3.requestFocus()
                 }
             }
@@ -68,7 +77,7 @@ class ReceiveOtpForPasswordResetActivity : AppCompatActivity() {
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                if(!s.toString().trim().isEmpty()){
+                if(s.toString().trim().isNotEmpty()){
                     otp_input_code4.requestFocus()
                 }
             }
@@ -85,7 +94,7 @@ class ReceiveOtpForPasswordResetActivity : AppCompatActivity() {
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                if(!s.toString().trim().isEmpty()){
+                if(s.toString().trim().isNotEmpty()){
                     otp_input_code5.requestFocus()
                 }
             }
@@ -102,7 +111,7 @@ class ReceiveOtpForPasswordResetActivity : AppCompatActivity() {
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                if(!s.toString().trim().isEmpty()){
+                if(s.toString().trim().isNotEmpty()){
                     otp_input_code6.requestFocus()
                 }
             }

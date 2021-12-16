@@ -17,10 +17,12 @@
             android:exported="true" />
         <activity
             android:name=".frontEnd.activities.ResetPasswordActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:parentActivityName=".frontEnd.activities.SignInActivity" />
         <activity
             android:name=".frontEnd.activities.ReceiveOtpForPasswordResetActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:parentActivityName=".frontEnd.activities.SendOtpForPasswordResetActivity" />
         <activity
             android:name=".frontEnd.activities.SendOtpForPasswordResetActivity"
             android:exported="true"
