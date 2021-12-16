@@ -21,6 +21,7 @@ class RiderMainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSe
         super.onCreate(savedInstanceState)
         requestedOrientation =  (ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
         setContentView(R.layout.activity_rider_main)
+        supportActionBar?.hide()
 
         activate_menu.setOnClickListener {
             rider_drawer.openDrawer(Gravity.LEFT)

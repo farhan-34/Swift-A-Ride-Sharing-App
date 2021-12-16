@@ -18,6 +18,7 @@ class RiderRegisterActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         requestedOrientation =  (ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
         setContentView(R.layout.activity_rider_register)
+        supportActionBar?.hide()
 
         val items = listOf("Male", "Female", "Other")
         val adapter = ArrayAdapter(this, R.layout.gender_dropdown_list_item, items)
