@@ -47,7 +47,8 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="38dp"
+            android:layout_marginBottom="288dp"
             android:hint="@string/cnic"
             app:boxBackgroundColor="@color/white"
             app:boxCornerRadiusBottomEnd="18dp"
@@ -55,6 +56,7 @@
             app:boxCornerRadiusTopEnd="18dp"
             app:boxCornerRadiusTopStart="18dp"
             app:endIconMode="clear_text"
+            app:layout_constraintBottom_toTopOf="@+id/DriverRegister_button"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
@@ -100,7 +102,7 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/registerDriver_VehicleTypeLayout"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
@@ -110,20 +112,25 @@
             app:boxCornerRadiusBottomStart="18dp"
             app:boxCornerRadiusTopEnd="18dp"
             app:boxCornerRadiusTopStart="18dp"
-            app:endIconMode="clear_text"
+            app:endIconMode="dropdown_menu"
             app:layout_constraintEnd_toEndOf="@+id/registerDriver_LicenseLayout"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="@+id/registerDriver_LicenseLayout"
             app:layout_constraintTop_toBottomOf="@+id/registerDriver_LicenseLayout"
             tools:ignore="HardcodedText">
 
-            <com.google.android.material.textfield.TextInputEditText
+            <AutoCompleteTextView
                 android:id="@+id/registerDriver_VehicleTypeInput"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="number"
-                android:textSize="15sp" />
+                android:layout_height="52dp"
+                android:inputType="none"
+                android:textSize="15sp"
+                tools:ignore="LabelFor" />
+
         </com.google.android.material.textfield.TextInputLayout>
+
+
+
 
 
 
@@ -161,9 +168,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
-            android:layout_marginTop="8dp"
             android:layout_marginEnd="32dp"
-            android:layout_marginBottom="32dp"
+            android:layout_marginBottom="38dp"
             android:paddingVertical="10dp"
             android:text="Register"
             android:textAllCaps="false"
@@ -172,7 +178,6 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/registerDriver_VehicleCapacityLayout"
             app:layout_constraintStart_toStartOf="@+id/registerDriver_VehicleCapacityLayout"
-            app:layout_constraintTop_toBottomOf="@+id/registerDriver_VehicleCapacityLayout"
             tools:ignore="HardcodedText" />
 
 
