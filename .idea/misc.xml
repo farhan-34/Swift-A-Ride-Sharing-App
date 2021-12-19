@@ -3,12 +3,6 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Fast/7. Fall 2021/SMD/Swift-A-Ride-Sharing-App/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.2514767932489452" />
-        <entry key="..\:/Fast/7. Fall 2021/SMD/Swift-A-Ride-Sharing-App/app/src/main/res/drawable/ic_launcher_background.xml" value="0.2514767932489452" />
-        <entry key="..\:/Fast/7. Fall 2021/SMD/Swift-A-Ride-Sharing-App/app/src/main/res/drawable/light_black_circle.xml" value="0.2514767932489452" />
-        <entry key="..\:/Fast/7. Fall 2021/SMD/Swift-A-Ride-Sharing-App/app/src/main/res/drawable/rectangle.xml" value="0.2514767932489452" />
-        <entry key="..\:/Fast/7. Fall 2021/SMD/Swift-A-Ride-Sharing-App/app/src/main/res/drawable/white_circle.xml" value="0.2514767932489452" />
-        <entry key="..\:/Fast/7. Fall 2021/SMD/Swift-A-Ride-Sharing-App/app/src/main/res/layout/activity_driver_main.xml" value="0.24145299145299146" />
         <entry key="..\:/Fast/7. Fall 2021/SMD/Swift-A-Ride-Sharing-App/app/src/main/res/layout/activity_driver_registration.xml" value="0.2879999900124293" />
         <entry key="..\:/Fast/7. Fall 2021/SMD/Swift-A-Ride-Sharing-App/app/src/main/res/layout/activity_forgot_password.xml" value="0.2942708333333333" />
         <entry key="..\:/Fast/7. Fall 2021/SMD/Swift-A-Ride-Sharing-App/app/src/main/res/layout/activity_otp_for_password_rest.xml" value="0.2942708333333333" />
@@ -19,22 +13,39 @@
         <entry key="..\:/Fast/7. Fall 2021/SMD/Swift-A-Ride-Sharing-App/app/src/main/res/layout/activity_send_otp_for_password_reset.xml" value="0.25390625" />
         <entry key="..\:/Fast/7. Fall 2021/SMD/Swift-A-Ride-Sharing-App/app/src/main/res/layout/activity_sign_in.xml" value="0.2942708333333333" />
         <entry key="..\:/Fast/7. Fall 2021/SMD/Swift-A-Ride-Sharing-App/app/src/main/res/layout/activity_splash_screen.xml" value="0.19199999334161955" />
-        <entry key="..\:/Fast/7. Fall 2021/SMD/Swift-A-Ride-Sharing-App/app/src/main/res/layout/driver_menu_header.xml" value="0.17905982905982906" />
-        <entry key="..\:/Fast/7. Fall 2021/SMD/Swift-A-Ride-Sharing-App/app/src/main/res/layout/fragment_driver_chat_and_request.xml" value="0.24145299145299146" />
-        <entry key="..\:/Fast/7. Fall 2021/SMD/Swift-A-Ride-Sharing-App/app/src/main/res/layout/fragment_driver_home_page.xml" value="0.24145299145299146" />
-        <entry key="..\:/Fast/7. Fall 2021/SMD/Swift-A-Ride-Sharing-App/app/src/main/res/layout/fragment_driver_request_list.xml" value="0.2879999900124293" />
         <entry key="..\:/Fast/7. Fall 2021/SMD/Swift-A-Ride-Sharing-App/app/src/main/res/layout/fragment_rider_home_page.xml" value="0.2942708333333333" />
-        <entry key="..\:/Fast/7. Fall 2021/SMD/Swift-A-Ride-Sharing-App/app/src/main/res/layout/fragment_rider_request_list.xml" value="0.24145299145299146" />
-        <entry key="..\:/Fast/7. Fall 2021/SMD/Swift-A-Ride-Sharing-App/app/src/main/res/layout/gender_dropdown_list_item.xml" value="0.24145299145299146" />
-        <entry key="..\:/Fast/7. Fall 2021/SMD/Swift-A-Ride-Sharing-App/app/src/main/res/layout/request.xml" value="0.24145299145299146" />
-        <entry key="..\:/Fast/7. Fall 2021/SMD/Swift-A-Ride-Sharing-App/app/src/main/res/layout/request_list_item.xml" value="0.24145299145299146" />
-        <entry key="..\:/Fast/7. Fall 2021/SMD/Swift-A-Ride-Sharing-App/app/src/main/res/layout/rider_menu_header.xml" value="0.24145299145299146" />
-        <entry key="..\:/Fast/7. Fall 2021/SMD/Swift-A-Ride-Sharing-App/app/src/main/res/menu/driver_slider_menu.xml" value="0.17905982905982906" />
+        <entry key="..\:/Users/Farhan/Desktop/Swift/app/src/main/res/layout/activity_driver_main.xml" value="0.20520833333333333" />
         <entry key="..\:/Users/Farhan/Desktop/Swift/app/src/main/res/layout/activity_main.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/Farhan/Desktop/Swift/app/src/main/res/layout/activity_rider_main.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/Farhan/Desktop/Swift/app/src/main/res/layout/driver_menu_header.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/Farhan/Desktop/Swift/app/src/main/res/layout/fragment_driver_home_page.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/Farhan/Desktop/Swift/app/src/main/res/layout/fragment_driver_request_list.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/Farhan/Desktop/Swift/app/src/main/res/layout/fragment_rider_home_page.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/Farhan/Desktop/Swift/app/src/main/res/layout/fragment_rider_request_list.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/Farhan/Desktop/Swift/app/src/main/res/layout/gender_dropdown_list_item.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/Farhan/Desktop/Swift/app/src/main/res/layout/rider_menu_header.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/Farhan/Desktop/Swift/app/src/main/res/menu/driver_slider_menu.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/Farhan/Desktop/Swift/app/src/main/res/menu/rider_slider_menu.xml" value="0.36666666666666664" />
+        <entry key="..\:/android studio projects/SWIFT/app/src/main/res/layout/activity_driver_main.xml" value="0.29393115942028986" />
+        <entry key="..\:/android studio projects/SWIFT/app/src/main/res/layout/activity_driver_registration.xml" value="0.29393115942028986" />
+        <entry key="..\:/android studio projects/SWIFT/app/src/main/res/layout/activity_receive_otp_for_password_reset.xml" value="0.29393115942028986" />
+        <entry key="..\:/android studio projects/SWIFT/app/src/main/res/layout/activity_reset_password.xml" value="0.29393115942028986" />
+        <entry key="..\:/android studio projects/SWIFT/app/src/main/res/layout/activity_rider_main.xml" value="0.29393115942028986" />
+        <entry key="..\:/android studio projects/SWIFT/app/src/main/res/layout/activity_rider_register.xml" value="0.29393115942028986" />
+        <entry key="..\:/android studio projects/SWIFT/app/src/main/res/layout/activity_send_otp_for_password_reset.xml" value="0.29393115942028986" />
+        <entry key="..\:/android studio projects/SWIFT/app/src/main/res/layout/activity_sign_in.xml" value="0.29393115942028986" />
+        <entry key="..\:/android studio projects/SWIFT/app/src/main/res/layout/activity_splash_screen.xml" value="0.29393115942028986" />
+        <entry key="..\:/android studio projects/SWIFT/app/src/main/res/layout/driver_menu_header.xml" value="0.29393115942028986" />
+        <entry key="..\:/android studio projects/SWIFT/app/src/main/res/layout/fragment_driver_home_page.xml" value="0.29393115942028986" />
+        <entry key="..\:/android studio projects/SWIFT/app/src/main/res/layout/fragment_driver_request_list.xml" value="0.29393115942028986" />
+        <entry key="..\:/android studio projects/SWIFT/app/src/main/res/layout/fragment_rider_home_page.xml" value="0.29393115942028986" />
+        <entry key="..\:/android studio projects/SWIFT/app/src/main/res/layout/fragment_rider_request_list.xml" value="0.29393115942028986" />
+        <entry key="..\:/android studio projects/SWIFT/app/src/main/res/layout/gender_dropdown_list_item.xml" value="0.29393115942028986" />
+        <entry key="..\:/android studio projects/SWIFT/app/src/main/res/layout/rider_menu_header.xml" value="0.29393115942028986" />
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="11" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">
