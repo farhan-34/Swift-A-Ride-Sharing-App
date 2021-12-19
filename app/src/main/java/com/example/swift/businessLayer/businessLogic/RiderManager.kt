@@ -1,8 +1,13 @@
 package com.example.swift.businessLayer.businessLogic
 
 class RiderManager (){
-    fun createRider(){
-        //create a rider
+    fun createRider(name:String, gender:String, age:Int, email:String, phoneNumber:String, password:String){
+
+
+
+
+
+
     }
     fun getRider(){
         //get rider object
