@@ -83,7 +83,7 @@ class DriverMainActivity : AppCompatActivity(), NavigationView.OnNavigationItemS
                 supportFragmentManager.beginTransaction().replace(R.id.driver_main_fragment_container, DriverRequestListFragment()).commit()
             }
 
-            R.id.login_button ->{
+            R.id.driver_nav_logout ->{
                 val intent = Intent(this, SignInActivity::class.java)
                 intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                 startActivity(intent)
