@@ -10,7 +10,7 @@ import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import com.example.swift.R
 import com.example.swift.frontEnd.fragments.RiderHomePageFragment
-import com.example.swift.frontEnd.fragments.RiderRequestListFragment
+import com.example.swift.frontEnd.fragments.DriverRequestListFragment
 import com.google.android.material.navigation.NavigationView
 import kotlinx.android.synthetic.main.activity_rider_main.*
 
@@ -72,7 +72,7 @@ class RiderMainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSe
                 supportFragmentManager.beginTransaction().replace(R.id.rider_main_fragment_container, RiderHomePageFragment()).commit()
             }
             R.id.nav_riderRideHistory -> {
-                supportFragmentManager.beginTransaction().replace(R.id.rider_main_fragment_container, RiderRequestListFragment()).commit()
+//                supportFragmentManager.beginTransaction().replace(R.id.rider_main_fragment_container, RiderRequestListFragment()).commit()
             }
         }
 
