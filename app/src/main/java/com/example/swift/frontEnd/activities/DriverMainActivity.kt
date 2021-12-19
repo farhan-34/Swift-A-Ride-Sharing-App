@@ -23,8 +23,8 @@ class DriverMainActivity : AppCompatActivity(), NavigationView.OnNavigationItemS
         supportActionBar?.hide()
 
         driver_activate_menu.setOnClickListener {
-            rider_drawer.openDrawer(GravityCompat.START)
-            activate_menu.hide()
+            driver_drawer.openDrawer(GravityCompat.START)
+            driver_activate_menu.hide()
         }
 
         //setting home fragment
@@ -51,10 +51,16 @@ class DriverMainActivity : AppCompatActivity(), NavigationView.OnNavigationItemS
             }
         })
 
-
+        //setting buttons
         driver_becomeRider_btn.setOnClickListener {
-            startActivity(Intent(this, DriverRegistrationActivity::class.java))
+
+            val intent = Intent(this, RiderMainActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+
+            startActivity(intent)
+            finish()
         }
+
 
         driver_nav_view.setNavigationItemSelectedListener(this)
     }
@@ -75,6 +81,13 @@ class DriverMainActivity : AppCompatActivity(), NavigationView.OnNavigationItemS
             }
             R.id.driver_nav_requests -> {
                 supportFragmentManager.beginTransaction().replace(R.id.driver_main_fragment_container, DriverRequestListFragment()).commit()
+            }
+
+            R.id.driver_nav_logout ->{
+                val intent = Intent(this, SignInActivity::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                startActivity(intent)
+                finish()
             }
         }
 
