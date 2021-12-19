@@ -11,6 +11,7 @@ class AuthenticationImp :Authentication{
 
     override fun otpVerification(phoneNumber: String) {
         TODO("Not yet implemented")
+        var db = FirebaseFirestore.getInstance()
     }
 
     override fun setNewPassword(phoneNumber: String, password: String) {
