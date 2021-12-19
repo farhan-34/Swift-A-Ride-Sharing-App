@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "945438049076",
+    "firebase_url": "https://swift-a-ride-sharing-app-4b884-default-rtdb.firebaseio.com",
+    "project_id": "swift-a-ride-sharing-app-4b884",
+    "storage_bucket": "swift-a-ride-sharing-app-4b884.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:945438049076:android:f73daae503d4d35f23db61",
+        "android_client_info": {
+          "package_name": "com.example.swift"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "945438049076-pqibmnbfteeo0ar8fkkck0sul2k3fm86.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCgj4SlCidLLZZcs0rWibPbx0Gf87senlo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "945438049076-pqibmnbfteeo0ar8fkkck0sul2k3fm86.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
