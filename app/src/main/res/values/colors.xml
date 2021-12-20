@@ -13,4 +13,6 @@
     <color name="blue">#0C60A3</color>
     <color name="error_red">#e54304</color>
     <color name="light_black">#484848</color>
+
+    <color name="light_grey_text">#727272</color>
 </resources>

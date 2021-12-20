@@ -13,7 +13,7 @@
         <item android:id="@+id/nav_riderChat"
             android:icon="@drawable/ic_chat"
             android:title="Chat" />
-        <item android:id="@+id/nav_requests"
+        <item android:id="@+id/nav_offers"
             android:icon="@drawable/ic_car"
             android:title="Drivers Offers" />
         <item android:id="@+id/nav_riderDonationPage"
