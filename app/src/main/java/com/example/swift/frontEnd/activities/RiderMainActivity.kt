@@ -10,7 +10,7 @@ import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import com.example.swift.R
 import com.example.swift.frontEnd.fragments.RiderHomePageFragment
-import com.example.swift.frontEnd.fragments.DriverRequestListFragment
+import com.example.swift.frontEnd.fragments.RiderOfferListFragment
 import com.google.android.material.navigation.NavigationView
 import kotlinx.android.synthetic.main.activity_rider_main.*
 
@@ -34,14 +34,17 @@ class RiderMainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSe
         rider_drawer.addDrawerListener(object : DrawerLayout.DrawerListener {
             override fun onDrawerSlide(drawerView: View, slideOffset: Float) {
                 activate_menu.hide()
+                rider_drawer.bringToFront()
             }
 
             override fun onDrawerOpened(drawerView: View) {
                 activate_menu.hide()
+                rider_drawer.bringToFront()
             }
 
             override fun onDrawerClosed(drawerView: View) {
                 activate_menu.show()
+                rider_main_fragment_container.bringToFront()
             }
 
             override fun onDrawerStateChanged(newState: Int) {
@@ -71,8 +74,8 @@ class RiderMainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSe
             R.id.nav_home -> {
                 supportFragmentManager.beginTransaction().replace(R.id.rider_main_fragment_container, RiderHomePageFragment()).commit()
             }
-            R.id.nav_riderRideHistory -> {
-//                supportFragmentManager.beginTransaction().replace(R.id.rider_main_fragment_container, RiderRequestListFragment()).commit()
+            R.id.nav_offers -> {
+                supportFragmentManager.beginTransaction().replace(R.id.rider_main_fragment_container, RiderOfferListFragment()).commit()
             }
         }
 

@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/light_black_rounded_rectangle"
+    android:orientation="vertical"
+    android:paddingBottom="20dp"
+    android:layout_marginVertical="10dp">
+
+    <ImageView
+        android:id="@+id/driversOffers_profilePicture"
+        android:layout_width="72dp"
+        android:layout_height="74dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="24dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_person" />
+
+    <TextView
+        android:id="@+id/driversOffers_Name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="24dp"
+        android:gravity="center"
+        android:text="Arham Dilshad"
+        android:textColor="@color/light_grey"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@+id/driversOffers_profilePicture"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/driversOffers_Text"
+        android:layout_width="180dp"
+        android:layout_height="15dp"
+        android:layout_marginTop="8dp"
+        android:text="Source Location"
+        android:textColor="@color/light_grey_text"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="@+id/driversOffers_Name"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/driversOffers_Name"
+        app:layout_constraintTop_toBottomOf="@+id/driversOffers_Name" />
+
+    <TextView
+        android:id="@+id/driversOffers_rating"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:text="5.0"
+        android:textColor="@color/light_grey"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView3"
+        app:layout_constraintEnd_toStartOf="@+id/imageView3"
+        app:layout_constraintTop_toTopOf="@+id/imageView3"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="24dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@android:drawable/btn_star_big_on" />
+
+
+    <Button
+        android:id="@+id/driversOffers_chat_btn"
+        android:layout_width="80dp"
+        android:layout_height="48dp"
+        android:layout_marginEnd="20dp"
+        android:text="Chat"
+        app:cornerRadius="50dp"
+        app:layout_constraintBottom_toBottomOf="@+id/driversOffers_cancel_btn"
+        app:layout_constraintEnd_toStartOf="@+id/driversOffers_cancel_btn"
+        app:layout_constraintTop_toTopOf="@+id/driversOffers_cancel_btn"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <Button
+        android:id="@+id/driversOffers_cancel_btn"
+        style="@style/Theme.MaterialComponents.Light"
+        android:layout_width="80dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="48dp"
+        android:backgroundTint="@color/white"
+        android:text="Cancel"
+        android:textColor="@color/black"
+        app:cornerRadius="50dp"
+        app:layout_constraintEnd_toEndOf="@+id/imageView3"
+        app:layout_constraintTop_toBottomOf="@+id/imageView3" />
+</androidx.constraintlayout.widget.ConstraintLayout>
