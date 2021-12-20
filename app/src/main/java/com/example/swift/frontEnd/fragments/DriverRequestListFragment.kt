@@ -5,29 +5,22 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.example.swift.businessLayer.businessLogic.RideRequest
+import com.example.swift.frontEnd.adaptors.rideRequestListAdaptor
+import androidx.recyclerview.widget.LinearLayoutManager
+
+
+import androidx.recyclerview.widget.RecyclerView
 import com.example.swift.R
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [DriverRequestListFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
+private lateinit var rideRequestList : ArrayList<RideRequest>
+private  lateinit var recyclerView: RecyclerView
 class DriverRequestListFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
+
     }
 
     override fun onCreateView(
@@ -38,23 +31,28 @@ class DriverRequestListFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_driver_request_list, container, false)
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment DriverRequestListFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            DriverRequestListFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        recyclerView = view.findViewById(R.id.Driver_RiderRequest_RecyclerView)
+        load_data()
+        init_recycler_view()
+    }
+
+
+    private fun load_data(){
+        rideRequestList = ArrayList<RideRequest>()
+        for (i in 1..10) {
+            var user = RideRequest(null,null,"Arham Dilshad", "5.0",
+                "Daewoo Express Terminal","FAST-NUCES Lahore",null)
+
+            rideRequestList.add(user)
+        }
+
+    }
+
+    private fun init_recycler_view(){
+        var adapter = rideRequestListAdaptor(rideRequestList)
+        recyclerView.adapter = adapter
+        recyclerView.layoutManager = LinearLayoutManager(view?.context)
     }
 }
