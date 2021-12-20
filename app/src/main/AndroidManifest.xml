@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Swift">
         <activity
+            android:name=".frontEnd.activities.RiderRegistrationOtpActivity"
+            android:exported="true" />
+        <activity
             android:name=".frontEnd.activities.DriverMainActivity"
             android:exported="true" />
         <activity

@@ -1,16 +1,26 @@
 package com.example.swift.frontEnd.activities
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Bundle
 import android.text.Html
 import android.widget.ArrayAdapter
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.doOnTextChanged
 import com.example.swift.R
+import com.google.firebase.FirebaseApp
+import com.google.firebase.FirebaseException
+import com.google.firebase.auth.PhoneAuthCredential
+import com.google.firebase.auth.PhoneAuthOptions
+import com.google.firebase.auth.PhoneAuthProvider
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.activity_rider_register.*
+import java.util.concurrent.TimeUnit
 
 class RiderRegisterActivity : AppCompatActivity() {
     @SuppressLint("ResourceAsColor")
@@ -38,8 +48,52 @@ class RiderRegisterActivity : AppCompatActivity() {
 
 
         registerRider_button.setOnClickListener{
-          val temp = registerRider_nameInput.text?.toString()
+            val name = registerRider_nameInput.text?.toString()
+            val age = registerRider_ageInput.text?.toString()?.toInt()
+            val gender = registerRider_genderInput.text?.toString()
+            val email = registerRider_emailInput.text?.toString()
+            val password = registerRider_passwordInput.text?.toString()
+            val phoneNumber = registerRider_phoneNumberInput.text?.toString()
+
+            FirebaseApp.initializeApp(this)
+            var flag = 0
+            val options = PhoneAuthOptions.newBuilder(Firebase.auth)
+                .setPhoneNumber(phoneNumber.toString())       // Phone number to verify
+                .setTimeout(60L, TimeUnit.SECONDS) // Timeout and unit
+                .setActivity(this)                 // Activity (for callback binding)
+                .setCallbacks(object : PhoneAuthProvider.OnVerificationStateChangedCallbacks(){
+                    override fun onVerificationCompleted(p0: PhoneAuthCredential) {
+                    }
+
+                    override fun onVerificationFailed(p0: FirebaseException) {
+                        Toast.makeText(this@RiderRegisterActivity, "Please check Internet Connection", Toast.LENGTH_SHORT).show()
+                    }
+
+                    override fun onCodeSent(p0: String, p1: PhoneAuthProvider.ForceResendingToken) {
+                        super.onCodeSent(p0, p1)
+                        createActivity(name, age, gender, email, phoneNumber, password, p0)
+                    }
+                })          // OnVerificationStateChangedCallbacks
+                .build()
+            PhoneAuthProvider.verifyPhoneNumber(options)
+
+            if(flag == 1) {
+
+            }
+
         }
+    }
+
+    private fun createActivity(name:String?, age:Int?, gender:String?, email:String?, phoneNumber:String?, password:String?, id:String?) {
+        val intent = Intent(this, RiderRegistrationOtpActivity::class.java)
+        intent.putExtra("name", name)
+        intent.putExtra("age", age)
+        intent.putExtra("gender", gender)
+        intent.putExtra("email", email)
+        intent.putExtra("password", password)
+        intent.putExtra("phoneNumber", phoneNumber)
+        intent.putExtra("otpId", id)
+        startActivity(intent)
     }
 
     private fun checkInputs() {

@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.swift.R
 import com.example.swift.businessLayer.dataClasses.DriverOffer
-import com.example.swift.frontEnd.adaptors.DriverOfferListAdapter
+import com.example.swift.frontEnd.adapters.DriverOfferListAdapter
 
 private lateinit var driversOffersList : ArrayList<DriverOffer>
 private  lateinit var recyclerView: RecyclerView

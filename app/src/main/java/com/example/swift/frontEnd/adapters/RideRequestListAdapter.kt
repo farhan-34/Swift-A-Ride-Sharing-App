@@ -1,4 +1,4 @@
-package com.example.swift.frontEnd.adaptors
+package com.example.swift.frontEnd.adapters
 
 import android.view.View
 import android.view.ViewGroup
@@ -11,7 +11,7 @@ import com.example.swift.R
 import com.example.swift.businessLayer.businessLogic.RideRequest
 
 
-class RideRequestListAdaptor(private val rideRequestList:  ArrayList<RideRequest>) : RecyclerView.Adapter<RideRequestListAdaptor.ViewHolder>() {
+class RideRequestListAdapter(private val rideRequestList:  ArrayList<RideRequest>) : RecyclerView.Adapter<RideRequestListAdapter.ViewHolder>() {
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         var riderName_view : TextView = view.findViewById(R.id.rideRequest_Item_riderName)
@@ -38,7 +38,7 @@ class RideRequestListAdaptor(private val rideRequestList:  ArrayList<RideRequest
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): RideRequestListAdaptor.ViewHolder {
+    ): RideRequestListAdapter.ViewHolder {
         // Create a new view, which defines the UI of the list item
         val view: View = LayoutInflater.from(parent.getContext())
             .inflate(R.layout.request_list_item, parent, false)

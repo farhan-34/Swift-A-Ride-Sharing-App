@@ -4,15 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingHorizontal="40dp"
-    tools:context=".frontEnd.activities.ReceiveOtpForPasswordResetActivity">
+    tools:context=".frontEnd.activities.RiderRegistrationOtpActivity">
 
 
     <TextView
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="64dp"
+        android:layout_marginTop="160dp"
         android:gravity="center"
         android:text="Enter the OTP send to"
         app:layout_constraintEnd_toEndOf="parent"
@@ -21,9 +20,10 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/receiveOTP_mobile_textView"
+        android:id="@+id/riderRegisterOtp_phoneNo"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
         android:gravity="center"
         android:text="123456789"
         android:textSize="15sp"
@@ -45,10 +45,10 @@
         app:layout_constraintBottom_toTopOf="@+id/linearLayout5"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/receiveOTP_mobile_textView">
+        app:layout_constraintTop_toBottomOf="@+id/riderRegisterOtp_phoneNo">
 
         <EditText
-            android:id="@+id/otp_input_code1"
+            android:id="@+id/rider_otp_input_code1"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:gravity="center"
@@ -61,7 +61,7 @@
             tools:ignore="LabelFor" />
 
         <EditText
-            android:id="@+id/otp_input_code2"
+            android:id="@+id/rider_otp_input_code2"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:gravity="center"
@@ -74,7 +74,7 @@
             tools:ignore="LabelFor" />
 
         <EditText
-            android:id="@+id/otp_input_code3"
+            android:id="@+id/rider_otp_input_code3"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:gravity="center"
@@ -87,7 +87,7 @@
             tools:ignore="LabelFor" />
 
         <EditText
-            android:id="@+id/otp_input_code4"
+            android:id="@+id/rider_otp_input_code4"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:gravity="center"
@@ -100,7 +100,7 @@
             tools:ignore="LabelFor" />
 
         <EditText
-            android:id="@+id/otp_input_code5"
+            android:id="@+id/rider_otp_input_code5"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:gravity="center"
@@ -113,7 +113,7 @@
             tools:ignore="LabelFor" />
 
         <EditText
-            android:id="@+id/otp_input_code6"
+            android:id="@+id/rider_otp_input_code6"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:gravity="center"
@@ -131,6 +131,9 @@
         android:id="@+id/linearLayout5"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="10dp"
         android:gravity="center"
         android:orientation="horizontal"
         app:layout_constraintBottom_toTopOf="@+id/btn_receive_OTP_passReset"
@@ -145,7 +148,7 @@
             android:textSize="14sp" />
 
         <TextView
-            android:id="@+id/textResendOTP"
+            android:id="@+id/riderRegisterOtp_resendOtp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -156,14 +159,14 @@
     </LinearLayout>
 
     <Button
-        android:id="@+id/btn_receive_OTP_passReset"
+        android:id="@+id/riderRegisterOtp_verify"
         style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="20dp"
-        android:layout_marginBottom="256dp"
+        android:layout_marginBottom="160dp"
         android:paddingVertical="10dp"
         android:text="Verify"
         android:textAllCaps="false"
@@ -175,6 +178,5 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout5"
         tools:ignore="HardcodedText" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>
