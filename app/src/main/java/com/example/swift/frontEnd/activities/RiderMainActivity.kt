@@ -12,6 +12,7 @@ import com.example.swift.R
 import com.example.swift.frontEnd.fragments.RiderHomePageFragment
 import com.example.swift.frontEnd.fragments.RiderOfferListFragment
 import com.google.android.material.navigation.NavigationView
+import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_rider_main.*
 
 
@@ -76,6 +77,11 @@ class RiderMainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSe
             }
             R.id.nav_offers -> {
                 supportFragmentManager.beginTransaction().replace(R.id.rider_main_fragment_container, RiderOfferListFragment()).commit()
+            }
+            R.id.nav_logout -> {
+                FirebaseAuth.getInstance().signOut()
+                startActivity(Intent(this,SignInActivity::class.java))
+                finish()
             }
         }
 

@@ -4,8 +4,11 @@ import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.text.Html
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.swift.R
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.activity_sign_in.*
 
 class SignInActivity : AppCompatActivity() {
@@ -44,6 +47,34 @@ class SignInActivity : AppCompatActivity() {
         }
 
         login_button.setOnClickListener{
+            val phoneNumber = signIn_phoneNumberInput.text.toString()
+            val password = signIn_password_input.text.toString()
+            var db = FirebaseFirestore.getInstance()
+
+            db.collection("Rider").whereEqualTo("phoneNumber",phoneNumber).get()
+                .addOnSuccessListener {doc->
+                    if(doc.size()==0){
+                        Toast.makeText(this, "User not found", Toast.LENGTH_SHORT).show()
+                    }
+                    else{
+                        val passwordToVerify = doc.documents[0].data?.get("Password")
+                        if(passwordToVerify == password){
+                            //make intent and go to next activity
+                            val intent = Intent(this, RiderMainActivity::class.java)
+                            //store data to send to home page if any
+                            //go to next activity
+                            startActivity(intent)
+                        }
+                    }
+                }
+
+            //+startActivity(Intent(this, RiderMainActivity::class.java))
+        }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        if(FirebaseAuth.getInstance().currentUser!=null){
             startActivity(Intent(this, RiderMainActivity::class.java))
         }
     }
