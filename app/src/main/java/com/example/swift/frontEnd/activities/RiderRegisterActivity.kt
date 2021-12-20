@@ -91,7 +91,7 @@ class RiderRegisterActivity : AppCompatActivity() {
         if (phoneNumber != null) {
             db.collection("Rider").document(phoneNumber).get()        //whereArrayContains("PhoneNumber", phoneNumber)
                 .addOnSuccessListener { doc ->
-                    if (doc!=null) {
+                    if (doc.exists()) {
                         Toast.makeText(this, "User already Registered", Toast.LENGTH_SHORT).show()
                     } else {
                         val intent = Intent(this, RiderRegistrationOtpActivity::class.java)
