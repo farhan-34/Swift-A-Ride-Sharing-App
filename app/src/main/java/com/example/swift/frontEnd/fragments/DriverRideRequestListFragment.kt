@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.swift.businessLayer.businessLogic.RideRequest
-import com.example.swift.frontEnd.adaptors.RideRequestListAdaptor
+import com.example.swift.frontEnd.adapters.RideRequestListAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
 
 
@@ -58,7 +58,7 @@ class DriverRequestListFragment : Fragment() {
     }
 
     private fun init_recycler_view(){
-        var adapter = RideRequestListAdaptor(rideRequestList)
+        var adapter = RideRequestListAdapter(rideRequestList)
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(view?.context)
     }

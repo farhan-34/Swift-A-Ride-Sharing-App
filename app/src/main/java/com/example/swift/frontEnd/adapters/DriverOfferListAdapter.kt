@@ -1,4 +1,4 @@
-package com.example.swift.frontEnd.adaptors
+package com.example.swift.frontEnd.adapters
 
 import android.view.LayoutInflater
 import android.view.View

@@ -1,13 +1,11 @@
 package com.example.swift.backEnd.backEndClasses
 
-import android.content.ContentValues.TAG
-import android.util.Log
 import com.example.swift.backEnd.backEndInterfaces.Registration
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
 class RegistrationImp :Registration{//imp means implementation class
-    override fun createRider(name: String, gender: String, age: Int, email: String, phoneNumber: String, password: String):String {
+    override fun createRider(name: String?, gender: String?, age: Int?, email: String?, phoneNumber: String?, password: String?):String {
         val db = Firebase.firestore
 
     // Create a new user with a first and last name
@@ -17,18 +15,11 @@ class RegistrationImp :Registration{//imp means implementation class
             "Gender" to gender,
             "Name" to name
         )
-        var createdId:String = ""
-        // Add a new document with a generated ID
-        db.collection("Rider")
-            .add(rider)
-            .addOnSuccessListener { documentReference ->
-                Log.d(TAG, "DocumentSnapshot added with ID: ${documentReference.id}")
-                createdId = documentReference.id
-            }
-            .addOnFailureListener { e ->
-                Log.w(TAG, "Error adding document", e)
-            }
-        return createdId
+        //check existing user first then go on to check otp
+         // Add a new document with a generated ID
+        val id = db.collection("Rider").document().id
+        db.collection("Rider").document(id).set(rider)
+        return id
     }
 
     override fun otpVerification(phoneNumber: String) {
