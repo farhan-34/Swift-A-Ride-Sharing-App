@@ -60,7 +60,6 @@ class RiderRegistrationOtpActivity : AppCompatActivity() {
                                 //get id of the current user from the Authentication Firebase
                                 riderId = FirebaseAuth.getInstance().currentUser?.uid.toString()
                                 //make a hashmap o rider to store
-
                                 val rider = hashMapOf(
                                     "Age" to age,
                                     "Email" to email,
@@ -70,6 +69,7 @@ class RiderRegistrationOtpActivity : AppCompatActivity() {
                                     "Password" to password,
                                     "RideId" to riderId
                                 )
+                                //adding the rider in the backend
                                 db.collection("Rider").document(phoneNumber!!).set(rider).addOnSuccessListener{
                                     Toast.makeText(this, "User Registered Successfully", Toast.LENGTH_SHORT).show()
                                     startActivity(Intent(this, SignInActivity::class.java))
@@ -80,9 +80,6 @@ class RiderRegistrationOtpActivity : AppCompatActivity() {
                                         startActivity(Intent(this, RiderRegisterActivity::class.java))
                                         finish()
                                     }
-
-
-
                             }
                             .addOnFailureListener{
                                 Toast.makeText(this, "failed", Toast.LENGTH_SHORT).show()
