@@ -4,7 +4,7 @@ class Driver (
     override var riderId:String,
     override var name:String,
     override var email:String,
-    override var age:Int,
+    override var age:String,
     override var gender:String,
     override var phoneNumber:String,
     override var rating:Float,

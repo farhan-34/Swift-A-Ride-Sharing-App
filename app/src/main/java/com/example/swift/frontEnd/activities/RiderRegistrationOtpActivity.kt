@@ -10,6 +10,8 @@ import com.example.swift.R
 import com.example.swift.businessLayer.businessLogic.RiderManager
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.PhoneAuthProvider
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.activity_rider_registration_otp.*
 
 class RiderRegistrationOtpActivity : AppCompatActivity() {
@@ -18,14 +20,16 @@ class RiderRegistrationOtpActivity : AppCompatActivity() {
         setContentView(R.layout.activity_rider_registration_otp)
         setupOTPInputs()
 
-        riderRegisterOtp_phoneNo.text = intent.getStringExtra("phoneNumber")
-        val name = intent.getStringExtra("name")
-        val age = intent.getStringExtra("age")?.toInt()
-        val gender = intent.getStringExtra("gender")
-        val email = intent.getStringExtra("email")
-        val password = intent.getStringExtra("password")
-        val phoneNumber = intent.getStringExtra("phoneNumber")
-        val verficationId = intent.getStringExtra("otpId")
+        val db = Firebase.firestore
+        riderRegisterOtp_phoneNo.text = intent.getStringExtra("phoneNumber").toString()
+        val name = intent.getStringExtra("name").toString()
+        val age = intent.getStringExtra("age").toString()
+        val gender = intent.getStringExtra("gender").toString()
+        val email = intent.getStringExtra("email").toString()
+        val password = intent.getStringExtra("password").toString()
+        val phoneNumber = intent.getStringExtra("phoneNumber").toString()
+        val verficationId = intent.getStringExtra("otpId").toString()
+        var riderId = ""
 
         riderRegisterOtp_verify.setOnClickListener {
             //val intent = Intent(this, ResetPasswordActivity::class.java)
@@ -52,10 +56,32 @@ class RiderRegistrationOtpActivity : AppCompatActivity() {
                     var credential = PhoneAuthProvider.getCredential(verficationId!!, otp)
                         FirebaseAuth.getInstance().signInWithCredential(credential)
                             .addOnSuccessListener {
-                                val obj = RiderManager()
-                                obj.createRider(name, gender,age, email, phoneNumber,password)
-                                startActivity(Intent(this, SignInActivity::class.java))
-                                finish()
+                                //get id of the current user from the Authentication Firebase
+                                riderId = FirebaseAuth.getInstance().currentUser?.uid.toString()
+                                //make a hashmap o rider to store
+
+                                val rider = hashMapOf(
+                                    "Age" to age,
+                                    "Email" to email,
+                                    "Gender" to gender,
+                                    "Name" to name,
+                                    "phoneNumber" to phoneNumber,
+                                    "Password" to password,
+                                    "RideId" to riderId
+                                )
+                                db.collection("Rider").document(phoneNumber!!).set(rider).addOnSuccessListener{
+                                    Toast.makeText(this, "User Registered Successfully", Toast.LENGTH_SHORT).show()
+                                    startActivity(Intent(this, SignInActivity::class.java))
+                                    finish()
+                                }
+                                    .addOnFailureListener{
+                                        Toast.makeText(this, "User not Registered!!", Toast.LENGTH_SHORT).show()
+                                        startActivity(Intent(this, RiderRegisterActivity::class.java))
+                                        finish()
+                                    }
+
+
+
                             }
                             .addOnFailureListener{
                                 Toast.makeText(this, "failed", Toast.LENGTH_SHORT).show()

@@ -3,9 +3,9 @@ package com.example.swift.businessLayer.businessLogic
 import com.example.swift.backEnd.backEndClasses.RegistrationImp
 
 class RiderManager (){
-    fun createRider(name:String?, gender:String?, age:Int?, email:String?, phoneNumber:String?, password:String?) : String{
+    fun createRider(riderId:String?, name:String?, gender:String?, age:String?, email:String?, phoneNumber:String?, password:String?) : String{
         val obj1 = RegistrationImp()
-        return obj1.createRider(name, gender, age, email, phoneNumber, password)
+        return obj1.createRider(riderId, name, gender, age, email, phoneNumber, password)
     }
     fun getRider(){
         //get rider object

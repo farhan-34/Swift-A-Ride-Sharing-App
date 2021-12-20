@@ -18,6 +18,7 @@ import com.google.firebase.auth.PhoneAuthCredential
 import com.google.firebase.auth.PhoneAuthOptions
 import com.google.firebase.auth.PhoneAuthProvider
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.activity_rider_register.*
 import java.util.concurrent.TimeUnit
@@ -85,15 +86,26 @@ class RiderRegisterActivity : AppCompatActivity() {
     }
 
     private fun createActivity(name:String?, age:Int?, gender:String?, email:String?, phoneNumber:String?, password:String?, id:String?) {
-        val intent = Intent(this, RiderRegistrationOtpActivity::class.java)
-        intent.putExtra("name", name)
-        intent.putExtra("age", age)
-        intent.putExtra("gender", gender)
-        intent.putExtra("email", email)
-        intent.putExtra("password", password)
-        intent.putExtra("phoneNumber", phoneNumber)
-        intent.putExtra("otpId", id)
-        startActivity(intent)
+        var db = FirebaseFirestore.getInstance()
+        //making sure that phone Number is added
+        if (phoneNumber != null) {
+            db.collection("Rider").document(phoneNumber).get()        //whereArrayContains("PhoneNumber", phoneNumber)
+                .addOnSuccessListener { doc ->
+                    if (doc!=null) {
+                        Toast.makeText(this, "User already Registered", Toast.LENGTH_SHORT).show()
+                    } else {
+                        val intent = Intent(this, RiderRegistrationOtpActivity::class.java)
+                        intent.putExtra("name", name)
+                        intent.putExtra("age", age)
+                        intent.putExtra("gender", gender)
+                        intent.putExtra("email", email)
+                        intent.putExtra("password", password)
+                        intent.putExtra("phoneNumber", phoneNumber)
+                        intent.putExtra("otpId", id)
+                        startActivity(intent)
+                    }
+                }
+        }
     }
 
     private fun checkInputs() {
