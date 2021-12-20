@@ -25,13 +25,47 @@ class ReceiveOtpForPasswordResetActivity : AppCompatActivity() {
         receiveOTP_mobile_textView.text = intent.getStringExtra("mobile")
 
         btn_receive_OTP_passReset.setOnClickListener {
-            val intent = Intent(this, ResetPasswordActivity::class.java)
-            //intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
 
-            startActivity(intent)
-            finish()
+            if(isOtpInputValid()){
+                val intent = Intent(this, ResetPasswordActivity::class.java)
+                //intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+
+                startActivity(intent)
+                finish()
+            }
+
         }
 
+    }
+
+    // check valid otp input and show error
+    fun isOtpInputValid(): Boolean {
+        var flag = true
+        if(otp_input_code1.text.isEmpty()){
+            otp_input_code1.error = "Invalid OTP"
+            flag = false
+        }
+        if(otp_input_code2.text.isEmpty()){
+            otp_input_code2.error = "Invalid OTP"
+            flag = false
+        }
+        if(otp_input_code3.text.isEmpty()){
+            otp_input_code3.error = "Invalid OTP"
+            flag = false
+        }
+        if(otp_input_code4.text.isEmpty()){
+            otp_input_code4.error = "Invalid OTP"
+            flag = false
+        }
+        if(otp_input_code5.text.isEmpty()){
+            otp_input_code5.error = "Invalid OTP"
+            flag = false
+        }
+        if(otp_input_code6.text.isEmpty()){
+            otp_input_code6.error = "Invalid OTP"
+            flag = false
+        }
+        return flag
     }
 
     // changing focus on next OTP input automatically
