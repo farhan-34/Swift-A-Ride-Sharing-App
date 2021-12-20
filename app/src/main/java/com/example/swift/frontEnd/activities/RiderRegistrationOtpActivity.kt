@@ -53,9 +53,10 @@ class RiderRegistrationOtpActivity : AppCompatActivity() {
                             rider_otp_input_code6.text.toString()
 
 
-                    var credential = PhoneAuthProvider.getCredential(verficationId!!, otp)
+                    var credential = PhoneAuthProvider.getCredential(verficationId, otp)
                         FirebaseAuth.getInstance().signInWithCredential(credential)
                             .addOnSuccessListener {
+
                                 //get id of the current user from the Authentication Firebase
                                 riderId = FirebaseAuth.getInstance().currentUser?.uid.toString()
                                 //make a hashmap o rider to store
