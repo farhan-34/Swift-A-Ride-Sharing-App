@@ -2,18 +2,15 @@ package com.example.swift.frontEnd.activities
 
 import android.content.Intent
 import android.content.pm.ActivityInfo
-import android.content.res.ColorStateList
-import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Toast
 import androidx.core.widget.doOnTextChanged
 import com.example.swift.R
 import kotlinx.android.synthetic.main.activity_reset_password.*
 
 class ResetPasswordActivity : AppCompatActivity() {
 
-    //flags
+    //flags for correct input
     private var flag_new = false
     private var flag_confirm = false
 
@@ -27,63 +24,37 @@ class ResetPasswordActivity : AppCompatActivity() {
         actionBar!!.title = "Reset Password"
         actionBar.setDisplayHomeAsUpEnabled(true)
 
+        //show errors
         checkInputs()
 
+        // set buttons
         resetPass_btn_reset.setOnClickListener {
             if(flag_new and flag_confirm){
                 startActivity(Intent(this, SignInActivity::class.java))
                 finish()
             }
-            else{
-                Toast.makeText(applicationContext, "Enter Correct Password", Toast.LENGTH_SHORT).show()
-            }
-
         }
     }
 
 
     private fun checkInputs() {
 
-
-
-        val normalColorList = ColorStateList(
-            arrayOf(
-                intArrayOf(-android.R.attr.state_focused),  // Unfocused
-                intArrayOf(android.R.attr.state_focused)    // Focused
-            ),
-            intArrayOf(
-                Color.GRAY,     // The color for the Unfocused state
-                Color.parseColor("#E87C35")        // The color for the Focused state
-            )
-        )
-        val errorColorList = ColorStateList(
-            arrayOf(
-                intArrayOf(-android.R.attr.state_focused),  // Unfocused
-                intArrayOf(android.R.attr.state_focused)    // Focused
-            ),
-            intArrayOf(
-                Color.parseColor("#e02a1d"),     // The color for the Unfocused state
-                Color.parseColor("#e02a1d")        // The color for the Focused state
-            )
-        )
-
-
-
         reset_newPassword_input.doOnTextChanged { text, start, before, count ->
             flag_new = false
             if(text!!.length < 8){
-                reset_newPassword_layout.setBoxStrokeColorStateList(errorColorList)
+                reset_newPassword_layout.setError("Minimum Password length should be 8")
             }else{
-                reset_newPassword_layout.setBoxStrokeColorStateList(normalColorList)
+                reset_newPassword_layout.error = null
+                reset_newPassword_layout.isErrorEnabled = false
                 flag_new = true
             }
+            checkConfirmPasswordOnly() //for checking confirm password again
         }
 
         reset_confirmPassword_input.doOnTextChanged { text, start, before, count ->
             flag_confirm = false
             if(text!!.length != reset_newPassword_input.text!!.length){
-                reset_newPassword_layout.setBoxStrokeColorStateList(errorColorList)
-                reset_confirmPassword_layout.setBoxStrokeColorStateList(errorColorList)
+                reset_confirmPassword_layout.error = "Password dosn't match"
             }else{
                 var flag = 1
                 for(i in text.indices){
@@ -93,16 +64,40 @@ class ResetPasswordActivity : AppCompatActivity() {
                     }
                 }
                 if(flag == 0){
-                    reset_newPassword_layout.setBoxStrokeColorStateList(errorColorList)
-                    reset_confirmPassword_layout.setBoxStrokeColorStateList(errorColorList)
+                    reset_confirmPassword_layout.error = "Password dosn't match"
                 }else {
-                    reset_newPassword_layout.setBoxStrokeColorStateList(normalColorList)
-                    reset_confirmPassword_layout.setBoxStrokeColorStateList(normalColorList)
+                    reset_confirmPassword_layout.error = null
+                    reset_confirmPassword_layout.isErrorEnabled = false
                     flag_confirm = true
                 }
             }
         }
 
     }
+
+    //for checking confirm password again
+    private fun checkConfirmPasswordOnly() {
+        flag_confirm = false
+        if(reset_confirmPassword_input.text!!.length != reset_newPassword_input.text!!.length){
+            reset_confirmPassword_layout.error = "Password dosn't match"
+        }else{
+            var flag = 1
+            for(i in reset_confirmPassword_input.text!!.indices){
+                if(reset_confirmPassword_input.text!![i] != reset_newPassword_input.text!![i]){
+                    flag = 0
+                    break
+                }
+            }
+            if(flag == 0){
+                reset_confirmPassword_layout.error = "Password dosn't match"
+            }else {
+                reset_confirmPassword_layout.error = null
+                reset_confirmPassword_layout.isErrorEnabled = false
+                flag_confirm = true
+            }
+        }
+
+    }
+
 
 }

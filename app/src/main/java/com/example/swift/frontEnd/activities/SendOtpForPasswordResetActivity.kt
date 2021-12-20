@@ -3,6 +3,7 @@ package com.example.swift.frontEnd.activities
 import android.content.Context
 import android.content.Intent
 import android.content.pm.ActivityInfo
+import android.graphics.Color
 import android.icu.util.TimeUnit.values
 import android.os.Bundle
 import android.widget.Toast
@@ -10,8 +11,13 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.swift.R
 import kotlinx.android.synthetic.main.activity_send_otp_for_password_reset.*
 import java.time.chrono.JapaneseEra.values
+import android.graphics.drawable.GradientDrawable
+import android.os.Build
+import androidx.annotation.RequiresApi
+
 
 class SendOtpForPasswordResetActivity : AppCompatActivity() {
+    @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         requestedOrientation =  (ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
@@ -26,9 +32,11 @@ class SendOtpForPasswordResetActivity : AppCompatActivity() {
         btn_send_OTP_passReset.setOnClickListener {
             when {
                 Otp_phoneNumber_passReset.text == null -> {
+                    showPhoneError()
                     Toast.makeText(applicationContext, "Enter Mobile", Toast.LENGTH_SHORT).show()
                 }
                 Otp_phoneNumber_passReset.text.toString().trim().isEmpty() -> {
+                    showPhoneError()
                     Toast.makeText(applicationContext, "Enter Mobile", Toast.LENGTH_SHORT).show()
                 }
                 else -> {
@@ -38,6 +46,12 @@ class SendOtpForPasswordResetActivity : AppCompatActivity() {
                 }
             }
         }
+    }
+    fun showPhoneError(){
+        val border = GradientDrawable()
+        border.setStroke(7, Color.RED) //red border with full opacity
+        border.cornerRadius = 50F
+        Otp_phoneNumber_passReset.setBackgroundDrawable(border)
     }
 
 }
