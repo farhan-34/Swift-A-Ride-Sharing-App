@@ -12,10 +12,10 @@ class RegistrationImp :Registration{//imp means implementation class
 
     // Create a new user with a first and last name
         val rider = hashMapOf(
-            "Age" to 23,
-            "Email" to "ali@gmail.com",
-            "Gender" to "M",
-            "Name" to "Ali"
+            "Age" to age,
+            "Email" to email,
+            "Gender" to gender,
+            "Name" to name
         )
         var createdId:String = ""
         // Add a new document with a generated ID
