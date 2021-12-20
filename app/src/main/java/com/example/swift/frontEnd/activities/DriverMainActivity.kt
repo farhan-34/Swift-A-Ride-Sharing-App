@@ -36,14 +36,17 @@ class DriverMainActivity : AppCompatActivity(), NavigationView.OnNavigationItemS
         driver_drawer.addDrawerListener(object : DrawerLayout.DrawerListener {
             override fun onDrawerSlide(drawerView: View, slideOffset: Float) {
                 driver_activate_menu.hide()
+                driver_drawer.bringToFront()
             }
 
             override fun onDrawerOpened(drawerView: View) {
                 driver_activate_menu.hide()
+                driver_drawer.bringToFront()
             }
 
             override fun onDrawerClosed(drawerView: View) {
                 driver_activate_menu.show()
+                driver_main_fragment_container.bringToFront()
             }
 
             override fun onDrawerStateChanged(newState: Int) {

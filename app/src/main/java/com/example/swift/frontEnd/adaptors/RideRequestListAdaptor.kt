@@ -11,10 +11,10 @@ import com.example.swift.R
 import com.example.swift.businessLayer.businessLogic.RideRequest
 
 
-class rideRequestListAdaptor(private val rideRequestList:  ArrayList<RideRequest>) : RecyclerView.Adapter<rideRequestListAdaptor.ViewHolder>() {
+class RideRequestListAdaptor(private val rideRequestList:  ArrayList<RideRequest>) : RecyclerView.Adapter<RideRequestListAdaptor.ViewHolder>() {
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        var riderName_view : TextView = view.findViewById(R.id.rider_menu_name)
+        var riderName_view : TextView = view.findViewById(R.id.rideRequest_Item_riderName)
         var sourceLocation_view : TextView = view.findViewById(R.id.rideRequest_sourceLocation)
         var destinationLocation_view : TextView = view.findViewById(R.id.rideRequest_destinationLocation)
         var riderRating_view : TextView = view.findViewById(R.id.rideRequest_riderRating)
@@ -38,7 +38,7 @@ class rideRequestListAdaptor(private val rideRequestList:  ArrayList<RideRequest
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): rideRequestListAdaptor.ViewHolder {
+    ): RideRequestListAdaptor.ViewHolder {
         // Create a new view, which defines the UI of the list item
         val view: View = LayoutInflater.from(parent.getContext())
             .inflate(R.layout.request_list_item, parent, false)

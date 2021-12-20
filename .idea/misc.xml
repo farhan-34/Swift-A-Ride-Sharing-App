@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Fast/7. Fall 2021/SMD/Swift-A-Ride-Sharing-App/app/src/main/res/layout/activity_driver_main.xml" value="0.23839662447257384" />
         <entry key="..\:/Fast/7. Fall 2021/SMD/Swift-A-Ride-Sharing-App/app/src/main/res/layout/activity_driver_registration.xml" value="0.2879999900124293" />
         <entry key="..\:/Fast/7. Fall 2021/SMD/Swift-A-Ride-Sharing-App/app/src/main/res/layout/activity_forgot_password.xml" value="0.2942708333333333" />
         <entry key="..\:/Fast/7. Fall 2021/SMD/Swift-A-Ride-Sharing-App/app/src/main/res/layout/activity_otp_for_password_rest.xml" value="0.2942708333333333" />
@@ -13,7 +14,9 @@
         <entry key="..\:/Fast/7. Fall 2021/SMD/Swift-A-Ride-Sharing-App/app/src/main/res/layout/activity_send_otp_for_password_reset.xml" value="0.25390625" />
         <entry key="..\:/Fast/7. Fall 2021/SMD/Swift-A-Ride-Sharing-App/app/src/main/res/layout/activity_sign_in.xml" value="0.2942708333333333" />
         <entry key="..\:/Fast/7. Fall 2021/SMD/Swift-A-Ride-Sharing-App/app/src/main/res/layout/activity_splash_screen.xml" value="0.19199999334161955" />
+        <entry key="..\:/Fast/7. Fall 2021/SMD/Swift-A-Ride-Sharing-App/app/src/main/res/layout/fragment_driver_request_list.xml" value="0.23839662447257384" />
         <entry key="..\:/Fast/7. Fall 2021/SMD/Swift-A-Ride-Sharing-App/app/src/main/res/layout/fragment_rider_home_page.xml" value="0.2942708333333333" />
+        <entry key="..\:/Fast/7. Fall 2021/SMD/Swift-A-Ride-Sharing-App/app/src/main/res/layout/request_list_item.xml" value="0.23839662447257384" />
         <entry key="..\:/Users/Farhan/Desktop/Swift/app/src/main/res/layout/activity_driver_main.xml" value="0.20520833333333333" />
         <entry key="..\:/Users/Farhan/Desktop/Swift/app/src/main/res/layout/activity_main.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/Farhan/Desktop/Swift/app/src/main/res/layout/activity_rider_main.xml" value="0.36666666666666664" />
