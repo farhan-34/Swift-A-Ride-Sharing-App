@@ -64,9 +64,8 @@ class SignInActivity : AppCompatActivity() {
                             val passwordToVerify = doc.documents[0].data?.get("Password")
                             if (passwordToVerify == password) {
                                 //make intent and go to next activity
-                                val intent = Intent(this, RiderMainActivity::class.java)
-                                //store data to send to home page if any
-                                //go to next activity
+                                val intent = Intent(this, RiderSignInOtpActivity::class.java)
+                                intent.putExtra("mobile", signIn_phoneNumberInput.text.toString())
                                 startActivity(intent)
                             }
                         }
