@@ -59,4 +59,6 @@ dependencies {
     implementation 'net.rimoto:intlphoneinput:1.0.1'
     implementation 'com.google.android.gms:play-services-safetynet:18.0.0'
     implementation platform('com.google.firebase:firebase-bom:29.0.3')
+    implementation 'com.google.android.gms:play-services-location:19.0.0'
+    implementation 'com.karumi:dexter:6.2.3'
 }
