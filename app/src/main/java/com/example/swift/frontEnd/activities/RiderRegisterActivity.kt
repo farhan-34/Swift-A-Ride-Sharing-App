@@ -5,6 +5,7 @@ import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.content.res.ColorStateList
 import android.graphics.Color
+import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import android.text.Html
 import android.widget.ArrayAdapter
@@ -44,42 +45,47 @@ class RiderRegisterActivity : AppCompatActivity() {
 
         // checking all inputs
         var finalFlag = 1
-        checkInputs()
-
-
 
         registerRider_button.setOnClickListener{
-            val name = registerRider_nameInput.text?.toString()
-            val age = registerRider_ageInput.text?.toString()?.toInt()
-            val gender = registerRider_genderInput.text?.toString()
-            val email = registerRider_emailInput.text?.toString()
-            val password = registerRider_passwordInput.text?.toString()
-            val phoneNumber = registerRider_phoneNumberInput.text?.toString()
+            if(isInputsValid()) {
+                val name = registerRider_nameInput.text?.toString()
+                val gender = registerRider_genderInput.text?.toString()
+                val email = registerRider_emailInput.text?.toString()
+                val password = registerRider_passwordInput.text?.toString()
+                val phoneNumber = registerRider_phoneNumberInput.text?.toString()
 
-            FirebaseApp.initializeApp(this)
-            var flag = 0
-            val options = PhoneAuthOptions.newBuilder(Firebase.auth)
-                .setPhoneNumber(phoneNumber.toString())       // Phone number to verify
-                .setTimeout(60L, TimeUnit.SECONDS) // Timeout and unit
-                .setActivity(this)                 // Activity (for callback binding)
-                .setCallbacks(object : PhoneAuthProvider.OnVerificationStateChangedCallbacks(){
-                    override fun onVerificationCompleted(p0: PhoneAuthCredential) {
-                    }
+                FirebaseApp.initializeApp(this)
+                var flag = 0
+                val options = PhoneAuthOptions.newBuilder(Firebase.auth)
+                    .setPhoneNumber(phoneNumber.toString())       // Phone number to verify
+                    .setTimeout(60L, TimeUnit.SECONDS) // Timeout and unit
+                    .setActivity(this)                 // Activity (for callback binding)
+                    .setCallbacks(object : PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
+                        override fun onVerificationCompleted(p0: PhoneAuthCredential) {
+                        }
 
-                    override fun onVerificationFailed(p0: FirebaseException) {
-                        Toast.makeText(this@RiderRegisterActivity, "Please check Internet Connection", Toast.LENGTH_SHORT).show()
-                    }
+                        override fun onVerificationFailed(p0: FirebaseException) {
+                            Toast.makeText(
+                                this@RiderRegisterActivity,
+                                "Please check Internet Connection",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
 
-                    override fun onCodeSent(p0: String, p1: PhoneAuthProvider.ForceResendingToken) {
-                        super.onCodeSent(p0, p1)
-                        createActivity(name, age, gender, email, phoneNumber, password, p0)
-                    }
-                })          // OnVerificationStateChangedCallbacks
-                .build()
-            PhoneAuthProvider.verifyPhoneNumber(options)
+                        override fun onCodeSent(
+                            p0: String,
+                            p1: PhoneAuthProvider.ForceResendingToken
+                        ) {
+                            super.onCodeSent(p0, p1)
+                            createActivity(name, null, gender, email, phoneNumber, password, p0)
+                        }
+                    })          // OnVerificationStateChangedCallbacks
+                    .build()
+                PhoneAuthProvider.verifyPhoneNumber(options)
 
-            if(flag == 1) {
+                if (flag == 1) {
 
+                }
             }
 
         }
@@ -108,98 +114,110 @@ class RiderRegisterActivity : AppCompatActivity() {
         }
     }
 
-    private fun checkInputs() {
-        val normalColorList = ColorStateList(
-            arrayOf(
-                intArrayOf(-android.R.attr.state_focused),  // Unfocused
-                intArrayOf(android.R.attr.state_focused)    // Focused
-            ),
-            intArrayOf(
-                Color.GRAY,     // The color for the Unfocused state
-                Color.parseColor("#E87C35")        // The color for the Focused state
-            )
-        )
-        val errorColorList = ColorStateList(
-            arrayOf(
-                intArrayOf(-android.R.attr.state_focused),  // Unfocused
-                intArrayOf(android.R.attr.state_focused)    // Focused
-            ),
-            intArrayOf(
-                Color.parseColor("#e02a1d"),     // The color for the Unfocused state
-                Color.parseColor("#e02a1d")        // The color for the Focused state
-            )
-        )
-        registerRider_nameInput.doOnTextChanged { text, start, before, count ->
+
+    //check whether the inputs are valid or not,
+    // and show errors
+    private fun isInputsValid(): Boolean {
+        var isValid = true
+
+        // for name
+        var flag = 1
+        for(element in registerRider_nameInput.text!!){
+            if(element !in 'a'..'z' && element != ' '){
+                flag = 0
+                break
+            }
+        }
+        if(flag==0 || registerRider_nameInput.text!!.isEmpty()){
+            registerRider_nameLayout.error = "Invalid name"
+            isValid = false
+        }else{
+            registerRider_nameLayout.error = null
+            registerRider_nameLayout.isErrorEnabled = false
+        }
+
+        // validation error for gender
+        if(registerRider_genderInput.text!!.isEmpty()){
+            registerRider_genderLayout.error = "Select Gender"
+            isValid = false
+        }else{
+            registerRider_genderLayout.error = null
+            registerRider_genderLayout.isErrorEnabled = false
+        }
+
+        // checking email
+        var email = registerRider_emailInput.text.toString().trim()
+        val emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+"
+        if (!email.matches(emailPattern.toRegex())) {
+            registerRider_emailLayout.error = "Invalid email"
+            isValid = false
+        } else {
+            registerRider_emailLayout.error = null
+            registerRider_emailLayout.isErrorEnabled = false
+        }
+
+        //checking phoneNo validation
+        if(registerRider_phoneNumberInput.text == null) {
+            showPhoneError()
+            Toast.makeText(applicationContext, "Enter Mobile", Toast.LENGTH_SHORT).show()
+            isValid = false
+        }
+        else if(registerRider_phoneNumberInput.text.toString().trim().isEmpty()) {
+            showPhoneError()
+            Toast.makeText(applicationContext, "Enter Mobile", Toast.LENGTH_SHORT).show()
+            isValid = false
+        }
+        else {
+            removePhoneError()
+        }
+
+
+        //checking password validation
+        if(registerRider_passwordInput.text?.length!! < 8) {
+            registerRider_passwordLayout.error = "Minimum Password length should be 8"
+            isValid = false
+        }
+        else {
+            registerRider_passwordLayout.error = null
+            registerRider_passwordLayout.isErrorEnabled = false
+        }
+
+
+        //checking confirm password validation
+        if(registerRider_confirmPasswordInput.text!!.length != registerRider_passwordInput.text!!.length){
+            registerRider_confirmPasswordLayout.error = "Password not matches"
+            isValid = false
+        }else{
             var flag = 1
-            for(element in text!!){
-                if(element !in 'a'..'z' && element != ' '){
+            for(i in registerRider_confirmPasswordInput.text!!.indices){
+                if(registerRider_confirmPasswordInput.text!![i] != registerRider_passwordInput.text!![i]){
                     flag = 0
                     break
                 }
             }
-            if(flag==0){
-                registerRider_nameLayout.setBoxStrokeColorStateList(errorColorList)
-            }else{
-                registerRider_nameLayout.setBoxStrokeColorStateList(normalColorList)
+            if(flag == 0){
+                registerRider_confirmPasswordLayout.error = "Password not matches"
+                isValid = false
+            }else {
+                registerRider_confirmPasswordLayout.error = null
+                registerRider_confirmPasswordLayout.isErrorEnabled = false
             }
         }
 
-        registerRider_ageInput.doOnTextChanged { text, start, before, count ->
-            var flag = 1
-            for(element in text!!){
-                if(element !in '0'..'1'){
-                    flag = 0
-                    break
-                }
-            }
-            if(flag==0){
-                registerRider_ageLayout.setBoxStrokeColorStateList(errorColorList)
-            }else{
-                registerRider_ageLayout.setBoxStrokeColorStateList(normalColorList)
-            }
-        }
-
-        registerRider_emailInput.doOnTextChanged { text, start, before, count ->
-            var email = text.toString().trim()
-            val emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+"
-            if (email.matches(emailPattern.toRegex())) {
-                registerRider_emailLayout.setBoxStrokeColorStateList(normalColorList)
-            } else {
-                registerRider_emailLayout.setBoxStrokeColorStateList(errorColorList)
-            }
-        }
-
-        registerRider_passwordInput.doOnTextChanged { text, start, before, count ->
-            if(text!!.length < 8){
-                registerRider_passwordLayout.setBoxStrokeColorStateList(errorColorList)
-            }else{
-                registerRider_passwordLayout.setBoxStrokeColorStateList(normalColorList)
-            }
-        }
-
-        registerRider_confirmPasswordInput.doOnTextChanged { text, start, before, count ->
-            if(text!!.length != registerRider_passwordInput.text!!.length){
-                registerRider_passwordLayout.setBoxStrokeColorStateList(errorColorList)
-                registerRider_confirmPasswordLayout.setBoxStrokeColorStateList(errorColorList)
-            }else{
-                var flag = 1
-                for(i in text!!.indices){
-                    if(text!![i] != registerRider_passwordInput.text!![i]){
-                        flag = 0
-                        break
-                    }
-                }
-                if(flag == 0){
-                       registerRider_passwordLayout.setBoxStrokeColorStateList(errorColorList)
-                       registerRider_confirmPasswordLayout.setBoxStrokeColorStateList(errorColorList)
-                }else {
-                    registerRider_confirmPasswordLayout.setBoxStrokeColorStateList(normalColorList)
-                    registerRider_passwordLayout.setBoxStrokeColorStateList(normalColorList)
-                }
-            }
-
-        }
+        return isValid
+    }
 
 
+    private fun showPhoneError(){
+        val border = GradientDrawable()
+        border.setStroke(3, -0x4f0000) //red border with full opacity
+        border.cornerRadius = 50F
+        registerRider_phoneNumberInput.setBackgroundDrawable(border)
+    }
+    private fun removePhoneError(){
+        val border = GradientDrawable()
+        border.setStroke(3, -0xFFA500) //reset color
+        border.cornerRadius = 50F
+        registerRider_phoneNumberInput.setBackgroundDrawable(border)
     }
 }
