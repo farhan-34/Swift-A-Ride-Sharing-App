@@ -43,8 +43,6 @@ class RiderRegisterActivity : AppCompatActivity() {
             this.finish()
         }
 
-        // checking all inputs
-        var finalFlag = 1
 
         registerRider_button.setOnClickListener{
             if(isInputsValid()) {

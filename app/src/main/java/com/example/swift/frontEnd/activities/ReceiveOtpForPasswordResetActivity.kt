@@ -39,7 +39,7 @@ class ReceiveOtpForPasswordResetActivity : AppCompatActivity() {
     }
 
     // check valid otp input and show error
-    fun isOtpInputValid(): Boolean {
+    private fun isOtpInputValid(): Boolean {
         var flag = true
         if(otp_input_code1.text.isEmpty()){
             otp_input_code1.error = "Invalid OTP"

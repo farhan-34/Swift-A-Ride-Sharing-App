@@ -12,6 +12,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.PhoneAuthProvider
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import kotlinx.android.synthetic.main.activity_receive_otp_for_password_reset.*
 import kotlinx.android.synthetic.main.activity_rider_registration_otp.*
 
 class RiderRegistrationOtpActivity : AppCompatActivity() {
@@ -38,59 +39,90 @@ class RiderRegistrationOtpActivity : AppCompatActivity() {
             //startActivity(intent)
             //finish()
 
-            if (rider_otp_input_code1.text.isNotEmpty() &&
-                rider_otp_input_code2.text.isNotEmpty() &&
-                rider_otp_input_code3.text.isNotEmpty() &&
-                rider_otp_input_code4.text.isNotEmpty() &&
-                rider_otp_input_code5.text.isNotEmpty() &&
-                rider_otp_input_code6.text.isNotEmpty())
-                {
-                    val otp = rider_otp_input_code1.text.toString() +
-                            rider_otp_input_code2.text.toString() +
-                            rider_otp_input_code3.text.toString() +
-                            rider_otp_input_code4.text.toString() +
-                            rider_otp_input_code5.text.toString() +
-                            rider_otp_input_code6.text.toString()
+            if(isOtpInputValid()) {
+                val otp = rider_otp_input_code1.text.toString() +
+                        rider_otp_input_code2.text.toString() +
+                        rider_otp_input_code3.text.toString() +
+                        rider_otp_input_code4.text.toString() +
+                        rider_otp_input_code5.text.toString() +
+                        rider_otp_input_code6.text.toString()
 
 
-                    var credential = PhoneAuthProvider.getCredential(verficationId, otp)
-                        FirebaseAuth.getInstance().signInWithCredential(credential)
+                var credential = PhoneAuthProvider.getCredential(verficationId, otp)
+                FirebaseAuth.getInstance().signInWithCredential(credential)
+                    .addOnSuccessListener {
+
+                        //get id of the current user from the Authentication Firebase
+                        riderId = FirebaseAuth.getInstance().currentUser?.uid.toString()
+                        //make a hashmap o rider to store
+                        val rider = hashMapOf(
+                            "Age" to age,
+                            "Email" to email,
+                            "Gender" to gender,
+                            "Name" to name,
+                            "phoneNumber" to phoneNumber,
+                            "Password" to password,
+                            "RideId" to riderId
+                        )
+                        //adding the rider in the backend
+                        db.collection("Rider").document(phoneNumber!!).set(rider)
                             .addOnSuccessListener {
-
-                                //get id of the current user from the Authentication Firebase
-                                riderId = FirebaseAuth.getInstance().currentUser?.uid.toString()
-                                //make a hashmap o rider to store
-                                val rider = hashMapOf(
-                                    "Age" to age,
-                                    "Email" to email,
-                                    "Gender" to gender,
-                                    "Name" to name,
-                                    "phoneNumber" to phoneNumber,
-                                    "Password" to password,
-                                    "RideId" to riderId
-                                )
-                                //adding the rider in the backend
-                                db.collection("Rider").document(phoneNumber!!).set(rider).addOnSuccessListener{
-                                    Toast.makeText(this, "User Registered Successfully", Toast.LENGTH_SHORT).show()
-                                    startActivity(Intent(this, SignInActivity::class.java))
-                                    finish()
-                                }
-                                    .addOnFailureListener{
-                                        Toast.makeText(this, "User not Registered!!", Toast.LENGTH_SHORT).show()
-                                        startActivity(Intent(this, RiderRegisterActivity::class.java))
-                                        finish()
-                                    }
+                                Toast.makeText(
+                                    this,
+                                    "User Registered Successfully",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                                startActivity(Intent(this, SignInActivity::class.java))
+                                finish()
                             }
-                            .addOnFailureListener{
-                                Toast.makeText(this, "failed", Toast.LENGTH_SHORT).show()
+                            .addOnFailureListener {
+                                Toast.makeText(
+                                    this,
+                                    "User not Registered!!",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                                startActivity(Intent(this, RiderRegisterActivity::class.java))
+                                finish()
                             }
-            }else{
-                ///set error
+                    }
+                    .addOnFailureListener {
+                        Toast.makeText(this, "failed", Toast.LENGTH_SHORT).show()
+                    }
             }
 
 
-
         }
+    }
+
+
+    // check valid otp input and show error
+    private fun isOtpInputValid(): Boolean {
+        var flag = true
+        if(rider_otp_input_code1.text.isEmpty()){
+            rider_otp_input_code1.error = "Invalid OTP"
+            flag = false
+        }
+        if(rider_otp_input_code2.text.isEmpty()){
+            rider_otp_input_code2.error = "Invalid OTP"
+            flag = false
+        }
+        if(rider_otp_input_code3.text.isEmpty()){
+            rider_otp_input_code3.error = "Invalid OTP"
+            flag = false
+        }
+        if(rider_otp_input_code4.text.isEmpty()){
+            rider_otp_input_code4.error = "Invalid OTP"
+            flag = false
+        }
+        if(rider_otp_input_code5.text.isEmpty()){
+            rider_otp_input_code5.error = "Invalid OTP"
+            flag = false
+        }
+        if(rider_otp_input_code6.text.isEmpty()){
+            rider_otp_input_code6.error = "Invalid OTP"
+            flag = false
+        }
+        return flag
     }
 
     private  fun setupOTPInputs(){
