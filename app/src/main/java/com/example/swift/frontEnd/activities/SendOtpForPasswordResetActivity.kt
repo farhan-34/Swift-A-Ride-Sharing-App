@@ -47,7 +47,7 @@ class SendOtpForPasswordResetActivity : AppCompatActivity() {
             }
         }
     }
-    fun showPhoneError(){
+    private fun showPhoneError(){
         val border = GradientDrawable()
         border.setStroke(7, Color.RED) //red border with full opacity
         border.cornerRadius = 50F
