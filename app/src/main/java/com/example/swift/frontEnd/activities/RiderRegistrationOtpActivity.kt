@@ -19,6 +19,12 @@ class RiderRegistrationOtpActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_rider_registration_otp)
+
+        //setting actionbar attributes
+        val actionBar = supportActionBar
+        actionBar!!.title = "OTP Verification"
+        actionBar.setDisplayHomeAsUpEnabled(true)
+
         setupOTPInputs()
 
         val db = Firebase.firestore
@@ -34,7 +40,6 @@ class RiderRegistrationOtpActivity : AppCompatActivity() {
 
         riderRegisterOtp_verify.setOnClickListener {
             //val intent = Intent(this, ResetPasswordActivity::class.java)
-            //intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
 
             //startActivity(intent)
             //finish()
