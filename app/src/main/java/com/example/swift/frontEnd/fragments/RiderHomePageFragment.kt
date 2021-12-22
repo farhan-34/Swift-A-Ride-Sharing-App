@@ -153,4 +153,8 @@ class RiderHomePageFragment : Fragment(), OnMapReadyCallback {
         init()
     }
 
+    override fun onPause() {
+        super.onPause()
+    }
+
 }
