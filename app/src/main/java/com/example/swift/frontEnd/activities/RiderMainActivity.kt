@@ -21,11 +21,11 @@ import kotlinx.android.synthetic.main.activity_rider_main.*
 class RiderMainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-//        RiderSession.getCurrentUser { rider ->
-//            val email = rider.email
-//            val phonneNumber = rider.phoneNumber
-//        }
+        //FirebaseAuth.getInstance().signOut()
+        RiderSession.getCurrentUser { rider ->
+            val email = rider.email
+            val phonneNumber = rider.phoneNumber
+        }
         requestedOrientation =  (ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
         setContentView(R.layout.activity_rider_main)
         supportActionBar?.hide()
