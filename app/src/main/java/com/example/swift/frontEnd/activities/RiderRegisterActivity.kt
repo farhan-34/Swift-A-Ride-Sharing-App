@@ -121,7 +121,7 @@ class RiderRegisterActivity : AppCompatActivity() {
         // for name
         var flag = 1
         for(element in registerRider_nameInput.text!!){
-            if(element !in 'a'..'z' && element != ' '){
+            if(element !in 'a'..'z' && element !in 'A'..'Z' && element != ' '){
                 flag = 0
                 break
             }
