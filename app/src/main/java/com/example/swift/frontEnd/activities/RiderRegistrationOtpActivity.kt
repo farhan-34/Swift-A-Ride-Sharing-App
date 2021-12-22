@@ -61,13 +61,13 @@ class RiderRegistrationOtpActivity : AppCompatActivity() {
                         riderId = FirebaseAuth.getInstance().currentUser?.uid.toString()
                         //make a hashmap o rider to store
                         val rider = hashMapOf(
-                            "Age" to age,
-                            "Email" to email,
-                            "Gender" to gender,
-                            "Name" to name,
+                            "age" to age,
+                            "email" to email,
+                            "gender" to gender,
+                            "name" to name,
                             "phoneNumber" to phoneNumber,
-                            "Password" to password,
-                            "RideId" to riderId
+                            "password" to password,
+                            "riderId" to riderId
                         )
                         //adding the rider in the backend
                         db.collection("Rider").document(phoneNumber!!).set(rider)

@@ -3,19 +3,15 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Fast/7. Fall 2021/SMD/Swift-A-Ride-Sharing-App/app/src/main/res/drawable/rectangle.xml" value="0.2514767932489452" />
-        <entry key="..\:/Fast/7. Fall 2021/SMD/Swift-A-Ride-Sharing-App/app/src/main/res/drawable/white_rounded_rectangle.xml" value="0.2514767932489452" />
-        <entry key="..\:/Fast/7. Fall 2021/SMD/Swift-A-Ride-Sharing-App/app/src/main/res/drawable/white_upper_rounded_rectangle.xml" value="0.2514767932489452" />
         <entry key="..\:/Fast/7. Fall 2021/SMD/Swift-A-Ride-Sharing-App/app/src/main/res/layout/activity_driver_main.xml" value="0.23839662447257384" />
         <entry key="..\:/Fast/7. Fall 2021/SMD/Swift-A-Ride-Sharing-App/app/src/main/res/layout/activity_driver_registration.xml" value="0.2879999900124293" />
         <entry key="..\:/Fast/7. Fall 2021/SMD/Swift-A-Ride-Sharing-App/app/src/main/res/layout/activity_forgot_password.xml" value="0.2942708333333333" />
         <entry key="..\:/Fast/7. Fall 2021/SMD/Swift-A-Ride-Sharing-App/app/src/main/res/layout/activity_otp_for_password_rest.xml" value="0.2942708333333333" />
-        <entry key="..\:/Fast/7. Fall 2021/SMD/Swift-A-Ride-Sharing-App/app/src/main/res/layout/activity_receive_otp_for_password_reset.xml" value="0.21818181061547676" />
+        <entry key="..\:/Fast/7. Fall 2021/SMD/Swift-A-Ride-Sharing-App/app/src/main/res/layout/activity_receive_otp_for_password_reset.xml" value="0.27870370370370373" />
         <entry key="..\:/Fast/7. Fall 2021/SMD/Swift-A-Ride-Sharing-App/app/src/main/res/layout/activity_reset_password.xml" value="0.2942708333333333" />
         <entry key="..\:/Fast/7. Fall 2021/SMD/Swift-A-Ride-Sharing-App/app/src/main/res/layout/activity_rider_main.xml" value="0.2942708333333333" />
         <entry key="..\:/Fast/7. Fall 2021/SMD/Swift-A-Ride-Sharing-App/app/src/main/res/layout/activity_rider_register.xml" value="0.2879999900124293" />
-        <entry key="..\:/Fast/7. Fall 2021/SMD/Swift-A-Ride-Sharing-App/app/src/main/res/layout/activity_rider_registration_otp.xml" value="0.21818181061547676" />
-        <entry key="..\:/Fast/7. Fall 2021/SMD/Swift-A-Ride-Sharing-App/app/src/main/res/layout/activity_rider_sign_in_otp.xml" value="0.24145299145299146" />
+        <entry key="..\:/Fast/7. Fall 2021/SMD/Swift-A-Ride-Sharing-App/app/src/main/res/layout/activity_rider_registration_otp.xml" value="0.24145299145299146" />
         <entry key="..\:/Fast/7. Fall 2021/SMD/Swift-A-Ride-Sharing-App/app/src/main/res/layout/activity_send_otp_for_password_reset.xml" value="0.25390625" />
         <entry key="..\:/Fast/7. Fall 2021/SMD/Swift-A-Ride-Sharing-App/app/src/main/res/layout/activity_sign_in.xml" value="0.2942708333333333" />
         <entry key="..\:/Fast/7. Fall 2021/SMD/Swift-A-Ride-Sharing-App/app/src/main/res/layout/activity_splash_screen.xml" value="0.19199999334161955" />
@@ -34,6 +30,7 @@
         <entry key="..\:/Users/Farhan/Desktop/Swift/app/src/main/res/layout/rider_menu_header.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/Farhan/Desktop/Swift/app/src/main/res/menu/driver_slider_menu.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/Farhan/Desktop/Swift/app/src/main/res/menu/rider_slider_menu.xml" value="0.36666666666666664" />
+        <entry key="..\:/android studio projects/SWIFT/app/src/main/res/drawable/white_upper_rounded_rectangle.xml" value="0.10989583333333333" />
         <entry key="..\:/android studio projects/SWIFT/app/src/main/res/layout/activity_driver_main.xml" value="0.29393115942028986" />
         <entry key="..\:/android studio projects/SWIFT/app/src/main/res/layout/activity_driver_registration.xml" value="0.29393115942028986" />
         <entry key="..\:/android studio projects/SWIFT/app/src/main/res/layout/activity_receive_otp_for_password_reset.xml" value="0.29393115942028986" />
