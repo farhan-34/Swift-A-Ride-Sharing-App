@@ -9,11 +9,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import com.example.swift.R
+import com.example.swift.frontEnd.fragments.DriverDisplayInformationFragment
 import com.example.swift.frontEnd.fragments.DriverHomePageFragment
 import com.example.swift.frontEnd.fragments.DriverRequestListFragment
+import com.example.swift.frontEnd.fragments.DriverVehicleDisplayInformationFragment
 import com.google.android.material.navigation.NavigationView
 import kotlinx.android.synthetic.main.activity_driver_main.*
-import kotlinx.android.synthetic.main.activity_rider_main.*
 
 class DriverMainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -64,6 +65,7 @@ class DriverMainActivity : AppCompatActivity(), NavigationView.OnNavigationItemS
             finish()
         }
 
+        driver_main_fragment_container.bringToFront()
 
         driver_nav_view.setNavigationItemSelectedListener(this)
     }
@@ -81,6 +83,12 @@ class DriverMainActivity : AppCompatActivity(), NavigationView.OnNavigationItemS
         when(item.itemId){
             R.id.driver_nav_home -> {
                 supportFragmentManager.beginTransaction().replace(R.id.driver_main_fragment_container, DriverHomePageFragment()).commit()
+            }
+            R.id.driver_nav_userInfo -> {
+                supportFragmentManager.beginTransaction().replace(R.id.driver_main_fragment_container, DriverDisplayInformationFragment()).commit()
+            }
+            R.id.driver_nav_vehicleInfo -> {
+                supportFragmentManager.beginTransaction().replace(R.id.driver_main_fragment_container, DriverVehicleDisplayInformationFragment()).commit()
             }
             R.id.driver_nav_requests -> {
                 supportFragmentManager.beginTransaction().replace(R.id.driver_main_fragment_container, DriverRequestListFragment()).commit()

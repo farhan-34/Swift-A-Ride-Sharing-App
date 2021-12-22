@@ -9,8 +9,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import com.example.swift.R
-import com.example.swift.businessLayer.dataClasses.Ride
 import com.example.swift.businessLayer.session.RiderSession
+import com.example.swift.frontEnd.fragments.RiderDisplayInformationFragment
 import com.example.swift.frontEnd.fragments.RiderHomePageFragment
 import com.example.swift.frontEnd.fragments.RiderOfferListFragment
 import com.google.android.material.navigation.NavigationView
@@ -82,6 +82,9 @@ class RiderMainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSe
             R.id.nav_home -> {
                 supportFragmentManager.beginTransaction().replace(R.id.rider_main_fragment_container, RiderHomePageFragment()).commit()
             }
+            R.id.nav_userInfo ->{
+                supportFragmentManager.beginTransaction().replace(R.id.rider_main_fragment_container, RiderDisplayInformationFragment()).commit()
+            }
             R.id.nav_offers -> {
                 supportFragmentManager.beginTransaction().replace(R.id.rider_main_fragment_container, RiderOfferListFragment()).commit()
             }
@@ -95,4 +98,5 @@ class RiderMainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSe
         rider_drawer.closeDrawer(GravityCompat.START)
         return true
     }
+
 }
