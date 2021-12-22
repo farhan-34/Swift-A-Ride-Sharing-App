@@ -20,7 +20,7 @@
         android:id="@+id/constraintLayout2"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="240dp"
+        android:layout_marginTop="200dp"
         android:background="@drawable/white_upper_rounded_rectangle"
         android:paddingHorizontal="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -47,8 +47,7 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="38dp"
-            android:layout_marginBottom="288dp"
+            android:layout_marginTop="32dp"
             android:hint="@string/cnic"
             app:boxBackgroundColor="@color/white"
             app:boxCornerRadiusBottomEnd="18dp"
@@ -56,7 +55,6 @@
             app:boxCornerRadiusTopEnd="18dp"
             app:boxCornerRadiusTopStart="18dp"
             app:endIconMode="clear_text"
-            app:layout_constraintBottom_toTopOf="@+id/DriverRegister_button"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
@@ -130,10 +128,6 @@
         </com.google.android.material.textfield.TextInputLayout>
 
 
-
-
-
-
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/registerDriver_VehicleCapacityLayout"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -168,8 +162,9 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
+            android:layout_marginTop="32dp"
             android:layout_marginEnd="32dp"
-            android:layout_marginBottom="38dp"
+            android:layout_marginBottom="32dp"
             android:paddingVertical="10dp"
             android:text="Register"
             android:textAllCaps="false"
@@ -178,6 +173,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/registerDriver_VehicleCapacityLayout"
             app:layout_constraintStart_toStartOf="@+id/registerDriver_VehicleCapacityLayout"
+            app:layout_constraintTop_toBottomOf="@+id/registerDriver_VehicleCapacityLayout"
             tools:ignore="HardcodedText" />
 
 
