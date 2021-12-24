@@ -35,7 +35,7 @@ class RiderRegistrationOtpActivity : AppCompatActivity() {
         val email = intent.getStringExtra("email").toString()
         val password = intent.getStringExtra("password").toString()
         val phoneNumber = intent.getStringExtra("phoneNumber").toString()
-        val verficationId = intent.getStringExtra("otpId").toString()
+        val verificationId = intent.getStringExtra("otpId").toString()
         var riderId = ""
 
         riderRegisterOtp_verify.setOnClickListener {
@@ -53,7 +53,7 @@ class RiderRegistrationOtpActivity : AppCompatActivity() {
                         rider_otp_input_code6.text.toString()
 
 
-                var credential = PhoneAuthProvider.getCredential(verficationId, otp)
+                var credential = PhoneAuthProvider.getCredential(verificationId, otp)
                 FirebaseAuth.getInstance().signInWithCredential(credential)
                     .addOnSuccessListener {
 
@@ -67,7 +67,8 @@ class RiderRegistrationOtpActivity : AppCompatActivity() {
                             "name" to name,
                             "phoneNumber" to phoneNumber,
                             "password" to password,
-                            "riderId" to riderId
+                            "riderId" to riderId,
+                            "isDriver" to "false"
                         )
                         //adding the rider in the backend
                         db.collection("Rider").document(phoneNumber!!).set(rider)

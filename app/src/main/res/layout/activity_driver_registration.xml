@@ -93,7 +93,7 @@
                 android:id="@+id/registerDriver_LicenseInput"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="number"
+                android:inputType="text"
                 android:textSize="15sp" />
         </com.google.android.material.textfield.TextInputLayout>
 

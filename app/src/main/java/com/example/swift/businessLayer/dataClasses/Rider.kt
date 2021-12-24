@@ -7,7 +7,8 @@ open class Rider(
     open var age:String = "",
     open var gender:String = "",
     open var phoneNumber:String = "",
-    open var rating: Double = 0.0
+    open var rating: Double = 0.0,
+    open var isDriver:String = ""
     ){
 
 }

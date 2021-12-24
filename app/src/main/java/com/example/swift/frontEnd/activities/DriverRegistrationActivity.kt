@@ -3,9 +3,13 @@ package com.example.swift.frontEnd.activities
 import android.content.Intent
 import android.os.Bundle
 import android.widget.ArrayAdapter
+import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.swift.R
+import com.example.swift.businessLayer.dataClasses.Driver
+import com.example.swift.businessLayer.session.RiderSession
+import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.activity_driver_registration.*
 import kotlinx.android.synthetic.main.activity_rider_register.*
 
@@ -20,13 +24,54 @@ class DriverRegistrationActivity : AppCompatActivity() {
         val adapter = ArrayAdapter(this, R.layout.gender_dropdown_list_item, items)
         registerDriver_VehicleTypeInput.setAdapter(adapter)
 
+        //getting firestore reference
+        val db = FirebaseFirestore.getInstance()
+
         //setting buttons
         DriverRegister_button.setOnClickListener {
             if (isInputsValid()) {
-                startActivity(Intent(this, DriverMainActivity::class.java))
+
+                //getting values from frontennd
+                val cnic = registerDriver_CNICInput.text.toString()
+                val licenseNumber = registerDriver_LicenseInput.text.toString()
+                val vehicleType = registerDriver_VehicleTypeInput.text.toString()
+                val vehicleCapacity = registerDriver_VehicleCapacityInput.text.toString()
+                RiderSession.getCurrentUser { rider ->
+
+                    //making the driver to store
+                    val driver = hashMapOf(
+                        "cnic" to cnic,
+                        "licenseNumber" to licenseNumber,
+                        "vehicleType" to vehicleType,
+                        "vehicleCapacity" to vehicleCapacity,
+                        "driverId" to rider.riderId,
+                        "phoneNumber" to rider.phoneNumber
+                    )
+
+
+                    //saving the driver in database
+                    db.collection("Driver").document(rider.phoneNumber!!).set(driver)
+                        .addOnSuccessListener {
+                            val flag = "true"
+                            db.collection("Rider").document(rider.phoneNumber).update(mapOf( "isDriver" to flag ))
+                            Toast.makeText(this, "Driver Registered Successfully", Toast.LENGTH_SHORT).show()
+                            var intent = Intent(this, DriverMainActivity::class.java)
+                            startActivity(intent)
+                            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                            finish()
+                        }
+                        .addOnFailureListener {
+                            Toast.makeText(this, "Driver not Registered!!", Toast.LENGTH_SHORT).show()
+                            startActivity(Intent(this, SignInActivity::class.java))
+                            finish()
+                        }
+                }
             }
         }
+
     }
+
+
 
     //check whether the inputs are valid or not,
     // and show errors
