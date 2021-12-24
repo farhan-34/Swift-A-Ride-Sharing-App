@@ -9,7 +9,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import com.example.swift.R
-import com.example.swift.businessLayer.session.RiderSession
 import com.example.swift.frontEnd.fragments.RiderDisplayInformationFragment
 import com.example.swift.frontEnd.fragments.RiderHomePageFragment
 import com.example.swift.frontEnd.fragments.RiderOfferListFragment
@@ -22,10 +21,10 @@ class RiderMainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSe
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         //FirebaseAuth.getInstance().signOut()
-        RiderSession.getCurrentUser { rider ->
-            val email = rider.email
-            val phonneNumber = rider.phoneNumber
-        }
+//        RiderSession.getCurrentUser { rider ->
+//            val email = rider.email
+//            val phonneNumber = rider.phoneNumber
+//        }
         requestedOrientation =  (ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
         setContentView(R.layout.activity_rider_main)
         supportActionBar?.hide()

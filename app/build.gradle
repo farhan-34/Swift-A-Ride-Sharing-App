@@ -84,4 +84,15 @@ dependencies {
     //geofire dependency
     implementation 'com.firebase:geofire-android-common:3.1.0'
     implementation 'com.firebase:geofire-android:3.1.0'
+
+    //for observable
+    implementation "io.reactivex.rxjava3:rxjava:3.1.3"
+    implementation 'io.reactivex.rxjava3:rxandroid:3.0.0'
+
+
+    //sliding up
+    implementation 'com.sothree.slidinguppanel:library:3.4.0'
+
+    //google places
+    implementation 'com.google.android.libraries.places:places:2.5.0'
 }

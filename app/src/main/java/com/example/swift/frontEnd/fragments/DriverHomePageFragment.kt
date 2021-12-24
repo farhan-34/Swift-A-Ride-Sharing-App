@@ -3,6 +3,8 @@ package com.example.swift.frontEnd.fragments
 import android.Manifest
 import android.content.pm.PackageManager
 import android.content.res.Resources
+import android.location.Address
+import android.location.Geocoder
 import android.os.Bundle
 import android.os.Looper
 import android.util.Log
@@ -25,6 +27,8 @@ import com.google.android.gms.maps.model.MapStyleOptions
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
+import java.io.IOException
+import java.util.*
 
 class DriverHomePageFragment : Fragment(), OnMapReadyCallback {
 
@@ -40,15 +44,15 @@ class DriverHomePageFragment : Fragment(), OnMapReadyCallback {
 
     //online system
     private lateinit var onlineRef:DatabaseReference
-    private lateinit var currentUserRef:DatabaseReference
+    private var currentUserRef:DatabaseReference?=null
     private lateinit var driverLocationRef:DatabaseReference
     private lateinit var geoFire: GeoFire
 
 
     private val onlineValueEventListener = object :ValueEventListener{
         override fun onDataChange(snapshot: DataSnapshot) {
-            if(snapshot.exists()){
-                currentUserRef.onDisconnect().removeValue()
+            if(snapshot.exists() && currentUserRef != null){
+                currentUserRef!!.onDisconnect().removeValue()
             }
 
         }
@@ -74,14 +78,6 @@ class DriverHomePageFragment : Fragment(), OnMapReadyCallback {
     private fun init() {
 
         onlineRef = FirebaseDatabase.getInstance().reference.child(".info/connected")
-        driverLocationRef = FirebaseDatabase.getInstance().getReference("DriversLocation")
-        currentUserRef = FirebaseDatabase.getInstance().getReference("DriversLocation").child(
-            FirebaseAuth.getInstance().currentUser!!.uid
-        )
-
-        geoFire = GeoFire(driverLocationRef)
-
-        registerOnlineSystem()
 
         locationRequest = LocationRequest.create()
         locationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
@@ -96,18 +92,40 @@ class DriverHomePageFragment : Fragment(), OnMapReadyCallback {
                 val newPos = LatLng(locationResult!!.lastLocation.latitude,locationResult.lastLocation.longitude)
                 mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(newPos, 18f))
 
-                //update location
-                geoFire.setLocation(
-                    FirebaseAuth.getInstance().currentUser!!.uid,
-                    GeoLocation(locationResult.lastLocation.latitude, locationResult.lastLocation.longitude)
-                ){ key:String?, error:DatabaseError? ->
-                    if(error != null){
-                        Snackbar.make(mapFragment.requireView(),error.message,Snackbar.LENGTH_LONG).show()
-                    }else{
-                        Snackbar.make(mapFragment.requireView(),"You're online!",Snackbar.LENGTH_LONG).show()
-                    }
+                //to store location (Longitude, Latitude) based on city names in real-time database
+                val geoCoder = Geocoder(requireContext(), Locale.getDefault())
+                val addressList:List<Address>?
+                try{
+                    addressList = geoCoder.getFromLocation(locationResult.lastLocation.latitude, locationResult.lastLocation.longitude,1)
+                    val cityName = addressList[0].locality
 
+                    driverLocationRef = FirebaseDatabase.getInstance().getReference("DriversLocation")
+                        .child(cityName)
+                    currentUserRef = driverLocationRef.child(
+                        FirebaseAuth.getInstance().currentUser!!.uid
+                    )
+
+                    geoFire = GeoFire(driverLocationRef)
+
+                    //update location
+                    geoFire.setLocation(
+                        FirebaseAuth.getInstance().currentUser!!.uid,
+                        GeoLocation(locationResult.lastLocation.latitude, locationResult.lastLocation.longitude)
+                    ){ key:String?, error:DatabaseError? ->
+                        if(error != null){
+                            Snackbar.make(mapFragment.requireView(),error.message,Snackbar.LENGTH_LONG).show()
+                        }else{
+                            Snackbar.make(mapFragment.requireView(),"You're online!",Snackbar.LENGTH_LONG).show()
+                        }
+
+                    }
+                    registerOnlineSystem()
+
+                }catch(e: IOException){
+                    Snackbar.make(requireView(),e.message!!,Snackbar.LENGTH_SHORT).show()
                 }
+
+
             }
         }
 

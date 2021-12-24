@@ -14,4 +14,5 @@
     <string name="arham_dilshad">Arham Dilshad</string>
     <string name="title_activity_rider_maps">RiderMapsActivity</string>
     <string name="title_activity_maps">MapsActivity</string>
+    <string name="permission_require">Permission Location Required</string>
 </resources>
