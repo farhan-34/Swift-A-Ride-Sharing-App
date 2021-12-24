@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
+import android.view.animation.AnimationUtils
 import androidx.appcompat.app.AppCompatActivity
 import com.example.swift.R
 import com.google.android.gms.ads.AdError
@@ -17,8 +18,7 @@ import com.google.android.gms.ads.LoadAdError
 import com.google.android.gms.ads.interstitial.InterstitialAd
 import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
 import com.google.android.gms.ads.AdListener
-
-
+import kotlinx.android.synthetic.main.activity_splash_screen.*
 
 
 class SplashScreenActivity : AppCompatActivity() {
@@ -33,11 +33,11 @@ class SplashScreenActivity : AppCompatActivity() {
 
 
         // TODO: uncomment and Set correct value later
-        //val topAnim = AnimationUtils.loadAnimation(this,R.anim.car_logo_animation)
-        //val bottomAnim = AnimationUtils.loadAnimation(this,R.anim.swift_logo_animation)
+        val topAnim = AnimationUtils.loadAnimation(this,R.anim.car_logo_animation)
+        val bottomAnim = AnimationUtils.loadAnimation(this,R.anim.swift_logo_animation)
 
-        //splash_car.startAnimation(topAnim)
-        //splash_swift.startAnimation(bottomAnim)
+        splash_car.startAnimation(topAnim)
+        splash_swift.startAnimation(bottomAnim)
 
 
         //loadAd()
