@@ -9,22 +9,24 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import com.example.swift.R
+import com.example.swift.businessLayer.session.RiderSession
 import com.example.swift.frontEnd.fragments.RiderDisplayInformationFragment
 import com.example.swift.frontEnd.fragments.RiderHomePageFragment
 import com.example.swift.frontEnd.fragments.RiderOfferListFragment
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.activity_rider_main.*
 
 
 class RiderMainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        //FirebaseAuth.getInstance().signOut()
-//        RiderSession.getCurrentUser { rider ->
-//            val email = rider.email
-//            val phonneNumber = rider.phoneNumber
-//        }
+
+        RiderSession.getCurrentUser { rider ->
+            val email = rider.email
+            val phonneNumber = rider.phoneNumber
+        }
         requestedOrientation =  (ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
         setContentView(R.layout.activity_rider_main)
         supportActionBar?.hide()
@@ -35,7 +37,7 @@ class RiderMainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSe
         }
 
         //setting default fragment
-        supportFragmentManager.beginTransaction().replace(R.id.rider_main_fragment_container, RiderHomePageFragment()).commit()
+        //supportFragmentManager.beginTransaction().replace(R.id.rider_main_fragment_container, RiderHomePageFragment()).commit()
         rider_nav_view.setCheckedItem(R.id.nav_home)
 
         rider_drawer.addDrawerListener(object : DrawerLayout.DrawerListener {
@@ -61,7 +63,15 @@ class RiderMainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSe
 
 
         rider_becomeDriver_btn.setOnClickListener {
-            startActivity(Intent(this, DriverRegistrationActivity::class.java))
+            //checking if the rider already registered as a driver or not
+            RiderSession.getCurrentUser { rider ->
+                if(rider.isDriver == "true") {
+                    startActivity(Intent(this, DriverMainActivity::class.java))
+                }
+                else {
+                    startActivity(Intent(this, DriverRegistrationActivity::class.java))
+                }
+            }
         }
 
         rider_nav_view.setNavigationItemSelectedListener(this)

@@ -61,6 +61,7 @@ class SignInActivity : AppCompatActivity() {
                         if (doc.size() == 0) {
                             Toast.makeText(this, "User not found", Toast.LENGTH_SHORT).show()
                         } else {
+
                             val passwordToVerify = doc.documents[0].data?.get("password")
                             if (passwordToVerify == password) {
                                 //make intent and go to next activity

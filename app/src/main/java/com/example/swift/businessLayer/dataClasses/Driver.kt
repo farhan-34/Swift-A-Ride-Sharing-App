@@ -8,11 +8,12 @@ class Driver (
     override var gender:String = "",
     override var phoneNumber:String = "",
     override var rating: Double = 0.0,
+    override var isDriver:String = "",
     var cnic:String = "",
     var licenseNumber:String = "",
     var vehicleType:String = "",
     var vehicleCapacity:String = "",
     var driverId: String = ""
-):Rider(riderId, name, email, age, gender, phoneNumber, rating){
+):Rider(riderId, name, email, age, gender, phoneNumber, rating, isDriver){
 
 }
