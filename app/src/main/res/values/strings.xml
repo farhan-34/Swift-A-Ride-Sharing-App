@@ -14,15 +14,9 @@
     <string name="arham_dilshad">Arham Dilshad</string>
     <string name="title_activity_rider_maps">RiderMapsActivity</string>
     <string name="title_activity_maps">MapsActivity</string>
-
-
-
-
+    <string name="permission_require">Permission Location Required</string>
     <string name="Swift_app_id">ca-app-pub-2287173431528020~8599602255</string>
     <string name="Swift_app_Testid">ca-app-pub-3940256099942544~3347511713</string>
-
     <string name="Swift_Frontpage_ad_id">ca-app-pub-2287173431528020/9938742269</string>
     <string name="Swift_Frontpage_ad_Testid">ca-app-pub-3940256099942544/1033173712</string>
-
-
 </resources>
