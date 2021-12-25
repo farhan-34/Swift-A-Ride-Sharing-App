@@ -9,6 +9,9 @@ import android.text.Html
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.swift.R
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.AdView
+import com.google.android.gms.ads.MobileAds
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.activity_reset_password.*
@@ -16,6 +19,9 @@ import kotlinx.android.synthetic.main.activity_send_otp_for_password_reset.*
 import kotlinx.android.synthetic.main.activity_sign_in.*
 
 class SignInActivity : AppCompatActivity() {
+
+    lateinit var mAdView : AdView
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         requestedOrientation =  (ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
@@ -50,6 +56,11 @@ class SignInActivity : AppCompatActivity() {
 
         }
 
+        //Banner Ad
+
+        loadBannerAd()
+
+        //Login button listener
         login_button.setOnClickListener {
             if (isInputsValid()) {
                 val phoneNumber = signIn_phoneNumberInput.text?.toString()
@@ -75,6 +86,16 @@ class SignInActivity : AppCompatActivity() {
                 //+startActivity(Intent(this, RiderMainActivity::class.java))
             }
         }
+    }
+
+    private fun loadBannerAd() {
+
+        MobileAds.initialize(this) {}
+
+        mAdView = findViewById(R.id.bannerAdView)
+        val adRequest = AdRequest.Builder().build()
+        mAdView.loadAd(adRequest)
+
     }
 
     override fun onStart() {
