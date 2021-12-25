@@ -65,7 +65,7 @@ class RiderMainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSe
         rider_becomeDriver_btn.setOnClickListener {
             //checking if the rider already registered as a driver or not
             RiderSession.getCurrentUser { rider ->
-                if(rider.isDriver == "true") {
+                if(rider.isdriver == "true") {
                     startActivity(Intent(this, DriverMainActivity::class.java))
                 }
                 else {
