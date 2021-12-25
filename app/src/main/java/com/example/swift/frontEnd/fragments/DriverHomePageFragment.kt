@@ -81,9 +81,9 @@ class DriverHomePageFragment : Fragment(), OnMapReadyCallback {
 
         locationRequest = LocationRequest.create()
         locationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
-        locationRequest.fastestInterval = 3000
-        locationRequest.interval = 5000
-        locationRequest.smallestDisplacement = 10f
+        locationRequest.fastestInterval = 15000 //15 sec
+        locationRequest.interval = 10000  //10 sec
+        locationRequest.smallestDisplacement = 50f  //50m
 
         locationCallback = object: LocationCallback() {
             override fun onLocationResult(locationResult: LocationResult) {
@@ -114,8 +114,6 @@ class DriverHomePageFragment : Fragment(), OnMapReadyCallback {
                     ){ key:String?, error:DatabaseError? ->
                         if(error != null){
                             Snackbar.make(mapFragment.requireView(),error.message,Snackbar.LENGTH_LONG).show()
-                        }else{
-                            Snackbar.make(mapFragment.requireView(),"You're online!",Snackbar.LENGTH_LONG).show()
                         }
 
                     }
@@ -209,6 +207,9 @@ class DriverHomePageFragment : Fragment(), OnMapReadyCallback {
         }catch (e: Resources.NotFoundException){
             Log.e("EDMT_ERROR", e.message!!)
         }
+
+        Snackbar.make(mapFragment.requireView(),"You're online!",Snackbar.LENGTH_LONG).show()
+
 
     }
 
