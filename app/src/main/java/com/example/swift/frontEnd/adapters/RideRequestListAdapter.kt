@@ -5,16 +5,21 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 
 import android.view.LayoutInflater
-import android.widget.Button
-import android.widget.PopupWindow
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import com.example.swift.R
 import com.example.swift.businessLayer.businessLogic.RideRequest
+import com.example.swift.businessLayer.dataClasses.DriverOffer
+import com.example.swift.businessLayer.session.DriverSession
+import com.example.swift.businessLayer.session.RiderSession
 import com.example.swift.databinding.ActivityDriverMainBinding.inflate
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.ktx.Firebase
 
 
 class RideRequestListAdapter(private val rideRequestList:  ArrayList<RideRequest>) : RecyclerView.Adapter<RideRequestListAdapter.ViewHolder>() {
+
+    var riderId:String = ""
+    var offerFair:String = ""
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         var riderName_view : TextView = view.findViewById(R.id.rideRequest_Item_riderName)
@@ -22,8 +27,6 @@ class RideRequestListAdapter(private val rideRequestList:  ArrayList<RideRequest
         var destinationLocation_view : TextView = view.findViewById(R.id.rideRequest_destinationLocation)
         var riderRating_view : TextView = view.findViewById(R.id.rideRequest_riderRating)
         var hideBtn : Button = view.findViewById(R.id.riderRequest_Hide_btn)
-
-        var riderID = ""
 
 
 
@@ -58,7 +61,22 @@ class RideRequestListAdapter(private val rideRequestList:  ArrayList<RideRequest
             val sndOfferBtn = view.findViewById<Button>(R.id.popup_send_offer_btn)
             val cancelOffer = view.findViewById<Button>(R.id.popup_cancleOffer_btn)
             sndOfferBtn.setOnClickListener{
-
+                //rider id
+                //driver id
+                //fair
+                val obj = DriverOffer()
+                //getting current driver
+                RiderSession.getCurrentUser { rider ->
+                    DriverSession.getCurrentUser { driver ->
+                        obj.driverId = driver.driverId
+                        obj.name = rider.name
+                        obj.riderId = riderId
+                        val temp: EditText = view.findViewById(R.id.popup_offer_price_view)
+                        obj.text = temp.text.toString()
+                        var db = FirebaseDatabase.getInstance().getReference("RiderOffers").push()
+                            .setValue(obj)
+                    }
+                }
                 Toast.makeText(parent.context, "Offer Sent", Toast.LENGTH_SHORT).show()
                 window.dismiss()
             }
@@ -78,9 +96,10 @@ class RideRequestListAdapter(private val rideRequestList:  ArrayList<RideRequest
     // Replace the contents of a view (invoked by the layout manager)
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
         viewHolder.riderName_view.text = rideRequestList[position].riderName
-        viewHolder.riderRating_view.text = rideRequestList[position].riderRating
+        viewHolder.riderRating_view.text = rideRequestList[position].riderRating.toString()
         viewHolder.sourceLocation_view.text = rideRequestList[position].sourceLocation
         viewHolder.destinationLocation_view.text = rideRequestList[position].destinationLocation
+        riderId = rideRequestList[position].riderId.toString()
     }
 
 

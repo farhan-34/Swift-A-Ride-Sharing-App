@@ -8,8 +8,15 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.swift.R
+import com.example.swift.businessLayer.businessLogic.RideRequest
 import com.example.swift.businessLayer.dataClasses.DriverOffer
+import com.example.swift.businessLayer.dataClasses.Ride
+import com.example.swift.businessLayer.session.RiderSession
 import com.example.swift.frontEnd.adapters.DriverOfferListAdapter
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 
 private lateinit var driversOffersList : ArrayList<DriverOffer>
 private  lateinit var recyclerView: RecyclerView
@@ -38,13 +45,28 @@ class RiderOfferListFragment : Fragment() {
 
     private fun load_data(){
         driversOffersList = ArrayList<DriverOffer>()
-        for (i in 1..10) {
-            var obj = DriverOffer("1","Farhan","I will take you there for 100Rs.", "url",
-                4.8)
+        var db = FirebaseDatabase.getInstance().getReference().child("RiderOffers")
 
-            driversOffersList.add(obj)
+        RiderSession.getCurrentUser { rider ->
+            db.addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    driversOffersList.clear()
+                    for (snap in snapshot.children) {
+                        val i = snap.value.toString()
+                        val temp: DriverOffer? = snap.getValue(DriverOffer::class.java)
+
+                        if (temp != null) {
+                            if (temp.riderId == rider.riderId) {
+                                driversOffersList.add(temp!!)
+                            }
+                        }
+                        recyclerView.adapter?.notifyDataSetChanged()
+                    }
+                }
+
+                override fun onCancelled(error: DatabaseError) {}
+            })
         }
-
     }
 
     private fun init_recycler_view(){
