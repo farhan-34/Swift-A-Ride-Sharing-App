@@ -53,7 +53,7 @@ class DriverRegistrationActivity : AppCompatActivity() {
                     db.collection("Driver").document(rider.phoneNumber!!).set(driver)
                         .addOnSuccessListener {
                             val flag = "true"
-                            db.collection("Rider").document(rider.phoneNumber).update(mapOf( "isDriver" to flag ))
+                            db.collection("Rider").document(rider.phoneNumber).update(mapOf( "isdriver" to flag ))
                             Toast.makeText(this, "Driver Registered Successfully", Toast.LENGTH_SHORT).show()
                             var intent = Intent(this, DriverMainActivity::class.java)
                             startActivity(intent)
