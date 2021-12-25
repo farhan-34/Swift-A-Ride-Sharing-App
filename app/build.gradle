@@ -96,6 +96,9 @@ dependencies {
     //google places
     implementation 'com.google.android.libraries.places:places:2.5.0'
 
+    //google Ad dependency
+    implementation 'com.google.android.gms:play-services-ads:20.5.0'
+
     //event bus
     implementation "org.greenrobot:eventbus:3.3.1"
 
