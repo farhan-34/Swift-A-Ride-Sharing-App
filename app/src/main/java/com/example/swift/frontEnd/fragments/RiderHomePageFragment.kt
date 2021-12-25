@@ -18,10 +18,12 @@ import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import com.example.swift.R
 import com.example.swift.businessLayer.Common.Common
+import com.example.swift.businessLayer.businessLogic.RideRequest
 import com.example.swift.businessLayer.dataClasses.Driver
 import com.example.swift.businessLayer.dataClasses.DriverGeo
 import com.example.swift.businessLayer.dataClasses.GeoQueryModel
 import com.example.swift.businessLayer.dataClasses.Ride
+import com.example.swift.businessLayer.session.RiderSession
 import com.example.swift.frontEnd.Callback.FirebaseDriverInfoListener
 import com.example.swift.frontEnd.Callback.FirebaseFailedListener
 import com.firebase.geofire.GeoFire
@@ -422,8 +424,12 @@ GoogleMap.OnCameraMoveStartedListener{
                     }catch (e:IOException){
                         e.printStackTrace()
                     }
-                    var ride = Ride("",FirebaseAuth.getInstance().currentUser!!.uid,key,pickup,dropOff,"pending", 100)
-                    ref.push().setValue(ride)
+                    RiderSession.getCurrentUser { rider ->
+                        var riderRequest = RideRequest("",FirebaseAuth.getInstance().currentUser!!.uid,key,rider.name,rider.rating,pickup,dropOff,"")
+                        ref.push().setValue(riderRequest)
+                    }
+                    //var ride = Ride("",FirebaseAuth.getInstance().currentUser!!.uid,key,pickup,dropOff,"pending", 100)
+                    //ref.push().setValue(ride)
                 }
             }
         }

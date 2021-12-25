@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.annotation.NonNull
 import androidx.fragment.app.Fragment
 import com.example.swift.businessLayer.businessLogic.RideRequest
 import com.example.swift.frontEnd.adapters.RideRequestListAdapter
@@ -13,6 +14,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 
 import androidx.recyclerview.widget.RecyclerView
 import com.example.swift.R
+import com.example.swift.businessLayer.dataClasses.Ride
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import kotlinx.android.synthetic.main.fragment_driver_ride_request_list.*
 
 
@@ -20,8 +26,10 @@ private lateinit var rideRequestList : ArrayList<RideRequest>
 private  lateinit var recyclerView: RecyclerView
 class DriverRequestListFragment : Fragment() {
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
 
     }
 
@@ -48,13 +56,22 @@ class DriverRequestListFragment : Fragment() {
 
     private fun load_data(){
         rideRequestList = ArrayList<RideRequest>()
-        for (i in 1..10) {
-            var user = RideRequest(null,null,"Arham Dilshad", "5.0",
-                "Daewoo Express Terminal","FAST-NUCES Lahore",null)
 
-            rideRequestList.add(user)
-        }
+        var db = FirebaseDatabase.getInstance().getReference().child("RideRequests")
 
+        db.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                rideRequestList.clear()
+                for (snap in snapshot.children) {
+                    val i = snap.value.toString()
+                    val temp: RideRequest? = snap.getValue(RideRequest::class.java)
+                    rideRequestList.add(temp!!)
+                    recyclerView.adapter?.notifyDataSetChanged()
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {}
+        })
     }
 
     private fun init_recycler_view(){
