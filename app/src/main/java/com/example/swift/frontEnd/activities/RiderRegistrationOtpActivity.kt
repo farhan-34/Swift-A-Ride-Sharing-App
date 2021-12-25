@@ -68,14 +68,14 @@ class RiderRegistrationOtpActivity : AppCompatActivity() {
                             "phoneNumber" to phoneNumber,
                             "password" to password,
                             "riderId" to riderId,
-                            "isDriver" to "false"
+                            "isdriver" to "false"
                         )
                         //adding the rider in the backend
                         db.collection("Rider").document(phoneNumber!!).set(rider)
                             .addOnSuccessListener {
                                 Toast.makeText(
                                     this,
-                                    "User Registered Successfully",
+                                    "Rider Registered Successfully",
                                     Toast.LENGTH_SHORT
                                 ).show()
                                 startActivity(Intent(this, SignInActivity::class.java))
@@ -84,7 +84,7 @@ class RiderRegistrationOtpActivity : AppCompatActivity() {
                             .addOnFailureListener {
                                 Toast.makeText(
                                     this,
-                                    "User not Registered!!",
+                                    "Rider not Registered!!",
                                     Toast.LENGTH_SHORT
                                 ).show()
                                 startActivity(Intent(this, RiderRegisterActivity::class.java))
