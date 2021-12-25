@@ -40,7 +40,7 @@ class SplashScreenActivity : AppCompatActivity() {
         splash_swift.startAnimation(bottomAnim)
 
 
-        //loadAd()
+
 
 
         var adRequest = AdRequest.Builder().build()
