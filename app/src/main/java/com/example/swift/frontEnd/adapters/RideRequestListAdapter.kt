@@ -6,9 +6,12 @@ import androidx.recyclerview.widget.RecyclerView
 
 import android.view.LayoutInflater
 import android.widget.Button
+import android.widget.PopupWindow
 import android.widget.TextView
+import android.widget.Toast
 import com.example.swift.R
 import com.example.swift.businessLayer.businessLogic.RideRequest
+import com.example.swift.databinding.ActivityDriverMainBinding.inflate
 
 
 class RideRequestListAdapter(private val rideRequestList:  ArrayList<RideRequest>) : RecyclerView.Adapter<RideRequestListAdapter.ViewHolder>() {
@@ -18,13 +21,13 @@ class RideRequestListAdapter(private val rideRequestList:  ArrayList<RideRequest
         var sourceLocation_view : TextView = view.findViewById(R.id.rideRequest_sourceLocation)
         var destinationLocation_view : TextView = view.findViewById(R.id.rideRequest_destinationLocation)
         var riderRating_view : TextView = view.findViewById(R.id.rideRequest_riderRating)
-        var chatBtn : Button = view.findViewById(R.id.riderRequest_chat_btn)
         var hideBtn : Button = view.findViewById(R.id.riderRequest_Hide_btn)
 
+        var riderID = ""
+
+
+
         init {
-            chatBtn.setOnClickListener {
-                TODO("Chat intent later")
-            }
 
             hideBtn.setOnClickListener{
                 val position : Int = adapterPosition
@@ -40,8 +43,33 @@ class RideRequestListAdapter(private val rideRequestList:  ArrayList<RideRequest
         viewType: Int
     ): RideRequestListAdapter.ViewHolder {
         // Create a new view, which defines the UI of the list item
-        val view: View = LayoutInflater.from(parent.getContext())
+        val view: View = LayoutInflater.from(parent.context)
             .inflate(R.layout.request_list_item, parent, false)
+
+
+        //show popup to send offer
+        val chatBtn : Button = view.findViewById(R.id.riderRequest_chat_btn)
+        chatBtn.setOnClickListener {
+            val window = PopupWindow(parent.context)
+            val view = LayoutInflater.from(parent.context).inflate(R.layout.popup_send_offer_layout, null)
+            window.contentView = view
+            window.isFocusable = true
+            window.update()
+            val sndOfferBtn = view.findViewById<Button>(R.id.popup_send_offer_btn)
+            val cancelOffer = view.findViewById<Button>(R.id.popup_cancleOffer_btn)
+            sndOfferBtn.setOnClickListener{
+
+                Toast.makeText(parent.context, "Offer Sent", Toast.LENGTH_SHORT).show()
+                window.dismiss()
+            }
+            cancelOffer.setOnClickListener{
+                window.dismiss()
+            }
+            window.showAsDropDown(chatBtn)
+
+        }
+
+
         return ViewHolder(view)
 
 
