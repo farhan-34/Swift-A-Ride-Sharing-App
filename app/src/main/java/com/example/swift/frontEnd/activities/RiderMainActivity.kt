@@ -37,7 +37,7 @@ class RiderMainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSe
         }
 
         //setting default fragment
-        //supportFragmentManager.beginTransaction().replace(R.id.rider_main_fragment_container, RiderHomePageFragment()).commit()
+        supportFragmentManager.beginTransaction().replace(R.id.rider_main_fragment_container, RiderHomePageFragment()).commit()
         rider_nav_view.setCheckedItem(R.id.nav_home)
 
         rider_drawer.addDrawerListener(object : DrawerLayout.DrawerListener {
