@@ -18,7 +18,7 @@ import com.google.firebase.database.ValueEventListener
 import kotlinx.android.synthetic.main.fragment_rider_offer_list.*
 
 private lateinit var driversOffersList : ArrayList<DriverOffer>
-private  lateinit var recyclerView: RecyclerView
+private  lateinit var driversOffersRecyclerView: RecyclerView
 class RiderOfferListFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,7 +36,7 @@ class RiderOfferListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        recyclerView =  view.findViewById(R.id.driversOffers_recycler)
+        driversOffersRecyclerView =  view.findViewById(R.id.driversOffers_recycler)
         load_data()
         init_recycler_view()
 
@@ -64,7 +64,7 @@ class RiderOfferListFragment : Fragment() {
                                 driversOffersList.add(temp!!)
                             }
                         }
-                        recyclerView.adapter?.notifyDataSetChanged()
+                        driversOffersRecyclerView.adapter?.notifyDataSetChanged()
                     }
                 }
 
@@ -75,8 +75,8 @@ class RiderOfferListFragment : Fragment() {
 
     private fun init_recycler_view(){
         var adapter = DriverOfferListAdapter(requireContext(), driversOffersList)
-        recyclerView.adapter = adapter
-        recyclerView.layoutManager = LinearLayoutManager(view?.context)
+        driversOffersRecyclerView.adapter = adapter
+        driversOffersRecyclerView.layoutManager = LinearLayoutManager(view?.context)
     }
 
 
