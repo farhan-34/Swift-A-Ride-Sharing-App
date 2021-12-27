@@ -413,21 +413,22 @@ GoogleMap.OnCameraMoveStartedListener{
             for(key in Common.driversFound.keys){
                 driverLocation.latitude = Common.driversFound[key]!!.geoLocation!!.latitude
                 driverLocation.longitude = Common.driversFound[key]!!.geoLocation!!.longitude
-                val i = driverLocation.distanceTo(riderLocation)
                 if(driverLocation.distanceTo(riderLocation)/1000 < maxDistance){
                     var pickup:String = ""
                     var dropOff:String = ""
                     try {
                         var address = Geocoder(requireContext(), Locale.getDefault()).getFromLocation(origin.latitude,origin.longitude, 1)
-                        pickup = address.get(0).getAddressLine(0)
+                        pickup = address[0].getAddressLine(0)
                         address = Geocoder(requireContext(), Locale.getDefault()).getFromLocation(destination.latitude,destination.longitude, 1)
-                        dropOff = address.get(0).getAddressLine(0)
+                        dropOff = address[0].getAddressLine(0)
                     }catch (e:IOException){
                         e.printStackTrace()
                     }
                     RiderSession.getCurrentUser { rider ->
                         var riderRequest = RideRequest("",FirebaseAuth.getInstance().currentUser!!.uid,key,rider.name,rider.rating,pickup,dropOff,"")
-                        ref.push().setValue(riderRequest)
+                        val requestId = ref.push()
+                        riderRequest.requestId = requestId.key.toString()
+                        requestId.setValue(riderRequest)
                     }
                     //var ride = Ride("",FirebaseAuth.getInstance().currentUser!!.uid,key,pickup,dropOff,"pending", 100)
                     //ref.push().setValue(ride)
