@@ -18,13 +18,14 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 
 class NotifyOnDriverOffer : Service() {
+    private lateinit var thread:Thread
     override fun onBind(p0: Intent?): IBinder? {
         return null
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         //super.onStartCommand(intent, flags, startId)
-        Thread {
+        thread = Thread {
             while (true) {
                 Log.d("Service thread", "Service Thread")
                 FirebaseDatabase.getInstance().getReference("RiderOffers")
@@ -52,7 +53,8 @@ class NotifyOnDriverOffer : Service() {
                     })
 
             }
-        }.start()
+        }
+        thread.start()
         try{
             Thread.sleep(2000)
 

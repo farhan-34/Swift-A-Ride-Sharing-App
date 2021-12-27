@@ -7,7 +7,7 @@
     android:background="@drawable/light_black_rounded_rectangle"
     android:orientation="vertical"
     android:paddingBottom="20dp"
-    android:layout_marginVertical="10dp">
+    android:layout_marginVertical="5dp">
 
     <ImageView
         android:id="@+id/driversOffers_profilePicture"

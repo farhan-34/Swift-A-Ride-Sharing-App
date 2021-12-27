@@ -398,7 +398,7 @@ GoogleMap.OnCameraMoveStartedListener{
                 //EventBus.getDefault().postSticky(SelectedPlaceEvent(origin,destination))
 
                 broadcastRequest(origin)
-                var intent = Intent(requireContext(), NotifyOnDriverOffer::class.java)
+                val intent = Intent(requireContext(), NotifyOnDriverOffer::class.java)
                 requireContext().startService(intent)
                 parentFragmentManager.beginTransaction().replace(R.id.rider_main_fragment_container, RiderOfferListFragment()).commit()
             }

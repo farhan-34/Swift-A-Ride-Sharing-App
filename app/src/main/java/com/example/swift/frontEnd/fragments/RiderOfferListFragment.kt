@@ -8,15 +8,14 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.swift.R
-import com.example.swift.businessLayer.businessLogic.RideRequest
 import com.example.swift.businessLayer.dataClasses.DriverOffer
-import com.example.swift.businessLayer.dataClasses.Ride
 import com.example.swift.businessLayer.session.RiderSession
 import com.example.swift.frontEnd.adapters.DriverOfferListAdapter
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import kotlinx.android.synthetic.main.fragment_rider_offer_list.*
 
 private lateinit var driversOffersList : ArrayList<DriverOffer>
 private  lateinit var recyclerView: RecyclerView
@@ -40,6 +39,11 @@ class RiderOfferListFragment : Fragment() {
         recyclerView =  view.findViewById(R.id.driversOffers_recycler)
         load_data()
         init_recycler_view()
+
+        rider_cancelRide.setOnClickListener {
+//            val intent = Intent(requireContext(), NotifyOnDriverOffer::class.java)
+//            requireContext().stopService(intent)
+        }
     }
 
 
