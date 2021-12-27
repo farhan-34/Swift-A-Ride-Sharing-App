@@ -1,5 +1,6 @@
 package com.example.swift.frontEnd.adapters
 
+import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -57,30 +58,36 @@ class RideRequestListAdapter(private val rideRequestList:  ArrayList<RideRequest
             val view = LayoutInflater.from(parent.context).inflate(R.layout.popup_send_offer_layout, null)
             window.contentView = view
             window.isFocusable = true
+            window.showAtLocation(parent, Gravity.CENTER, 0 , 0);
+            window.isOutsideTouchable = false;
             window.update()
             val sndOfferBtn = view.findViewById<Button>(R.id.popup_send_offer_btn)
             val cancelOffer = view.findViewById<Button>(R.id.popup_cancleOffer_btn)
             sndOfferBtn.setOnClickListener{
-                //rider id
-                //driver id
-                //fair
-                val obj = DriverOffer()
-                //getting current driver
-                RiderSession.getCurrentUser { rider ->
-                    DriverSession.getCurrentUser { driver ->
-                        obj.driverId = driver.driverId
-                        obj.name = rider.name
-                        obj.riderId = riderId
-                        val temp: EditText = view.findViewById(R.id.popup_offer_price_view)
-                        obj.text = temp.text.toString()
-                        val db = FirebaseDatabase.getInstance().getReference("RiderOffers")
-                        val offerId = db.push()
-                        obj.offerId = offerId.key.toString()
-                        offerId.setValue(obj)
+                //check validation
+                val temp: EditText = view.findViewById(R.id.popup_offer_price_view)
+                val fair = temp.text.toString()
+                if(isPositiveNumber(fair)) {
+                    val obj = DriverOffer()
+                    //getting current driver
+                    RiderSession.getCurrentUser { rider ->
+                        DriverSession.getCurrentUser { driver ->
+                            obj.driverId = driver.driverId
+                            obj.name = rider.name
+                            obj.riderId = riderId
+                            obj.text = fair
+                            val db = FirebaseDatabase.getInstance().getReference("RiderOffers")
+                            val offerId = db.push()
+                            obj.offerId = offerId.key.toString()
+                            offerId.setValue(obj)
+                        }
                     }
+                    Toast.makeText(parent.context, "Offer Sent", Toast.LENGTH_SHORT).show()
+                    window.dismiss()
+
+                }else {
+                    Toast.makeText(parent.context, "Price not valid", Toast.LENGTH_SHORT).show()
                 }
-                Toast.makeText(parent.context, "Offer Sent", Toast.LENGTH_SHORT).show()
-                window.dismiss()
             }
             cancelOffer.setOnClickListener{
                 window.dismiss()
@@ -107,5 +114,14 @@ class RideRequestListAdapter(private val rideRequestList:  ArrayList<RideRequest
 
     override fun getItemCount() = rideRequestList.size
 
+
+    //fun to check whether the string is a positive number or not
+    fun isPositiveNumber(string: String): Boolean {
+
+        var numeric = true
+
+        numeric = string.matches("0?\\d+(\\.\\d+)?".toRegex())
+        return numeric
+    }
 
 }
