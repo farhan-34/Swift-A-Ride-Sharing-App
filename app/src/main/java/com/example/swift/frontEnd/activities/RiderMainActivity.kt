@@ -1,7 +1,10 @@
 package com.example.swift.frontEnd.activities
 
+import android.content.BroadcastReceiver
 import android.content.Intent
+import android.content.IntentFilter
 import android.content.pm.ActivityInfo
+import android.net.ConnectivityManager
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
@@ -9,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import com.example.swift.R
+import com.example.swift.businessLayer.BroadCasts.InternetConnectivityBroadcastReceiver
 import com.example.swift.businessLayer.session.RiderSession
 import com.example.swift.frontEnd.fragments.RiderDisplayInformationFragment
 import com.example.swift.frontEnd.fragments.RiderHomePageFragment
@@ -20,6 +24,11 @@ import kotlinx.android.synthetic.main.activity_rider_main.*
 
 
 class RiderMainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
+
+
+    private val connectivityInternet: BroadcastReceiver = InternetConnectivityBroadcastReceiver()
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -75,6 +84,19 @@ class RiderMainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSe
         }
 
         rider_nav_view.setNavigationItemSelectedListener(this)
+    }
+
+    //for broadcasting
+    override fun onStart() {
+        super.onStart()
+        val filter = IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION).apply {
+            addAction(Intent.ACTION_AIRPLANE_MODE_CHANGED)
+        }
+        registerReceiver(connectivityInternet, filter)
+    }
+    override fun onStop() {
+        super.onStop()
+        unregisterReceiver(connectivityInternet)
     }
 
     override fun onBackPressed() {
