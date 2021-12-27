@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.annotation.NonNull
 import androidx.fragment.app.Fragment
 import com.example.swift.businessLayer.businessLogic.RideRequest
 import com.example.swift.frontEnd.adapters.RideRequestListAdapter
@@ -14,7 +13,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 
 import androidx.recyclerview.widget.RecyclerView
 import com.example.swift.R
-import com.example.swift.businessLayer.dataClasses.Ride
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -23,7 +21,7 @@ import kotlinx.android.synthetic.main.fragment_driver_ride_request_list.*
 
 
 private lateinit var rideRequestList : ArrayList<RideRequest>
-private  lateinit var recyclerView: RecyclerView
+private  lateinit var driverRiderRequestRecyclerView: RecyclerView
 class DriverRequestListFragment : Fragment() {
 
 
@@ -48,7 +46,7 @@ class DriverRequestListFragment : Fragment() {
             Toast.makeText(view.context, "Sort applied", Toast.LENGTH_SHORT).show()
         }
 
-        recyclerView = view.findViewById(R.id.Driver_RiderRequest_RecyclerView)
+        driverRiderRequestRecyclerView = view.findViewById(R.id.Driver_RiderRequest_RecyclerView)
         load_data()
         init_recycler_view()
     }
@@ -66,7 +64,7 @@ class DriverRequestListFragment : Fragment() {
                     val i = snap.value.toString()
                     val temp: RideRequest? = snap.getValue(RideRequest::class.java)
                     rideRequestList.add(temp!!)
-                    recyclerView.adapter?.notifyDataSetChanged()
+                    driverRiderRequestRecyclerView.adapter?.notifyDataSetChanged()
                 }
             }
 
@@ -76,7 +74,7 @@ class DriverRequestListFragment : Fragment() {
 
     private fun init_recycler_view(){
         var adapter = RideRequestListAdapter(rideRequestList)
-        recyclerView.adapter = adapter
-        recyclerView.layoutManager = LinearLayoutManager(view?.context)
+        driverRiderRequestRecyclerView.adapter = adapter
+        driverRiderRequestRecyclerView.layoutManager = LinearLayoutManager(view?.context)
     }
 }
