@@ -70,7 +70,7 @@ class RiderOfferListFragment : Fragment() {
     }
 
     private fun init_recycler_view(){
-        var adapter = DriverOfferListAdapter(driversOffersList)
+        var adapter = DriverOfferListAdapter(requireContext(), driversOffersList)
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(view?.context)
     }

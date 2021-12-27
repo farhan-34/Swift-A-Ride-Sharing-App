@@ -1,16 +1,18 @@
 package com.example.swift.frontEnd.adapters
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.example.swift.R
 import com.example.swift.businessLayer.dataClasses.DriverOffer
 import com.google.firebase.database.FirebaseDatabase
 
-class DriverOfferListAdapter (private val driversOfferList:  ArrayList<DriverOffer>) : RecyclerView.Adapter<DriverOfferListAdapter.ViewHolder>() {
+class DriverOfferListAdapter (var context:Context,private val driversOfferList:  ArrayList<DriverOffer>) : RecyclerView.Adapter<DriverOfferListAdapter.ViewHolder>() {
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         var name : TextView = view.findViewById(R.id.driversOffers_Name)
@@ -23,7 +25,8 @@ class DriverOfferListAdapter (private val driversOfferList:  ArrayList<DriverOff
 
         init {
             chatBtn.setOnClickListener {
-                TODO("Chat intent later")
+                //TODO: Ride Session
+                Toast.makeText(context,"Ride Session will start here!!",Toast.LENGTH_SHORT).show()
             }
 
             hideBtn.setOnClickListener{
