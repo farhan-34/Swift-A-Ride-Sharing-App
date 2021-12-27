@@ -73,8 +73,10 @@ class RideRequestListAdapter(private val rideRequestList:  ArrayList<RideRequest
                         obj.riderId = riderId
                         val temp: EditText = view.findViewById(R.id.popup_offer_price_view)
                         obj.text = temp.text.toString()
-                        var db = FirebaseDatabase.getInstance().getReference("RiderOffers").push()
-                            .setValue(obj)
+                        val db = FirebaseDatabase.getInstance().getReference("RiderOffers")
+                        val offerId = db.push()
+                        obj.offerId = offerId.key.toString()
+                        offerId.setValue(obj)
                     }
                 }
                 Toast.makeText(parent.context, "Offer Sent", Toast.LENGTH_SHORT).show()
