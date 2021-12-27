@@ -8,6 +8,9 @@ import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
 
 object Common {
+
+    val offersReceived: MutableSet<String> = HashSet<String>()
+
     fun setWelcomeTextMessage(welcomeTxt: TextView) {
         val hours = Calendar.getInstance().get(Calendar.HOUR_OF_DAY)
 
