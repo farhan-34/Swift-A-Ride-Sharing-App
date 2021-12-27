@@ -405,7 +405,7 @@ GoogleMap.OnCameraMoveStartedListener{
     private fun broadcastRequest(origin: LatLng) {
         var ref = FirebaseDatabase.getInstance().getReference("RideRequests")
         if(Common.driversFound.isNotEmpty()){
-            var maxDistance = 5.0
+            var maxDistance = 10.0
             var riderLocation = Location("")
             riderLocation.latitude = origin.latitude
             riderLocation.longitude = origin.longitude
@@ -413,7 +413,8 @@ GoogleMap.OnCameraMoveStartedListener{
             for(key in Common.driversFound.keys){
                 driverLocation.latitude = Common.driversFound[key]!!.geoLocation!!.latitude
                 driverLocation.longitude = Common.driversFound[key]!!.geoLocation!!.longitude
-                if(driverLocation.distanceTo(riderLocation) < maxDistance){
+                val i = driverLocation.distanceTo(riderLocation)
+                if(driverLocation.distanceTo(riderLocation)/1000 < maxDistance){
                     var pickup:String = ""
                     var dropOff:String = ""
                     try {
