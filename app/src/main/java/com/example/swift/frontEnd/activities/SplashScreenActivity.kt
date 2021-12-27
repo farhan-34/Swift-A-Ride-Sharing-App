@@ -1,7 +1,6 @@
 package com.example.swift.frontEnd.activities
 
 import android.content.ContentValues
-import android.content.ContentValues.TAG
 import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.os.Bundle
@@ -17,7 +16,6 @@ import com.google.android.gms.ads.FullScreenContentCallback
 import com.google.android.gms.ads.LoadAdError
 import com.google.android.gms.ads.interstitial.InterstitialAd
 import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
-import com.google.android.gms.ads.AdListener
 import kotlinx.android.synthetic.main.activity_splash_screen.*
 
 
@@ -30,6 +28,7 @@ class SplashScreenActivity : AppCompatActivity() {
         requestedOrientation =  (ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
         setContentView(R.layout.activity_splash_screen)
         supportActionBar?.hide()
+
 
 
         // TODO: uncomment and Set correct value later

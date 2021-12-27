@@ -122,8 +122,6 @@ class DriverHomePageFragment : Fragment(), OnMapReadyCallback {
                 }catch(e: IOException){
                     Snackbar.make(requireView(),e.message!!,Snackbar.LENGTH_SHORT).show()
                 }
-
-
             }
         }
 
