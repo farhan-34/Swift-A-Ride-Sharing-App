@@ -32,7 +32,7 @@ class RiderDisplayInformationFragment : Fragment() {
             riderInfo_name_view.text = rider.name
             riderInfo_gender_view.text = rider.gender
             riderInfo_age_view.text = rider.age + " years"
-            riderInfo_email_view.text = rider.email
+            vehicleInfo_licenseNumber_view.text = rider.email
         }
 
 

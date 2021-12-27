@@ -6,6 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.example.swift.R
+import com.example.swift.businessLayer.session.DriverSession
+import com.example.swift.businessLayer.session.RiderSession
+import kotlinx.android.synthetic.main.fragment_driver_display_information.*
+import kotlinx.android.synthetic.main.fragment_rider_display_information.*
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -56,5 +60,18 @@ class DriverDisplayInformationFragment : Fragment() {
                     putString(ARG_PARAM2, param2)
                 }
             }
+    }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        //setting values in views
+        DriverSession.getCurrentUser { driver ->
+            driverInfo_name_view.text = driver.name
+            driverInfo_age_view.text = driver.age + " years"
+            driverInfo_email_view.text = driver.email
+            driverInfo_gender_view.text = driver.gender
+            driverInfo_CNIC_view.text = driver.cnic
+            driverInfo_rating_view.text = driver.rating.toString()
+        }
     }
 }
