@@ -8,6 +8,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.swift.R
 import com.example.swift.businessLayer.dataClasses.DriverOffer
+import com.google.firebase.database.FirebaseDatabase
 
 class DriverOfferListAdapter (private val driversOfferList:  ArrayList<DriverOffer>) : RecyclerView.Adapter<DriverOfferListAdapter.ViewHolder>() {
 
@@ -26,8 +27,15 @@ class DriverOfferListAdapter (private val driversOfferList:  ArrayList<DriverOff
             }
 
             hideBtn.setOnClickListener{
+                var db = FirebaseDatabase.getInstance().getReference().child("RiderOffers")
+
+                //getting position for the offer
                 val position : Int = adapterPosition
-                driversOfferList.removeAt(position)
+
+                //removing value from database
+                db.child(driversOfferList[position].offerId).removeValue()
+
+                //driversOfferList.removeAt(position)
                 notifyItemRemoved(position)
             }
         }

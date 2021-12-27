@@ -1,6 +1,7 @@
 package com.example.swift.businessLayer.dataClasses
 
 data class DriverOffer(
+    var offerId:String = "",
     var driverId:String = "",
     var riderId: String = "",
     var name:String = "",
