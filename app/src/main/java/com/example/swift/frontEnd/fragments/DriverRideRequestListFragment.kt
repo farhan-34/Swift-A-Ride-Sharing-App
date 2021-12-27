@@ -47,15 +47,14 @@ class DriverRequestListFragment : Fragment() {
         }
 
         driverRiderRequestRecyclerView = view.findViewById(R.id.Driver_RiderRequest_RecyclerView)
-        load_data()
+        loadData()
         init_recycler_view()
     }
 
-
-    private fun load_data(){
+    private fun loadData(){
         rideRequestList = ArrayList<RideRequest>()
 
-        var db = FirebaseDatabase.getInstance().getReference().child("RideRequests")
+        var db = FirebaseDatabase.getInstance().reference.child("RideRequests")
 
         db.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
@@ -63,9 +62,13 @@ class DriverRequestListFragment : Fragment() {
                 for (snap in snapshot.children) {
                     val i = snap.value.toString()
                     val temp: RideRequest? = snap.getValue(RideRequest::class.java)
-                    rideRequestList.add(temp!!)
-                    driverRiderRequestRecyclerView.adapter?.notifyDataSetChanged()
+                    if (temp != null) {
+                        rideRequestList.add(temp)
+                    }
                 }
+                // driverRiderRequestRecyclerView.adapter?.notifyDataSetChanged()
+                init_recycler_view()
+
             }
 
             override fun onCancelled(error: DatabaseError) {}
