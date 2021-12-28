@@ -19,7 +19,6 @@ import com.example.swift.frontEnd.fragments.RiderHomePageFragment
 import com.example.swift.frontEnd.fragments.RiderOfferListFragment
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.activity_rider_main.*
 
 
@@ -46,7 +45,7 @@ class RiderMainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSe
         }
 
         //setting default fragment
-        supportFragmentManager.beginTransaction().replace(R.id.rider_main_fragment_container, RiderHomePageFragment()).commit()
+        supportFragmentManager.beginTransaction().replace(R.id.rider_main_fragment_container, RiderHomePageFragment()).addToBackStack(null).commit()
         rider_nav_view.setCheckedItem(R.id.nav_home)
 
         rider_drawer.addDrawerListener(object : DrawerLayout.DrawerListener {
@@ -111,13 +110,13 @@ class RiderMainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSe
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when(item.itemId){
             R.id.nav_home -> {
-                supportFragmentManager.beginTransaction().replace(R.id.rider_main_fragment_container, RiderHomePageFragment()).commit()
+                supportFragmentManager.beginTransaction().replace(R.id.rider_main_fragment_container, RiderHomePageFragment()).addToBackStack(null).commit()
             }
             R.id.nav_userInfo ->{
-                supportFragmentManager.beginTransaction().replace(R.id.rider_main_fragment_container, RiderDisplayInformationFragment()).commit()
+                supportFragmentManager.beginTransaction().replace(R.id.rider_main_fragment_container, RiderDisplayInformationFragment()).addToBackStack(null).commit()
             }
             R.id.nav_offers -> {
-                supportFragmentManager.beginTransaction().replace(R.id.rider_main_fragment_container, RiderOfferListFragment()).commit()
+                supportFragmentManager.beginTransaction().replace(R.id.rider_main_fragment_container, RiderOfferListFragment()).addToBackStack(null).commit()
             }
             R.id.nav_logout -> {
                 FirebaseAuth.getInstance().signOut()

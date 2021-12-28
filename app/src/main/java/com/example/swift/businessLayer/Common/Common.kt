@@ -9,6 +9,7 @@ import kotlin.collections.HashMap
 
 object Common {
 
+    var endThread: Boolean = false
     val offersReceived: MutableSet<String> = HashSet<String>()
 
     fun setWelcomeTextMessage(welcomeTxt: TextView) {

@@ -18,43 +18,47 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 
 class NotifyOnDriverOffer : Service() {
-    private lateinit var thread:Thread
     override fun onBind(p0: Intent?): IBinder? {
         return null
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        Common.endThread = true
+    }
+
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         //super.onStartCommand(intent, flags, startId)
-        thread = Thread {
-            while (true) {
-                Log.d("Service thread", "Service Thread")
-                FirebaseDatabase.getInstance().getReference("RiderOffers")
-                    .addListenerForSingleValueEvent(object : ValueEventListener {
-                        override fun onDataChange(snapshot: DataSnapshot) {
-                            for (snap in snapshot.children) {
-                                val i = snap.value.toString()
-                                val temp: DriverOffer? = snap.getValue(DriverOffer::class.java)
-                                val curUser = FirebaseAuth.getInstance().currentUser!!.uid
-                                if (temp != null) {
-                                    val rider = temp.riderId
-                                    if (rider == curUser) {
-                                        if(!Common.offersReceived.contains(temp.offerId)) {
-                                            createNotificationChannel(intent!!)
-                                            Common.offersReceived.add(temp.offerId)
+        Thread(object :Runnable{
+            override fun run() {
+                while (!Common.endThread) {
+                    Log.d("Service thread", "Service Thread")
+                    FirebaseDatabase.getInstance().getReference("RiderOffers")
+                        .addListenerForSingleValueEvent(object : ValueEventListener {
+                            override fun onDataChange(snapshot: DataSnapshot) {
+                                for (snap in snapshot.children) {
+                                    val i = snap.value.toString()
+                                    val temp: DriverOffer? = snap.getValue(DriverOffer::class.java)
+                                    val curUser = FirebaseAuth.getInstance().currentUser!!.uid
+                                    if (temp != null) {
+                                        val rider = temp.riderId
+                                        if (rider == curUser) {
+                                            if(!Common.offersReceived.contains(temp.offerId)) {
+                                                createNotificationChannel(intent!!)
+                                                Common.offersReceived.add(temp.offerId)
+                                            }
                                         }
                                     }
                                 }
                             }
-                        }
 
-                        override fun onCancelled(error: DatabaseError) {
+                            override fun onCancelled(error: DatabaseError) {
 
-                        }
-                    })
-
+                            }
+                        })
+                }
             }
-        }
-        thread.start()
+        }).start()
         try{
             Thread.sleep(2000)
 
@@ -62,7 +66,7 @@ class NotifyOnDriverOffer : Service() {
             e.printStackTrace()
         }
 
-        return START_STICKY
+        return super.onStartCommand(intent, flags, startId)
     }
 
     private fun createNotificationChannel(intent:Intent) {
