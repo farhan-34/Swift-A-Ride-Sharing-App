@@ -1,6 +1,8 @@
 package com.example.swift.frontEnd.fragments
 
+import android.content.ContentValues.TAG
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -40,9 +42,27 @@ class RiderOfferListFragment : Fragment() {
         load_data()
         init_recycler_view()
 
+        val db = FirebaseDatabase.getInstance()
         rider_cancelRide.setOnClickListener {
-//            val intent = Intent(requireContext(), NotifyOnDriverOffer::class.java)
-//            requireContext().stopService(intent)
+            RiderSession.getCurrentUser { rider ->
+                val query = db.reference.child("RideRequests")
+                    .orderByChild("riderId")
+                    .equalTo(rider.riderId)
+
+                query.addListenerForSingleValueEvent(object : ValueEventListener {
+                    override fun onDataChange(dataSnapshot: DataSnapshot) {
+                        for (docs in dataSnapshot.children) {
+                            docs.ref.removeValue()
+                        }
+                    }
+
+                    override fun onCancelled(databaseError: DatabaseError) {
+                        Log.e(TAG, "onCancelled", databaseError.toException())
+                    }
+                })
+            }
+            //switching to home fragment
+            parentFragmentManager.beginTransaction().replace(R.id.rider_main_fragment_container, RiderHomePageFragment()).commit()
         }
     }
 
