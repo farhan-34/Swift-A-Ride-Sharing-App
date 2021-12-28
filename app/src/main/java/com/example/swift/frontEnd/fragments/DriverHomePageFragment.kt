@@ -156,7 +156,7 @@ class DriverHomePageFragment : Fragment(), OnMapReadyCallback {
 
 
     override fun onMapReady(googleMap: GoogleMap) {
-        mMap = googleMap!!
+        mMap = googleMap
 
         if (ActivityCompat.checkSelfPermission(
                 requireContext(),
@@ -221,7 +221,7 @@ class DriverHomePageFragment : Fragment(), OnMapReadyCallback {
     override fun onResume() {
         super.onResume()
         mapFragment.getMapAsync(this)
-        init()
+        //init()
     }
 
     private fun registerOnlineSystem() {

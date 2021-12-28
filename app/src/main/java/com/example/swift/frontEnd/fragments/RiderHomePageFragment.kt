@@ -106,9 +106,8 @@ GoogleMap.OnCameraMoveStartedListener{
         savedInstanceState: Bundle?
     ): View? {
         val root = inflater.inflate(R.layout.fragment_rider_home_page, container, false)
-        init()
-        initViews(root)
         // Inflate the layout for this fragment
+        initViews(root)
         return root
     }
 
@@ -153,7 +152,7 @@ GoogleMap.OnCameraMoveStartedListener{
             override fun onLocationResult(locationResult: LocationResult) {
                 super.onLocationResult(locationResult)
 
-                val newPos = LatLng(locationResult!!.lastLocation.latitude,locationResult.lastLocation.longitude)
+                val newPos = LatLng(locationResult.lastLocation.latitude,locationResult.lastLocation.longitude)
                 mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(newPos, 18f))
 
                 //If the location of a user is changed then load all the drivers again
@@ -372,6 +371,7 @@ GoogleMap.OnCameraMoveStartedListener{
         super.onViewCreated(view, savedInstanceState)
         mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
+        init()
 
         ride_request.setOnClickListener {
             if (ActivityCompat.checkSelfPermission(
@@ -399,8 +399,9 @@ GoogleMap.OnCameraMoveStartedListener{
 
                 broadcastRequest(origin)
                 val intent = Intent(requireContext(), NotifyOnDriverOffer::class.java)
+                Common.endThread = false
                 requireContext().startService(intent)
-                parentFragmentManager.beginTransaction().replace(R.id.rider_main_fragment_container, RiderOfferListFragment()).commit()
+                parentFragmentManager.beginTransaction().replace(R.id.rider_main_fragment_container, RiderOfferListFragment()).addToBackStack(null).commit()
             }
         }
     }
@@ -509,7 +510,7 @@ GoogleMap.OnCameraMoveStartedListener{
     override fun onResume() {
         super.onResume()
         mapFragment.getMapAsync(this)
-        init()
+        //init()
     }
 
     override fun onPause() {

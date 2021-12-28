@@ -1,6 +1,7 @@
 package com.example.swift.frontEnd.fragments
 
 import android.content.ContentValues.TAG
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -10,8 +11,10 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.swift.R
+import com.example.swift.businessLayer.Common.Common
 import com.example.swift.businessLayer.dataClasses.DriverOffer
 import com.example.swift.businessLayer.session.RiderSession
+import com.example.swift.frontEnd.Services.NotifyOnDriverOffer
 import com.example.swift.frontEnd.adapters.DriverOfferListAdapter
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -61,8 +64,13 @@ class RiderOfferListFragment : Fragment() {
                     }
                 })
             }
+            //closing service
+            Common.endThread = true
+            val intent = Intent(requireContext(), NotifyOnDriverOffer::class.java)
+            requireContext().stopService(intent)
+
             //switching to home fragment
-            parentFragmentManager.beginTransaction().replace(R.id.rider_main_fragment_container, RiderHomePageFragment()).commit()
+            parentFragmentManager.beginTransaction().replace(R.id.rider_main_fragment_container, RiderHomePageFragment()).addToBackStack(null).commit()
         }
     }
 
