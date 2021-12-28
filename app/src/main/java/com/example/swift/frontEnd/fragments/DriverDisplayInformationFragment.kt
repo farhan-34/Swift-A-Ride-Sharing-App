@@ -66,12 +66,14 @@ class DriverDisplayInformationFragment : Fragment() {
 
         //setting values in views
         DriverSession.getCurrentUser { driver ->
-            driverInfo_name_view.text = driver.name
-            driverInfo_age_view.text = driver.age + " years"
-            driverInfo_email_view.text = driver.email
-            driverInfo_gender_view.text = driver.gender
-            driverInfo_CNIC_view.text = driver.cnic
-            driverInfo_rating_view.text = driver.rating.toString()
+            RiderSession.getCurrentUser { rider ->
+                driverInfo_name_view.text = rider.name
+                driverInfo_age_view.text = rider.age + " years"
+                driverInfo_email_view.text = rider.email
+                driverInfo_gender_view.text = rider.gender
+                driverInfo_CNIC_view.text = driver.cnic
+                driverInfo_rating_view.text = driver.rating.toString()
+            }
         }
     }
 }
