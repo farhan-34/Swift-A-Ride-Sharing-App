@@ -16,18 +16,17 @@ import com.example.swift.businessLayer.dataClasses.DriverOffer
 import com.example.swift.businessLayer.session.RiderSession
 import com.example.swift.frontEnd.Services.NotifyOnDriverOffer
 import com.example.swift.frontEnd.adapters.DriverOfferListAdapter
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.fragment_rider_offer_list.*
 
 private lateinit var driversOffersList : ArrayList<DriverOffer>
 private  lateinit var driversOffersRecyclerView: RecyclerView
+private lateinit var adapter:DriverOfferListAdapter
 class RiderOfferListFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        driversOffersList = ArrayList<DriverOffer>()
     }
 
     override fun onCreateView(
@@ -45,6 +44,7 @@ class RiderOfferListFragment : Fragment() {
         load_data()
         init_recycler_view()
 
+
         val db = FirebaseDatabase.getInstance()
         rider_cancelRide.setOnClickListener {
             RiderSession.getCurrentUser { rider ->
@@ -57,6 +57,7 @@ class RiderOfferListFragment : Fragment() {
                         for (docs in dataSnapshot.children) {
                             docs.ref.removeValue()
                         }
+
                     }
 
                     override fun onCancelled(databaseError: DatabaseError) {
@@ -76,33 +77,54 @@ class RiderOfferListFragment : Fragment() {
 
 
     private fun load_data(){
-        driversOffersList = ArrayList<DriverOffer>()
         var db = FirebaseDatabase.getInstance().getReference().child("RiderOffers")
 
         RiderSession.getCurrentUser { rider ->
-            db.addListenerForSingleValueEvent(object : ValueEventListener {
-                override fun onDataChange(snapshot: DataSnapshot) {
-                    driversOffersList.clear()
-                    for (snap in snapshot.children) {
-                        val i = snap.value.toString()
-                        val temp: DriverOffer? = snap.getValue(DriverOffer::class.java)
+            db.addChildEventListener(object:ChildEventListener{
+                override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
+                        val i = snapshot.value.toString()
+                        val temp: DriverOffer? = snapshot.getValue(DriverOffer::class.java)
 
                         if (temp != null) {
                             if (temp.riderId == rider.riderId) {
                                 driversOffersList.add(temp!!)
                             }
                         }
-                        driversOffersRecyclerView.adapter?.notifyDataSetChanged()
-                    }
+
+                    adapter.notifyDataSetChanged()
                 }
 
-                override fun onCancelled(error: DatabaseError) {}
+                override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
+
+                }
+
+                override fun onChildRemoved(snapshot: DataSnapshot) {
+                    var index:Int = 0
+                    for(i in 0 until driversOffersList.size)
+                    {
+                        if(driversOffersList[i].offerId == snapshot.key){
+                            index = i
+                        }
+                    }
+
+                    driversOffersList.removeAt(index)
+                    adapter.notifyDataSetChanged()
+                }
+
+                override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {
+
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+
+                }
+
             })
         }
     }
 
     private fun init_recycler_view(){
-        var adapter = DriverOfferListAdapter(requireContext(), driversOffersList)
+        adapter = DriverOfferListAdapter(requireContext(), driversOffersList)
         driversOffersRecyclerView.adapter = adapter
         driversOffersRecyclerView.layoutManager = LinearLayoutManager(view?.context)
     }

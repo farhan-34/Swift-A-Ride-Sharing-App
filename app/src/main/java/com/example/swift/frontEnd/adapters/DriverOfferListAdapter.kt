@@ -35,11 +35,13 @@ class DriverOfferListAdapter (var context:Context,private val driversOfferList: 
                 //getting position for the offer
                 val position : Int = adapterPosition
 
+                //driversOfferList.removeAt(position)
+                //driversOfferList.removeAt(position)
+                //notifyItemRemoved(position)
+                //notifyDataSetChanged()
+
                 //removing value from database
                 db.child(driversOfferList[position].offerId).removeValue()
-
-                //driversOfferList.removeAt(position)
-                notifyItemRemoved(position)
             }
         }
 
