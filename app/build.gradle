@@ -43,41 +43,41 @@ android {
 dependencies {
 
     implementation 'androidx.core:core-ktx:1.7.0'
-    implementation 'androidx.appcompat:appcompat:1.4.0'
+    implementation 'androidx.appcompat:appcompat:1.4.1'
 
     //material ui
-    implementation 'com.google.android.material:material:1.4.0'
+    implementation 'com.google.android.material:material:1.5.0'
 
     //constraint layout
-    implementation 'androidx.constraintlayout:constraintlayout:2.1.2'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.3'
 
     //circle image dependency
     implementation 'de.hdodenhof:circleimageview:3.1.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
 
     //fire store
-    implementation 'com.google.firebase:firebase-firestore:24.0.0'
+    implementation 'com.google.firebase:firebase-firestore:24.0.1'
     implementation 'com.google.firebase:firebase-analytics:20.0.2'
-    implementation 'com.google.firebase:firebase-firestore-ktx:24.0.0'
+    implementation 'com.google.firebase:firebase-firestore-ktx:24.0.1'
 
     //firebase authentication
     implementation 'com.google.firebase:firebase-auth-ktx:21.0.1'
 
     //gms play services maps
-    implementation 'com.google.android.gms:play-services-maps:18.0.1'
+    implementation 'com.google.android.gms:play-services-maps:18.0.2'
     implementation 'com.google.android.gms:play-services-ads-lite:20.5.0'
-    testImplementation 'junit:junit:4.+'
+    testImplementation 'junit:junit:'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
     implementation 'net.rimoto:intlphoneinput:1.0.1'
 
     //gms play services safetynet
-    implementation 'com.google.android.gms:play-services-safetynet:18.0.0'
+    implementation 'com.google.android.gms:play-services-safetynet:18.0.1'
     implementation platform('com.google.firebase:firebase-bom:29.0.3')
 
 
     //location dependency
-    implementation 'com.google.android.gms:play-services-location:19.0.0'
+    implementation 'com.google.android.gms:play-services-location:19.0.1'
 
     //permission popup dependency
     implementation 'com.karumi:dexter:6.2.3'

@@ -82,6 +82,9 @@ class SignInActivity : AppCompatActivity() {
                             }
                         }
                     }
+                    .addOnFailureListener{
+                        it.printStackTrace()
+                    }
 
                 //+startActivity(Intent(this, RiderMainActivity::class.java))
             }
