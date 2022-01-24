@@ -9,12 +9,15 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import com.example.swift.R
+import com.example.swift.businessLayer.session.DriverSession
+import com.example.swift.businessLayer.session.RiderSession
 import com.example.swift.frontEnd.fragments.DriverDisplayInformationFragment
 import com.example.swift.frontEnd.fragments.DriverHomePageFragment
 import com.example.swift.frontEnd.fragments.DriverRequestListFragment
 import com.example.swift.frontEnd.fragments.DriverVehicleDisplayInformationFragment
 import com.google.android.material.navigation.NavigationView
 import kotlinx.android.synthetic.main.activity_driver_main.*
+import kotlinx.android.synthetic.main.driver_menu_header.*
 
 class DriverMainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,6 +35,13 @@ class DriverMainActivity : AppCompatActivity(), NavigationView.OnNavigationItemS
         supportFragmentManager.beginTransaction().replace(R.id.driver_main_fragment_container, DriverHomePageFragment()).commit()
         driver_nav_view.setCheckedItem(R.id.driver_nav_home)
 
+        //setting the name and rating in the menu header of the driver
+        RiderSession.getCurrentUser { rider ->
+            driver_menu_name.text = rider.name
+        }
+        DriverSession.getCurrentUser { driver ->
+            driver_menu_rating.text = driver.rating.toString()
+        }
 
         //binding floating button with the slider menu
         driver_drawer.addDrawerListener(object : DrawerLayout.DrawerListener {

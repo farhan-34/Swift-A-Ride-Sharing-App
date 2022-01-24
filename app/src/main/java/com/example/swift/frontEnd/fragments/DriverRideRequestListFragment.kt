@@ -1,6 +1,8 @@
 package com.example.swift.frontEnd.fragments
 
+import android.content.ContentValues
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,15 +15,18 @@ import androidx.recyclerview.widget.LinearLayoutManager
 
 import androidx.recyclerview.widget.RecyclerView
 import com.example.swift.R
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
+import com.example.swift.businessLayer.dataClasses.DriverOffer
+import com.example.swift.businessLayer.session.DriverSession
+import com.example.swift.businessLayer.session.RiderSession
+import com.example.swift.frontEnd.adapters.DriverOfferListAdapter
+import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.fragment_driver_ride_request_list.*
+import kotlinx.android.synthetic.main.request_list_item.*
 
 
 private lateinit var rideRequestList : ArrayList<RideRequest>
 private  lateinit var driverRiderRequestRecyclerView: RecyclerView
+private lateinit var adapter: RideRequestListAdapter
 class DriverRequestListFragment : Fragment() {
 
 
@@ -46,6 +51,9 @@ class DriverRequestListFragment : Fragment() {
             Toast.makeText(view.context, "Sort applied", Toast.LENGTH_SHORT).show()
         }
 
+        val db = FirebaseDatabase.getInstance()
+
+
         driverRiderRequestRecyclerView = view.findViewById(R.id.Driver_RiderRequest_RecyclerView)
         loadData()
         init_recycler_view()
@@ -55,28 +63,73 @@ class DriverRequestListFragment : Fragment() {
         rideRequestList = ArrayList<RideRequest>()
 
         var db = FirebaseDatabase.getInstance().reference.child("RideRequests")
+        DriverSession.getCurrentUser { driver ->
+            db.addChildEventListener(object:ChildEventListener{
+                override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
+                    val i = snapshot.value.toString()
+                    val temp: RideRequest? = snapshot.getValue(RideRequest::class.java)
 
-        db.addListenerForSingleValueEvent(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                rideRequestList.clear()
-                for (snap in snapshot.children) {
-                    val i = snap.value.toString()
-                    val temp: RideRequest? = snap.getValue(RideRequest::class.java)
                     if (temp != null) {
-                        rideRequestList.add(temp)
+                        if (temp.driverId == driver.driverId) {
+                            rideRequestList.add(temp!!)
+                        }
                     }
+
+                    adapter.notifyDataSetChanged()
+                    //adapter.notifyItemInserted(rideRequestList.size)
                 }
-                // driverRiderRequestRecyclerView.adapter?.notifyDataSetChanged()
-                init_recycler_view()
 
-            }
+                override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
 
-            override fun onCancelled(error: DatabaseError) {}
-        })
+                }
+
+                override fun onChildRemoved(snapshot: DataSnapshot) {
+                    var index:Int = 0
+                    for(i in 0 until rideRequestList.size)
+                    {
+                        if(rideRequestList[i].requestId == snapshot.key){
+                            index = i
+                        }
+                    }
+
+                    rideRequestList.removeAt(index)
+                    adapter.notifyItemRemoved(index)
+
+                //adapter.notifyDataSetChanged()
+                }
+
+                override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {
+
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+
+                }
+
+            })
+        }
+
+//        db.addListenerForSingleValueEvent(object : ValueEventListener {
+//            override fun onDataChange(snapshot: DataSnapshot) {
+//                rideRequestList.clear()
+//                for (snap in snapshot.children) {
+//                    val i = snap.value.toString()
+//                    val temp: RideRequest? = snap.getValue(RideRequest::class.java)
+//                    if (temp != null) {
+//                        rideRequestList.add(temp)
+//                    }
+//                }
+//                // driverRiderRequestRecyclerView.adapter?.notifyDataSetChanged()
+//                init_recycler_view()
+//
+//            }
+//
+//            override fun onCancelled(error: DatabaseError) {}
+//        })
     }
 
     private fun init_recycler_view(){
-        var adapter = RideRequestListAdapter(rideRequestList)
+        adapter = RideRequestListAdapter(rideRequestList)
         driverRiderRequestRecyclerView.adapter = adapter
         driverRiderRequestRecyclerView.layoutManager = LinearLayoutManager(view?.context)
     }

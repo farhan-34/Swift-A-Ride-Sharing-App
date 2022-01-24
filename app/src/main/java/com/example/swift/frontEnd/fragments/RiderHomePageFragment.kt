@@ -525,7 +525,7 @@ GoogleMap.OnCameraMoveStartedListener{
                     .position(LatLng(driverGeo!!.geoLocation!!.latitude, driverGeo.geoLocation!!.longitude))
                     .flat(true)
                     .title(driverGeo.driverInfo!!.name)
-                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_car)))!!)
+                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_red_car)))!!)
 
         if(!TextUtils.isEmpty(cityName)){
             val driverLocation = FirebaseDatabase.getInstance()
