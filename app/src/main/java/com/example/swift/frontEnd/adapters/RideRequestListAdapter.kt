@@ -1,5 +1,7 @@
 package com.example.swift.frontEnd.adapters
 
+import android.content.ContentValues
+import android.util.Log
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
@@ -13,7 +15,10 @@ import com.example.swift.businessLayer.dataClasses.DriverOffer
 import com.example.swift.businessLayer.session.DriverSession
 import com.example.swift.businessLayer.session.RiderSession
 import com.example.swift.databinding.ActivityDriverMainBinding.inflate
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import com.google.firebase.ktx.Firebase
 
 
@@ -28,15 +33,48 @@ class RideRequestListAdapter(private val rideRequestList:  ArrayList<RideRequest
         var destinationLocation_view : TextView = view.findViewById(R.id.rideRequest_destinationLocation)
         var riderRating_view : TextView = view.findViewById(R.id.rideRequest_riderRating)
         var hideBtn : Button = view.findViewById(R.id.riderRequest_Hide_btn)
-
+        val db = FirebaseDatabase.getInstance()
 
 
         init {
 
             hideBtn.setOnClickListener{
+//                val position : Int = adapterPosition
+//                rideRequestList.removeAt(position)
+//                notifyItemRemoved(position)
+                //var db = FirebaseDatabase.getInstance().reference.child("RideRequests")
+
+                //getting position for the offer
                 val position : Int = adapterPosition
-                rideRequestList.removeAt(position)
-                notifyItemRemoved(position)
+
+                //driversOfferList.removeAt(position)
+                //driversOfferList.removeAt(position)
+                //notifyItemRemoved(position)
+                //notifyDataSetChanged()
+
+                //removing value from database
+                rideRequestList[position].requestId?.let { it1 -> db.reference.child("RideRequests").child(it1).removeValue() }
+
+
+//                val driverId = rideRequestList[position].driverId
+//                val riderId = rideRequestList[position].riderId
+//                val query1 = db.reference.child("RiderOffers")
+//                    .equalTo(driverId, "driverId")
+//                    //.equalTo(riderId, "riderId")
+//
+//                query1.addListenerForSingleValueEvent(object : ValueEventListener {
+//                    override fun onDataChange(dataSnapshot: DataSnapshot) {
+//                        for (docs in dataSnapshot.children) {
+//                            docs.children.forEach{
+//                            if(riderId == docs.child("riderId").toString())
+//                                FirebaseDatabase.getInstance().getReference("RiderOffers/${docs.key}").removeValue()
+//                            }
+//                        }
+//                    }
+//                    override fun onCancelled(databaseError: DatabaseError) {
+//                        Log.e(ContentValues.TAG, "onCancelled", databaseError.toException())
+//                    }
+//                })
             }
         }
 

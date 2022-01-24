@@ -31,7 +31,10 @@ class RiderDisplayInformationFragment : Fragment() {
         RiderSession.getCurrentUser { rider ->
             riderInfo_name_view.text = rider.name
             riderInfo_gender_view.text = rider.gender
-            riderInfo_age_view.text = rider.age + " years"
+            if(rider.age == "null")
+                riderInfo_age_view.text = "Not submitted yet"
+            else
+                riderInfo_age_view.text = rider.age + " years"
             vehicleInfo_licenseNumber_view.text = rider.email
         }
 

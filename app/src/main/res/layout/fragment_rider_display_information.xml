@@ -43,7 +43,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
-            android:text="Test Name"
+            android:text=" "
             android:textSize="20sp"
             android:textStyle="bold"
             app:layout_constraintBaseline_toBaselineOf="@+id/textView13"
@@ -64,7 +64,7 @@
             android:id="@+id/riderInfo_gender_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Male"
+            android:text=" "
             android:textSize="20sp"
             android:textStyle="bold"
             app:layout_constraintBaseline_toBaselineOf="@+id/textView14"
@@ -84,7 +84,7 @@
             android:id="@+id/riderInfo_age_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="21"
+            android:text=" "
             android:textSize="20sp"
             android:textStyle="bold"
             app:layout_constraintBaseline_toBaselineOf="@+id/textView18"
@@ -106,7 +106,7 @@
             android:layout_height="wrap_content"
             android:textSize="20sp"
             android:textStyle="bold"
-            android:text="abcdefghi@gamil.com"
+            android:text=" "
             app:layout_constraintBaseline_toBaselineOf="@+id/textView20"
             app:layout_constraintStart_toStartOf="@+id/riderInfo_age_view" />
 
@@ -126,7 +126,7 @@
             android:layout_height="wrap_content"
             android:textSize="20sp"
             android:textStyle="bold"
-            android:text="4.2"
+            android:text="0.0"
             app:layout_constraintBaseline_toBaselineOf="@+id/textView22"
             app:layout_constraintStart_toStartOf="@+id/vehicleInfo_licenseNumber_view" />
 

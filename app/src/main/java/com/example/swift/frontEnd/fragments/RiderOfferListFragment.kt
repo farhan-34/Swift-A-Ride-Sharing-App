@@ -48,11 +48,30 @@ class RiderOfferListFragment : Fragment() {
         val db = FirebaseDatabase.getInstance()
         rider_cancelRide.setOnClickListener {
             RiderSession.getCurrentUser { rider ->
-                val query = db.reference.child("RideRequests")
+                //removing existing request for all drivers
+                val query1 = db.reference.child("RideRequests")
                     .orderByChild("riderId")
                     .equalTo(rider.riderId)
 
-                query.addListenerForSingleValueEvent(object : ValueEventListener {
+                query1.addListenerForSingleValueEvent(object : ValueEventListener {
+                    override fun onDataChange(dataSnapshot: DataSnapshot) {
+                        for (docs in dataSnapshot.children) {
+                            docs.ref.removeValue()
+                        }
+
+                    }
+
+                    override fun onCancelled(databaseError: DatabaseError) {
+                        Log.e(TAG, "onCancelled", databaseError.toException())
+                    }
+                })
+
+                //removing existing offers for current rider
+                val query2 = db.reference.child("RiderOffers")
+                    .orderByChild("riderId")
+                    .equalTo(rider.riderId)
+
+                query2.addListenerForSingleValueEvent(object : ValueEventListener {
                     override fun onDataChange(dataSnapshot: DataSnapshot) {
                         for (docs in dataSnapshot.children) {
                             docs.ref.removeValue()

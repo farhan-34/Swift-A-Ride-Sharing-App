@@ -4,8 +4,11 @@ import android.content.Intent
 import android.content.pm.ActivityInfo
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
 import androidx.core.widget.doOnTextChanged
 import com.example.swift.R
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.activity_reset_password.*
 
 class ResetPasswordActivity : AppCompatActivity() {
@@ -13,6 +16,7 @@ class ResetPasswordActivity : AppCompatActivity() {
     //flags for correct input
     private var flag_new = false
     private var flag_confirm = false
+    private var db = FirebaseFirestore.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,6 +34,12 @@ class ResetPasswordActivity : AppCompatActivity() {
         // set buttons
         resetPass_btn_reset.setOnClickListener {
             if(flag_new and flag_confirm){
+                //reset password
+                var phoneNumber = intent.getStringExtra("phoneNumber")
+                db.collection("Rider").document(phoneNumber!!).update("password",reset_newPassword_input.text.toString())
+                Toast.makeText(this, "Password Reset",Toast.LENGTH_SHORT).show()
+                //sign out required to go to sign in page
+                //FirebaseAuth.getInstance().signOut()
                 startActivity(Intent(this, SignInActivity::class.java))
                 finish()
             }

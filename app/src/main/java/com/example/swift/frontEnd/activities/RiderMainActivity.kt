@@ -20,6 +20,7 @@ import com.example.swift.frontEnd.fragments.RiderOfferListFragment
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_rider_main.*
+import kotlinx.android.synthetic.main.rider_menu_header.*
 
 
 class RiderMainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
@@ -31,10 +32,10 @@ class RiderMainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSe
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        RiderSession.getCurrentUser { rider ->
-            val email = rider.email
-            val phonneNumber = rider.phoneNumber
-        }
+//        RiderSession.getCurrentUser { rider ->
+//            val email = rider.email
+//            val phonneNumber = rider.phoneNumber
+//        }
         requestedOrientation =  (ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
         setContentView(R.layout.activity_rider_main)
         supportActionBar?.hide()
@@ -42,6 +43,10 @@ class RiderMainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSe
         activate_menu.setOnClickListener {
             rider_drawer.openDrawer(GravityCompat.START)
             activate_menu.hide()
+        }
+        RiderSession.getCurrentUser { rider ->
+            rider_menu_riderName.text = rider.name
+            rider_menu_rating.text = rider.rating.toString()
         }
 
         //setting default fragment
