@@ -1,4 +1,4 @@
-package com.example.swift.frontEnd.activities
+package com.example.swift.frontEnd.rider.splashScreen
 
 import android.Manifest
 import android.content.Intent
@@ -14,6 +14,7 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.example.swift.R
+import com.example.swift.frontEnd.rider.signIn.SignInActivity
 import kotlinx.android.synthetic.main.activity_splash_screen.*
 
 

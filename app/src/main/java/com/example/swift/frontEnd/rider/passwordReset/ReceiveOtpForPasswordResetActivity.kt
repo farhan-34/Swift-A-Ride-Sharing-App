@@ -1,4 +1,4 @@
-package com.example.swift.frontEnd.activities
+package com.example.swift.frontEnd.rider.passwordReset
 
 import android.content.Intent
 import android.content.pm.ActivityInfo

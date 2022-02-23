@@ -1,4 +1,4 @@
-package com.example.swift.frontEnd.activities
+package com.example.swift.frontEnd.rider.riderMain
 
 import android.content.BroadcastReceiver
 import android.content.Intent
@@ -14,9 +14,12 @@ import androidx.drawerlayout.widget.DrawerLayout
 import com.example.swift.R
 import com.example.swift.businessLayer.BroadCasts.InternetConnectivityBroadcastReceiver
 import com.example.swift.businessLayer.session.RiderSession
-import com.example.swift.frontEnd.fragments.RiderDisplayInformationFragment
-import com.example.swift.frontEnd.fragments.RiderHomePageFragment
-import com.example.swift.frontEnd.fragments.RiderOfferListFragment
+import com.example.swift.frontEnd.driver.main.DriverMainActivity
+import com.example.swift.frontEnd.driver.registration.DriverRegistrationActivity
+import com.example.swift.frontEnd.rider.riderInfo.RiderDisplayInformationFragment
+import com.example.swift.frontEnd.rider.homePage.RiderHomePageFragment
+import com.example.swift.frontEnd.rider.offers.RiderOfferListFragment
+import com.example.swift.frontEnd.rider.signIn.SignInActivity
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_rider_main.*
@@ -125,7 +128,7 @@ class RiderMainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSe
             }
             R.id.nav_logout -> {
                 FirebaseAuth.getInstance().signOut()
-                startActivity(Intent(this,SignInActivity::class.java))
+                startActivity(Intent(this, SignInActivity::class.java))
                 finish()
             }
         }

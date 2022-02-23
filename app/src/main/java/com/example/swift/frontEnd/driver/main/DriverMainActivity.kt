@@ -1,4 +1,4 @@
-package com.example.swift.frontEnd.activities
+package com.example.swift.frontEnd.driver.main
 
 import android.content.Intent
 import android.content.pm.ActivityInfo
@@ -11,10 +11,12 @@ import androidx.drawerlayout.widget.DrawerLayout
 import com.example.swift.R
 import com.example.swift.businessLayer.session.DriverSession
 import com.example.swift.businessLayer.session.RiderSession
-import com.example.swift.frontEnd.fragments.DriverDisplayInformationFragment
-import com.example.swift.frontEnd.fragments.DriverHomePageFragment
-import com.example.swift.frontEnd.fragments.DriverRequestListFragment
-import com.example.swift.frontEnd.fragments.DriverVehicleDisplayInformationFragment
+import com.example.swift.frontEnd.driver.driverInfo.DriverDisplayInformationFragment
+import com.example.swift.frontEnd.driver.home.DriverHomePageFragment
+import com.example.swift.frontEnd.driver.riderRequests.DriverRequestListFragment
+import com.example.swift.frontEnd.driver.vehicleInfo.DriverVehicleDisplayInformationFragment
+import com.example.swift.frontEnd.rider.riderMain.RiderMainActivity
+import com.example.swift.frontEnd.rider.signIn.SignInActivity
 import com.google.android.material.navigation.NavigationView
 import kotlinx.android.synthetic.main.activity_driver_main.*
 import kotlinx.android.synthetic.main.driver_menu_header.*

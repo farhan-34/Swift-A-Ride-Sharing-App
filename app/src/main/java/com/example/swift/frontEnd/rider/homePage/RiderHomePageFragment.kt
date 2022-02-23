@@ -1,4 +1,4 @@
-package com.example.swift.frontEnd.fragments
+package com.example.swift.frontEnd.rider.homePage
 
 import android.Manifest
 import android.content.Intent
@@ -27,6 +27,7 @@ import com.example.swift.businessLayer.session.RiderSession
 import com.example.swift.frontEnd.Callback.FirebaseDriverInfoListener
 import com.example.swift.frontEnd.Callback.FirebaseFailedListener
 import com.example.swift.frontEnd.Services.NotifyOnDriverOffer
+import com.example.swift.frontEnd.rider.offers.RiderOfferListFragment
 import com.firebase.geofire.GeoFire
 import com.firebase.geofire.GeoLocation
 import com.firebase.geofire.GeoQueryEventListener

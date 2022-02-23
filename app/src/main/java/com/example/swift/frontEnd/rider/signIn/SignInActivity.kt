@@ -1,21 +1,21 @@
-package com.example.swift.frontEnd.activities
+package com.example.swift.frontEnd.rider.signIn
 
 import android.content.Intent
 import android.content.pm.ActivityInfo
-import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import android.text.Html
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.swift.R
+import com.example.swift.frontEnd.rider.riderMain.RiderMainActivity
+import com.example.swift.frontEnd.rider.signUp.RiderRegisterActivity
+import com.example.swift.frontEnd.rider.passwordReset.SendOtpForPasswordResetActivity
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdView
 import com.google.android.gms.ads.MobileAds
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import kotlinx.android.synthetic.main.activity_reset_password.*
-import kotlinx.android.synthetic.main.activity_send_otp_for_password_reset.*
 import kotlinx.android.synthetic.main.activity_sign_in.*
 
 class SignInActivity : AppCompatActivity() {

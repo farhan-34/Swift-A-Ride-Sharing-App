@@ -1,4 +1,4 @@
-package com.example.swift.frontEnd.activities
+package com.example.swift.frontEnd.rider.passwordReset
 
 import android.content.Intent
 import android.content.pm.ActivityInfo
@@ -7,7 +7,7 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.core.widget.doOnTextChanged
 import com.example.swift.R
-import com.google.firebase.auth.FirebaseAuth
+import com.example.swift.frontEnd.rider.signIn.SignInActivity
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.activity_reset_password.*
 
@@ -39,7 +39,7 @@ class ResetPasswordActivity : AppCompatActivity() {
                 db.collection("Rider").document(phoneNumber!!).update("password",reset_newPassword_input.text.toString())
                 Toast.makeText(this, "Password Reset",Toast.LENGTH_SHORT).show()
                 //sign out required to go to sign in page
-                //FirebaseAuth.getInstance().signOut()
+                // FirebaseAuth.getInstance().signOut()
                 startActivity(Intent(this, SignInActivity::class.java))
                 finish()
             }

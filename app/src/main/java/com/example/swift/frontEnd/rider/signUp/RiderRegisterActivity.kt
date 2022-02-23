@@ -1,17 +1,14 @@
-package com.example.swift.frontEnd.activities
+package com.example.swift.frontEnd.rider.signUp
 
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.pm.ActivityInfo
-import android.content.res.ColorStateList
-import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import android.text.Html
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.widget.doOnTextChanged
 import com.example.swift.R
 import com.google.firebase.FirebaseApp
 import com.google.firebase.FirebaseException

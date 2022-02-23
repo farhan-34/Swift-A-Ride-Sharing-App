@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="bottom"
-    tools:context=".frontEnd.activities.RiderMainActivity"
+    tools:context=".frontEnd.rider.riderMain.RiderMainActivity"
     sothree:umanoPanelHeight="220dp"
     sothree:umanoShadowHeight="20dp">
 

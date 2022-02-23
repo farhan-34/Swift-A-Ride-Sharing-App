@@ -1,16 +1,13 @@
-package com.example.swift.frontEnd.activities
+package com.example.swift.frontEnd.rider.passwordReset
 
-import android.content.Context
 import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.graphics.Color
-import android.icu.util.TimeUnit.values
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.swift.R
 import kotlinx.android.synthetic.main.activity_send_otp_for_password_reset.*
-import java.time.chrono.JapaneseEra.values
 import android.graphics.drawable.GradientDrawable
 import android.os.Build
 import androidx.annotation.RequiresApi
