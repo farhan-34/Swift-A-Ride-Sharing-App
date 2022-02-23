@@ -1,4 +1,4 @@
-package com.example.swift.frontEnd.fragments
+package com.example.swift.frontEnd.rider.riderInfo
 
 import android.os.Bundle
 import android.view.LayoutInflater

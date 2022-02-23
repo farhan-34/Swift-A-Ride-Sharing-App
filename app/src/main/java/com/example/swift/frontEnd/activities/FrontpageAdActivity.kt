@@ -4,12 +4,9 @@ import android.content.ContentValues
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.util.Log
-import android.widget.Button
 import com.example.swift.R
-import com.example.swift.businessLayer.dataClasses.AdDataVarable
+import com.example.swift.frontEnd.rider.signIn.SignInActivity
 import com.google.android.gms.ads.AdError
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.FullScreenContentCallback
@@ -31,7 +28,7 @@ class FrontpageAdActivity : AppCompatActivity() {
             override fun onAdFailedToLoad(adError: LoadAdError) {
                 Log.d(ContentValues.TAG, adError?.message)
                 mInterstitialAd = null
-                val intent = Intent(this@FrontpageAdActivity,SignInActivity::class.java)
+                val intent = Intent(this@FrontpageAdActivity, SignInActivity::class.java)
                 startActivity(intent)
 
             }
@@ -42,7 +39,7 @@ class FrontpageAdActivity : AppCompatActivity() {
                 mInterstitialAd?.fullScreenContentCallback = object : FullScreenContentCallback() {
                     override fun onAdFailedToShowFullScreenContent(p0: AdError) {
                         super.onAdFailedToShowFullScreenContent(p0)
-                        val intent = Intent(this@FrontpageAdActivity,SignInActivity::class.java)
+                        val intent = Intent(this@FrontpageAdActivity, SignInActivity::class.java)
                         startActivity(intent)
                     }
 
@@ -50,7 +47,7 @@ class FrontpageAdActivity : AppCompatActivity() {
 
                         super.onAdDismissedFullScreenContent()
                         Log.d(ContentValues.TAG, "Ad was Started.")
-                        val intent = Intent(this@FrontpageAdActivity,SignInActivity::class.java)
+                        val intent = Intent(this@FrontpageAdActivity, SignInActivity::class.java)
                         startActivity(intent)
 
 
@@ -84,7 +81,7 @@ class FrontpageAdActivity : AppCompatActivity() {
 
                     super.onAdDismissedFullScreenContent()
                     Log.d(ContentValues.TAG, "Ad was Started.")
-                    val intent = Intent(this@FrontpageAdActivity,SignInActivity::class.java)
+                    val intent = Intent(this@FrontpageAdActivity, SignInActivity::class.java)
                     startActivity(intent)
                 }
 
@@ -95,7 +92,7 @@ class FrontpageAdActivity : AppCompatActivity() {
         }else{
 
             Log.d(ContentValues.TAG, "Ad was not started.")
-            val intent = Intent(this,SignInActivity::class.java)
+            val intent = Intent(this, SignInActivity::class.java)
             startActivity(intent)
 
         }

@@ -1,27 +1,21 @@
-package com.example.swift.frontEnd.fragments
+package com.example.swift.frontEnd.driver.riderRequests
 
-import android.content.ContentValues
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.swift.businessLayer.businessLogic.RideRequest
-import com.example.swift.frontEnd.adapters.RideRequestListAdapter
+import com.example.swift.frontEnd.driver.riderRequests.RideRequestListAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
 
 
 import androidx.recyclerview.widget.RecyclerView
 import com.example.swift.R
-import com.example.swift.businessLayer.dataClasses.DriverOffer
 import com.example.swift.businessLayer.session.DriverSession
-import com.example.swift.businessLayer.session.RiderSession
-import com.example.swift.frontEnd.adapters.DriverOfferListAdapter
 import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.fragment_driver_ride_request_list.*
-import kotlinx.android.synthetic.main.request_list_item.*
 
 
 private lateinit var rideRequestList : ArrayList<RideRequest>

@@ -23,7 +23,7 @@
             android:name=".frontEnd.activities.FrontpageAdActivity"
             android:exported="false" />
         <activity
-            android:name=".frontEnd.activities.RiderSignInOtpActivity"
+            android:name=".frontEnd.rider.signIn.RiderSignInOtpActivity"
             android:exported="false" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
@@ -41,37 +41,37 @@
             android:value="@string/Swift_app_Testid" />
 
         <activity
-            android:name=".frontEnd.activities.RiderRegistrationOtpActivity"
+            android:name=".frontEnd.rider.signUp.RiderRegistrationOtpActivity"
             android:exported="true" />
         <activity
-            android:name=".frontEnd.activities.DriverMainActivity"
+            android:name=".frontEnd.driver.main.DriverMainActivity"
             android:exported="true" />
         <activity
-            android:name=".frontEnd.activities.DriverRegistrationActivity"
+            android:name=".frontEnd.driver.registration.DriverRegistrationActivity"
             android:exported="true" />
         <activity
-            android:name=".frontEnd.activities.RiderMainActivity"
+            android:name=".frontEnd.rider.riderMain.RiderMainActivity"
             android:exported="true" />
         <activity
-            android:name=".frontEnd.activities.ResetPasswordActivity"
+            android:name=".frontEnd.rider.passwordReset.ResetPasswordActivity"
             android:exported="false"
-            android:parentActivityName=".frontEnd.activities.SignInActivity" />
+            android:parentActivityName=".frontEnd.rider.signIn.SignInActivity" />
         <activity
-            android:name=".frontEnd.activities.ReceiveOtpForPasswordResetActivity"
+            android:name=".frontEnd.rider.passwordReset.ReceiveOtpForPasswordResetActivity"
             android:exported="false"
-            android:parentActivityName=".frontEnd.activities.SendOtpForPasswordResetActivity" />
+            android:parentActivityName=".frontEnd.rider.passwordReset.SendOtpForPasswordResetActivity" />
         <activity
-            android:name=".frontEnd.activities.SendOtpForPasswordResetActivity"
+            android:name=".frontEnd.rider.passwordReset.SendOtpForPasswordResetActivity"
             android:exported="true"
-            android:parentActivityName=".frontEnd.activities.SignInActivity" />
+            android:parentActivityName=".frontEnd.rider.signIn.SignInActivity" />
         <activity
-            android:name=".frontEnd.activities.RiderRegisterActivity"
+            android:name=".frontEnd.rider.signUp.RiderRegisterActivity"
             android:exported="true" />
         <activity
-            android:name=".frontEnd.activities.SignInActivity"
+            android:name=".frontEnd.rider.signIn.SignInActivity"
             android:exported="true" />
         <activity
-            android:name=".frontEnd.activities.SplashScreenActivity"
+            android:name=".frontEnd.rider.splashScreen.SplashScreenActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

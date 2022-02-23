@@ -1,4 +1,4 @@
-package com.example.swift.frontEnd.activities
+package com.example.swift.frontEnd.rider.signIn
 
 import android.content.Intent
 import android.content.pm.ActivityInfo
@@ -8,6 +8,7 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.widget.Toast
 import com.example.swift.R
+import com.example.swift.frontEnd.rider.riderMain.RiderMainActivity
 import com.google.firebase.FirebaseApp
 import com.google.firebase.FirebaseException
 import com.google.firebase.auth.FirebaseAuth

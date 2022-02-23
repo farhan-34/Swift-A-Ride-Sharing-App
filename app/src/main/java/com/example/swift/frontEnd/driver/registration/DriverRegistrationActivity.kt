@@ -1,17 +1,16 @@
-package com.example.swift.frontEnd.activities
+package com.example.swift.frontEnd.driver.registration
 
 import android.content.Intent
 import android.os.Bundle
 import android.widget.ArrayAdapter
-import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.swift.R
-import com.example.swift.businessLayer.dataClasses.Driver
 import com.example.swift.businessLayer.session.RiderSession
+import com.example.swift.frontEnd.driver.main.DriverMainActivity
+import com.example.swift.frontEnd.rider.signIn.SignInActivity
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.activity_driver_registration.*
-import kotlinx.android.synthetic.main.activity_rider_register.*
 
 class DriverRegistrationActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

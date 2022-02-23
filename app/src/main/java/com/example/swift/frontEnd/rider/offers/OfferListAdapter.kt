@@ -1,4 +1,4 @@
-package com.example.swift.frontEnd.adapters
+package com.example.swift.frontEnd.rider.offers
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -12,7 +12,7 @@ import com.example.swift.R
 import com.example.swift.businessLayer.dataClasses.DriverOffer
 import com.google.firebase.database.FirebaseDatabase
 
-class DriverOfferListAdapter (var context:Context,private val driversOfferList:  ArrayList<DriverOffer>) : RecyclerView.Adapter<DriverOfferListAdapter.ViewHolder>() {
+class OfferListAdapter (var context:Context, private val driversOfferList:  ArrayList<DriverOffer>) : RecyclerView.Adapter<OfferListAdapter.ViewHolder>() {
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         var name : TextView = view.findViewById(R.id.driversOffers_Name)
@@ -50,7 +50,7 @@ class DriverOfferListAdapter (var context:Context,private val driversOfferList: 
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): DriverOfferListAdapter.ViewHolder {
+    ): ViewHolder {
         // Create a new view, which defines the UI of the list item
         val view: View = LayoutInflater.from(parent.context)
             .inflate(R.layout.drivers_offers_list_item, parent, false)

@@ -1,4 +1,4 @@
-package com.example.swift.frontEnd.activities
+package com.example.swift.frontEnd.rider.signUp
 
 import android.content.Intent
 import android.os.Bundle
@@ -7,12 +7,11 @@ import android.text.TextWatcher
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.swift.R
-import com.example.swift.businessLayer.businessLogic.RiderManager
+import com.example.swift.frontEnd.rider.signIn.SignInActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.PhoneAuthProvider
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import kotlinx.android.synthetic.main.activity_receive_otp_for_password_reset.*
 import kotlinx.android.synthetic.main.activity_rider_registration_otp.*
 
 class RiderRegistrationOtpActivity : AppCompatActivity() {

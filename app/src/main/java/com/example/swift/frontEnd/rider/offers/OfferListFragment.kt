@@ -1,4 +1,4 @@
-package com.example.swift.frontEnd.fragments
+package com.example.swift.frontEnd.rider.offers
 
 import android.content.ContentValues.TAG
 import android.content.Intent
@@ -15,13 +15,13 @@ import com.example.swift.businessLayer.Common.Common
 import com.example.swift.businessLayer.dataClasses.DriverOffer
 import com.example.swift.businessLayer.session.RiderSession
 import com.example.swift.frontEnd.Services.NotifyOnDriverOffer
-import com.example.swift.frontEnd.adapters.DriverOfferListAdapter
+import com.example.swift.frontEnd.rider.homePage.RiderHomePageFragment
 import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.fragment_rider_offer_list.*
 
 private lateinit var driversOffersList : ArrayList<DriverOffer>
 private  lateinit var driversOffersRecyclerView: RecyclerView
-private lateinit var adapter:DriverOfferListAdapter
+private lateinit var adapter: OfferListAdapter
 class RiderOfferListFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -143,7 +143,7 @@ class RiderOfferListFragment : Fragment() {
     }
 
     private fun init_recycler_view(){
-        adapter = DriverOfferListAdapter(requireContext(), driversOffersList)
+        adapter = OfferListAdapter(requireContext(), driversOffersList)
         driversOffersRecyclerView.adapter = adapter
         driversOffersRecyclerView.layoutManager = LinearLayoutManager(view?.context)
     }

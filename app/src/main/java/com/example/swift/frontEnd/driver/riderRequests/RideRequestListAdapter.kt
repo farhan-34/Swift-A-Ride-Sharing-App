@@ -1,7 +1,5 @@
-package com.example.swift.frontEnd.adapters
+package com.example.swift.frontEnd.driver.riderRequests
 
-import android.content.ContentValues
-import android.util.Log
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
@@ -14,12 +12,7 @@ import com.example.swift.businessLayer.businessLogic.RideRequest
 import com.example.swift.businessLayer.dataClasses.DriverOffer
 import com.example.swift.businessLayer.session.DriverSession
 import com.example.swift.businessLayer.session.RiderSession
-import com.example.swift.databinding.ActivityDriverMainBinding.inflate
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
-import com.google.firebase.ktx.Firebase
 
 
 class RideRequestListAdapter(private val rideRequestList:  ArrayList<RideRequest>) : RecyclerView.Adapter<RideRequestListAdapter.ViewHolder>() {
@@ -83,7 +76,7 @@ class RideRequestListAdapter(private val rideRequestList:  ArrayList<RideRequest
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): RideRequestListAdapter.ViewHolder {
+    ): ViewHolder {
         // Create a new view, which defines the UI of the list item
         val view: View = LayoutInflater.from(parent.context)
             .inflate(R.layout.request_list_item, parent, false)
