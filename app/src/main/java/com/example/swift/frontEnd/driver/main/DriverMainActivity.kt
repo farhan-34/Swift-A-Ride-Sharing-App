@@ -13,7 +13,6 @@ import com.example.swift.businessLayer.session.DriverSession
 import com.example.swift.businessLayer.session.RiderSession
 import com.example.swift.frontEnd.Services.DriverOnlineService
 import com.example.swift.frontEnd.driver.driverInfo.DriverDisplayInformationFragment
-import com.example.swift.frontEnd.driver.home.DriverHomePageFragment
 import com.example.swift.frontEnd.driver.riderRequests.DriverRequestListFragment
 import com.example.swift.frontEnd.driver.vehicleInfo.DriverVehicleDisplayInformationFragment
 import com.example.swift.frontEnd.rider.riderMain.RiderMainActivity
@@ -96,16 +95,13 @@ class DriverMainActivity : AppCompatActivity(), NavigationView.OnNavigationItemS
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when(item.itemId){
             R.id.driver_nav_home -> {
-                supportFragmentManager.beginTransaction().replace(R.id.driver_main_fragment_container, DriverHomePageFragment()).commit()
+                supportFragmentManager.beginTransaction().replace(R.id.driver_main_fragment_container, DriverRequestListFragment()).commit()
             }
             R.id.driver_nav_userInfo -> {
                 supportFragmentManager.beginTransaction().replace(R.id.driver_main_fragment_container, DriverDisplayInformationFragment()).commit()
             }
             R.id.driver_nav_vehicleInfo -> {
                 supportFragmentManager.beginTransaction().replace(R.id.driver_main_fragment_container, DriverVehicleDisplayInformationFragment()).commit()
-            }
-            R.id.driver_nav_requests -> {
-                supportFragmentManager.beginTransaction().replace(R.id.driver_main_fragment_container, DriverRequestListFragment()).commit()
             }
 
             R.id.driver_nav_logout ->{
