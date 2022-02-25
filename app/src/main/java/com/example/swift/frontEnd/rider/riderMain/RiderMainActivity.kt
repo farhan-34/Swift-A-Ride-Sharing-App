@@ -123,9 +123,6 @@ class RiderMainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSe
             R.id.nav_userInfo ->{
                 supportFragmentManager.beginTransaction().replace(R.id.rider_main_fragment_container, RiderDisplayInformationFragment()).addToBackStack(null).commit()
             }
-            R.id.nav_offers -> {
-                supportFragmentManager.beginTransaction().replace(R.id.rider_main_fragment_container, RiderOfferListFragment()).addToBackStack(null).commit()
-            }
             R.id.nav_logout -> {
                 FirebaseAuth.getInstance().signOut()
                 startActivity(Intent(this, SignInActivity::class.java))
