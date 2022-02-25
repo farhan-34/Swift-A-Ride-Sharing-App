@@ -1,6 +1,11 @@
 package com.example.swift.frontEnd.driver.home
 
+
+//Remove Later
+
+
 import android.Manifest
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.content.res.Resources
 import android.location.Address
@@ -37,8 +42,8 @@ class DriverHomePageFragment : Fragment(), OnMapReadyCallback {
         private lateinit var mapFragment: SupportMapFragment
 
         //locations
-        private lateinit var locationRequest: com.google.android.gms.location.LocationRequest
-        private lateinit var locationCallback: LocationCallback
+        lateinit var locationRequest: com.google.android.gms.location.LocationRequest
+        lateinit var locationCallback: LocationCallback
     }
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
 
@@ -90,7 +95,7 @@ class DriverHomePageFragment : Fragment(), OnMapReadyCallback {
                 super.onLocationResult(locationResult)
 
                 val newPos = LatLng(locationResult!!.lastLocation.latitude,locationResult.lastLocation.longitude)
-                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(newPos, 18f))
+                //mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(newPos, 18f))
 
                 //to store location (Longitude, Latitude) based on city names in real-time database
                 val geoCoder = Geocoder(requireContext(), Locale.getDefault())
@@ -113,14 +118,14 @@ class DriverHomePageFragment : Fragment(), OnMapReadyCallback {
                         GeoLocation(locationResult.lastLocation.latitude, locationResult.lastLocation.longitude)
                     ){ key:String?, error:DatabaseError? ->
                         if(error != null){
-                            Snackbar.make(mapFragment.requireView(),error.message,Snackbar.LENGTH_LONG).show()
+                            Log.println(Log.ERROR, "Error", error.message)
                         }
 
                     }
                     registerOnlineSystem()
 
                 }catch(e: IOException){
-                    Snackbar.make(requireView(),e.message!!,Snackbar.LENGTH_SHORT).show()
+                    e.printStackTrace()
                 }
             }
         }
@@ -205,8 +210,6 @@ class DriverHomePageFragment : Fragment(), OnMapReadyCallback {
         }catch (e: Resources.NotFoundException){
             Log.e("EDMT_ERROR", e.message!!)
         }
-
-        Snackbar.make(mapFragment.requireView(),"You're online!",Snackbar.LENGTH_LONG).show()
 
 
     }

@@ -27,6 +27,7 @@ import com.example.swift.businessLayer.session.RiderSession
 import com.example.swift.frontEnd.Callback.FirebaseDriverInfoListener
 import com.example.swift.frontEnd.Callback.FirebaseFailedListener
 import com.example.swift.frontEnd.Services.NotifyOnDriverOffer
+import com.example.swift.frontEnd.rider.offers.OfferListActivity
 import com.example.swift.frontEnd.rider.offers.RiderOfferListFragment
 import com.firebase.geofire.GeoFire
 import com.firebase.geofire.GeoLocation
@@ -402,7 +403,8 @@ GoogleMap.OnCameraMoveStartedListener{
                 val intent = Intent(requireContext(), NotifyOnDriverOffer::class.java)
                 Common.endThread = false
                 requireContext().startService(intent)
-                parentFragmentManager.beginTransaction().replace(R.id.rider_main_fragment_container, RiderOfferListFragment()).addToBackStack(null).commit()
+                //parentFragmentManager.beginTransaction().replace(R.id.rider_main_fragment_container, RiderOfferListFragment()).addToBackStack(null).commit()
+                startActivity(Intent(requireContext(), OfferListActivity::class.java))
             }
         }
     }

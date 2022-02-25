@@ -1,5 +1,6 @@
 package com.example.swift.frontEnd.driver.riderRequests
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -13,7 +14,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 
 import androidx.recyclerview.widget.RecyclerView
 import com.example.swift.R
+import com.example.swift.businessLayer.Common.Common
 import com.example.swift.businessLayer.session.DriverSession
+import com.example.swift.frontEnd.Services.DriverOnlineService
+import com.example.swift.frontEnd.Services.NotifyOnDriverOffer
 import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.fragment_driver_ride_request_list.*
 
@@ -27,7 +31,8 @@ class DriverRequestListFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-
+        val intent = Intent(requireContext(), DriverOnlineService::class.java)
+        requireContext().startService(intent)
     }
 
     override fun onCreateView(

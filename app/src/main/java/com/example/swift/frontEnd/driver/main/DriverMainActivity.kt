@@ -11,6 +11,7 @@ import androidx.drawerlayout.widget.DrawerLayout
 import com.example.swift.R
 import com.example.swift.businessLayer.session.DriverSession
 import com.example.swift.businessLayer.session.RiderSession
+import com.example.swift.frontEnd.Services.DriverOnlineService
 import com.example.swift.frontEnd.driver.driverInfo.DriverDisplayInformationFragment
 import com.example.swift.frontEnd.driver.home.DriverHomePageFragment
 import com.example.swift.frontEnd.driver.riderRequests.DriverRequestListFragment
@@ -34,7 +35,8 @@ class DriverMainActivity : AppCompatActivity(), NavigationView.OnNavigationItemS
         }
 
         //setting home fragment
-        supportFragmentManager.beginTransaction().replace(R.id.driver_main_fragment_container, DriverHomePageFragment()).commit()
+        //supportFragmentManager.beginTransaction().replace(R.id.driver_main_fragment_container, DriverHomePageFragment()).commit()
+        supportFragmentManager.beginTransaction().replace(R.id.driver_main_fragment_container, DriverRequestListFragment()).commit()
         driver_nav_view.setCheckedItem(R.id.driver_nav_home)
 
         //setting the name and rating in the menu header of the driver
@@ -116,5 +118,11 @@ class DriverMainActivity : AppCompatActivity(), NavigationView.OnNavigationItemS
 
         driver_drawer.closeDrawer(GravityCompat.START)
         return true
+    }
+
+    override fun onDestroy() {
+        val intent = Intent(this, DriverOnlineService::class.java)
+        this.stopService(intent)
+        super.onDestroy()
     }
 }

@@ -31,8 +31,8 @@ class SplashScreenActivity : AppCompatActivity() {
         val topAnim = AnimationUtils.loadAnimation(this, R.anim.car_logo_animation)
         val bottomAnim = AnimationUtils.loadAnimation(this, R.anim.swift_logo_animation)
 
-        splash_car.startAnimation(topAnim)
-        splash_swift.startAnimation(bottomAnim)
+        //splash_car.startAnimation(topAnim)
+        //splash_swift.startAnimation(bottomAnim)
 
 
         val splashScreenTimeOut = 2000
