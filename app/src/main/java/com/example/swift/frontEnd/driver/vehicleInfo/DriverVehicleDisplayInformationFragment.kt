@@ -4,11 +4,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.Spinner
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.swift.R
 import com.example.swift.businessLayer.session.DriverSession
 import com.example.swift.businessLayer.session.RiderSession
-import kotlinx.android.synthetic.main.fragment_driver_display_information.*
 import kotlinx.android.synthetic.main.fragment_driver_vehicle_display_information.*
 
 // TODO: Rename parameter arguments, choose names that match
@@ -21,7 +24,7 @@ private const val ARG_PARAM2 = "param2"
  * Use the [DriverVehicleDisplayInformationFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class DriverVehicleDisplayInformationFragment : Fragment() {
+class DriverVehicleDisplayInformationFragment : Fragment(), AdapterView.OnItemSelectedListener {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
@@ -68,14 +71,56 @@ class DriverVehicleDisplayInformationFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // setting buttons
+        vehicleInfo_updateInfo_btn.setOnClickListener {
+            val vehicleType : String = vehicleInfo_vehicleType_view.text.toString()
+            val vehicleCapacity : String = vehicleInfo_capacity_view.text.toString()
+            val licenseNumber : String = vehicleInfo_licenseNumber_view.text.toString()
+
+            // TODO update in session and database as well
+
+            Toast.makeText(requireContext(), "Information Updated", Toast.LENGTH_SHORT).show()
+        }
+
         //setting values in views
         DriverSession.getCurrentUser { driver ->
             RiderSession.getCurrentUser { rider ->
-                vehicleInfo_owner_name_view.text = rider.name
-                vehicleInfo_vehicleType_view.text = driver.vehicleType
-                vehicleInfo_licenseNumber_view.text = driver.licenseNumber
-                vehicleInfo_capacity_view.text = driver.vehicleCapacity
+
+                vehicleInfo_owner_name_view.setText(rider.name)
+
+                val spinner: Spinner = vehicleInfo_vehicleType_spinner
+                ArrayAdapter.createFromResource( requireContext(), R.array.vehicle_list, android.R.layout.simple_spinner_item).also { adapter ->
+                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                    spinner.adapter = adapter
+                }
+                spinner.onItemSelectedListener = this
+                vehicleInfo_vehicleType_view.setText( driver.vehicleType)
+
+                vehicleInfo_licenseNumber_view.setText( driver.licenseNumber)
+                vehicleInfo_capacity_view.setText( driver.vehicleCapacity)
             }
         }
+    }
+
+
+    // for vehicle type spinner
+    private var spinnerCount = 0
+    override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+
+        // to stop getting the default first value of spinner
+        val array: Array<String> = resources.getStringArray(R.array.vehicle_list)
+        if (vehicleInfo_vehicleType_view.text.toString() == array[0] && spinnerCount == 0)
+        {
+            spinnerCount++
+        }
+        else
+        {
+            spinnerCount++
+            vehicleInfo_vehicleType_view.setText( parent?.getItemAtPosition(position).toString())
+        }
+    }
+
+    override fun onNothingSelected(parent: AdapterView<*>?) {
+        TODO("Not yet implemented")
     }
 }
