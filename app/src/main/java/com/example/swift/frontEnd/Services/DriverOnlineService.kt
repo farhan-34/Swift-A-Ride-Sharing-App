@@ -10,16 +10,12 @@ import android.os.IBinder
 import android.os.Looper
 import android.util.Log
 import androidx.core.app.ActivityCompat
-import androidx.core.content.ContentProviderCompat.requireContext
-import com.example.swift.frontEnd.driver.home.DriverHomePageFragment
-import com.example.swift.frontEnd.driver.main.DriverMainActivity
 import com.firebase.geofire.GeoFire
 import com.firebase.geofire.GeoLocation
 import com.google.android.gms.location.*
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
-import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import java.io.IOException
@@ -67,7 +63,7 @@ class DriverOnlineService : Service() {
     }
 
     override fun onDestroy() {
-        fusedLocationProviderClient.removeLocationUpdates(DriverHomePageFragment.locationCallback)
+        fusedLocationProviderClient.removeLocationUpdates(locationCallback)
         geoFire.removeLocation(FirebaseAuth.getInstance().currentUser?.uid)
         onlineRef.removeEventListener(onlineValueEventListener)
         super.onDestroy()

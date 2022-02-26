@@ -233,7 +233,10 @@ GoogleMap.OnCameraMoveStartedListener{
                 val geoCoder = Geocoder(requireContext(), Locale.getDefault())
                 var addressList: List<Address> = ArrayList()
                 try {
-                    addressList = geoCoder.getFromLocation(location.latitude, location.longitude, 1)
+                    if(location!= null) {
+                        addressList =
+                            geoCoder.getFromLocation(location.latitude, location.longitude, 1)
+                    }
                     if (addressList.isNotEmpty())
                         cityName = addressList[0].locality
 
