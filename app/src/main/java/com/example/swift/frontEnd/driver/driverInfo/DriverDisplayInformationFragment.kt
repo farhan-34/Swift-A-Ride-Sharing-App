@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.swift.R
 import com.example.swift.businessLayer.session.DriverSession
@@ -66,6 +67,25 @@ class DriverDisplayInformationFragment : Fragment(), AdapterView.OnItemSelectedL
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        // setting button
+        driverInfo_updateInfo_btn.setOnClickListener{
+
+
+            val name : String = driverInfo_name_view.text.toString()
+            val gender : String = driverInfo_gender_view.text.toString()
+            val age : String = driverInfo_age_view.text.toString()
+            val email : String = driverInfo_email_view.text.toString()
+            val cnic : String = driverInfo_CNIC_view.text.toString()
+
+            // TODO(store the above data in database and session)
+
+            Toast.makeText(requireContext(), "Information Updated", Toast.LENGTH_SHORT).show()
+
+
+
+        }
+
 
         //setting values in views
         DriverSession.getCurrentUser { driver ->
