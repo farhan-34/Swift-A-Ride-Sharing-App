@@ -4,6 +4,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.Spinner
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.swift.R
 import com.example.swift.businessLayer.session.DriverSession
@@ -21,7 +25,7 @@ private const val ARG_PARAM2 = "param2"
  * Use the [DriverDisplayInformationFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class DriverDisplayInformationFragment : Fragment() {
+class DriverDisplayInformationFragment : Fragment(), AdapterView.OnItemSelectedListener {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
@@ -64,19 +68,65 @@ class DriverDisplayInformationFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // setting button
+        driverInfo_updateInfo_btn.setOnClickListener{
+
+
+            val name : String = driverInfo_name_view.text.toString()
+            val gender : String = driverInfo_gender_view.text.toString()
+            val age : String = driverInfo_age_view.text.toString()
+            val email : String = driverInfo_email_view.text.toString()
+            val cnic : String = driverInfo_CNIC_view.text.toString()
+
+            // TODO(store the above data in database and session)
+
+            Toast.makeText(requireContext(), "Information Updated", Toast.LENGTH_SHORT).show()
+
+
+
+        }
+
+
         //setting values in views
         DriverSession.getCurrentUser { driver ->
             RiderSession.getCurrentUser { rider ->
-                driverInfo_name_view.text = rider.name
-                if(rider.age == "null")
-                    driverInfo_age_view.text = "Not submitted yet"
-                else
-                    driverInfo_age_view.text = rider.age + " years"
-                driverInfo_email_view.text = rider.email
-                driverInfo_gender_view.text = rider.gender
-                driverInfo_CNIC_view.text = driver.cnic
-                driverInfo_rating_view.text = driver.rating.toString()
+                driverInfo_name_view.setText(rider.name)
+                if(rider.age != "null")
+                    driverInfo_age_view.setText(rider.age + " years")
+
+                driverInfo_email_view.setText(driver.email)
+
+                val spinner: Spinner = driverInfo_gender_spinner
+                ArrayAdapter.createFromResource( requireContext(), R.array.gender_list, android.R.layout.simple_spinner_item).also { adapter ->
+                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                    spinner.adapter = adapter
+                }
+                spinner.onItemSelectedListener = this
+                driverInfo_gender_view.setText(rider.gender)
+
+                driverInfo_CNIC_view.setText( driver.cnic)
+                driverInfo_rating_view.setText( driver.rating.toString())
             }
         }
+    }
+
+    //for gender spinner
+    private var spinnerCount = 0
+    override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+        // to stop getting the default first value of spinner
+        val array: Array<String> = resources.getStringArray(R.array.gender_list)
+        if (driverInfo_gender_view.text.toString() == array[0] && spinnerCount == 0)
+        {
+            spinnerCount++
+        }
+        else
+        {
+            spinnerCount++
+            driverInfo_gender_view.setText( parent?.getItemAtPosition(position).toString())
+        }
+    }
+
+    override fun onNothingSelected(parent: AdapterView<*>?) {
+        TODO("Not yet implemented")
     }
 }
