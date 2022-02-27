@@ -22,12 +22,14 @@
     <string name="Swift_Frontpage_ad_Testid">ca-app-pub-3940256099942544/1033173712</string>
 
     <string-array name="gender_list">
+        <item>choose gender</item>
         <item>Male</item>
         <item>Female</item>
         <item>Other</item>
     </string-array>
 
     <string-array name="vehicle_list">
+        <item>choose vehicle</item>
         <item>Car</item>
         <item>Rickshaw</item>
         <item>Bike</item>

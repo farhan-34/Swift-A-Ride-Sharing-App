@@ -15,7 +15,6 @@ import com.example.swift.businessLayer.session.RiderSession
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.fragment_driver_display_information.*
-import kotlinx.android.synthetic.main.fragment_rider_display_information.*
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -117,7 +116,7 @@ class DriverDisplayInformationFragment : Fragment(), AdapterView.OnItemSelectedL
             RiderSession.getCurrentUser { rider ->
                 driverInfo_name_view.setText(rider.name)
                 if(rider.age != "null")
-                    driverInfo_age_view.setText(rider.age + " years")
+                    driverInfo_age_view.setText(rider.age   )
 
                 driverInfo_email_view.setText(driver.email)
 
@@ -135,23 +134,16 @@ class DriverDisplayInformationFragment : Fragment(), AdapterView.OnItemSelectedL
         }
     }
 
+
     //for gender spinner
-    private var spinnerCount = 0
     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-        // to stop getting the default first value of spinner
-        val array: Array<String> = resources.getStringArray(R.array.gender_list)
-        if (driverInfo_gender_view.text.toString() == array[0] && spinnerCount == 0)
-        {
-            spinnerCount++
-        }
-        else
-        {
-            spinnerCount++
+
+        if(position != 0) // stop getting the default first value of spinner
             driverInfo_gender_view.setText( parent?.getItemAtPosition(position).toString())
-        }
     }
 
+
     override fun onNothingSelected(parent: AdapterView<*>?) {
-        TODO("Not yet implemented")
+
     }
 }
