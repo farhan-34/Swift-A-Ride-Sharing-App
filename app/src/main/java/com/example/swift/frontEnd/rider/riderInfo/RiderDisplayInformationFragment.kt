@@ -14,6 +14,7 @@ import com.example.swift.businessLayer.session.RiderSession
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.activity_rider_register.*
+import kotlinx.android.synthetic.main.fragment_driver_display_information.*
 import kotlinx.android.synthetic.main.fragment_rider_display_information.*
 
 class RiderDisplayInformationFragment : Fragment(), AdapterView.OnItemSelectedListener {
@@ -85,7 +86,7 @@ class RiderDisplayInformationFragment : Fragment(), AdapterView.OnItemSelectedLi
             riderInfo_gender_view.setText(rider.gender)
 
             if(rider.age != "null")
-                riderInfo_age_view.setText( rider.age.toString() + " years")
+                riderInfo_age_view.setText( rider.age)
 
             riderInfo_email_view.setText(rider.email)
         }
@@ -94,21 +95,12 @@ class RiderDisplayInformationFragment : Fragment(), AdapterView.OnItemSelectedLi
     }
 
     //for gender spinner
-    private var spinnerCount = 0
     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-        // to stop getting the default first value of spinner
-        val array: Array<String> = resources.getStringArray(R.array.gender_list)
-        if (riderInfo_gender_view.text.toString() == array[0] && spinnerCount == 0)
-        {
-            spinnerCount++
-        }
-        else
-        {
-            spinnerCount++
-            riderInfo_gender_view.setText( parent?.getItemAtPosition(position).toString())
-        }
 
+        if(position != 0) // stop getting the default first value of spinner
+            riderInfo_gender_view.setText( parent?.getItemAtPosition(position).toString())
     }
+
 
     override fun onNothingSelected(parent: AdapterView<*>?) {
 
