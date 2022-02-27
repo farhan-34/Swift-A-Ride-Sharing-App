@@ -12,6 +12,8 @@ import androidx.fragment.app.Fragment
 import com.example.swift.R
 import com.example.swift.businessLayer.session.DriverSession
 import com.example.swift.businessLayer.session.RiderSession
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.fragment_driver_vehicle_display_information.*
 
 // TODO: Rename parameter arguments, choose names that match
@@ -73,13 +75,26 @@ class DriverVehicleDisplayInformationFragment : Fragment(), AdapterView.OnItemSe
 
         // setting buttons
         vehicleInfo_updateInfo_btn.setOnClickListener {
+            val db = Firebase.firestore
             val vehicleType : String = vehicleInfo_vehicleType_view.text.toString()
             val vehicleCapacity : String = vehicleInfo_capacity_view.text.toString()
             val licenseNumber : String = vehicleInfo_licenseNumber_view.text.toString()
 
-            // TODO update in session and database as well
+            val vehicleInfoToUpdate = mapOf(
+                "vehicleType" to vehicleType,
+                "vehicleCapacity" to vehicleCapacity,
+                "licenseNumber" to licenseNumber
+            )
+            DriverSession.getCurrentUser { driver ->
+                db.collection("Driver").document(driver.phoneNumber).update(vehicleInfoToUpdate)
+                    .addOnSuccessListener {
+                        Toast.makeText(requireContext(), "Information Updated", Toast.LENGTH_SHORT).show()
+                    }
+                    .addOnFailureListener{
+                        Toast.makeText(requireContext(), "Information not updated!!!", Toast.LENGTH_SHORT).show()
+                    }
+            }
 
-            Toast.makeText(requireContext(), "Information Updated", Toast.LENGTH_SHORT).show()
         }
 
         //setting values in views

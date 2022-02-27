@@ -12,6 +12,8 @@ import androidx.fragment.app.Fragment
 import com.example.swift.R
 import com.example.swift.businessLayer.session.DriverSession
 import com.example.swift.businessLayer.session.RiderSession
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.fragment_driver_display_information.*
 import kotlinx.android.synthetic.main.fragment_rider_display_information.*
 
@@ -71,19 +73,42 @@ class DriverDisplayInformationFragment : Fragment(), AdapterView.OnItemSelectedL
         // setting button
         driverInfo_updateInfo_btn.setOnClickListener{
 
-
+            val db = Firebase.firestore
             val name : String = driverInfo_name_view.text.toString()
             val gender : String = driverInfo_gender_view.text.toString()
             val age : String = driverInfo_age_view.text.toString()
             val email : String = driverInfo_email_view.text.toString()
             val cnic : String = driverInfo_CNIC_view.text.toString()
 
-            // TODO(store the above data in database and session)
+            val driverToUpdate = mapOf(
+                "name" to name,
+                "gender" to gender,
+                "age" to age,
+                "email" to email,
+                "CNIC" to cnic
+            )
 
-            Toast.makeText(requireContext(), "Information Updated", Toast.LENGTH_SHORT).show()
-
-
-
+            val riderToUpdate = mapOf(
+                "name" to name,
+                "gender" to gender,
+                "age" to age,
+                "email" to email
+            )
+            DriverSession.getCurrentUser { driver ->
+                db.collection("Driver").document(driver.phoneNumber).update(driverToUpdate)
+                    .addOnSuccessListener {
+                        db.collection("Rider").document(driver.phoneNumber).update(riderToUpdate)
+                            .addOnSuccessListener {
+                                Toast.makeText(requireContext(), "Information Updated", Toast.LENGTH_SHORT).show()
+                            }
+                            .addOnFailureListener{
+                                Toast.makeText(requireContext(), "Information not updated!!!", Toast.LENGTH_SHORT).show()
+                            }
+                    }
+                    .addOnFailureListener{
+                        Toast.makeText(requireContext(), "Information not updated!!!", Toast.LENGTH_SHORT).show()
+                    }
+            }
         }
 
 

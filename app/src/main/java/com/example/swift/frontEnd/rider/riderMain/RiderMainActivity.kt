@@ -48,7 +48,7 @@ class RiderMainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSe
             activate_menu.hide()
         }
         RiderSession.getCurrentUser { rider ->
-            rider_menu_riderName.text = rider.name
+        rider_menu_riderName.text = rider.name
             rider_menu_rating.text = rider.rating.toString()
         }
 
