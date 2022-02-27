@@ -39,6 +39,10 @@ class DriverRegistrationActivity : AppCompatActivity() {
 
                     //making the driver to store
                     val driver = hashMapOf(
+                        "name" to rider.name,
+                        "age" to rider.age,
+                        "email" to rider.email,
+                        "gender" to rider.gender,
                         "cnic" to cnic,
                         "licenseNumber" to licenseNumber,
                         "vehicleType" to vehicleType,
