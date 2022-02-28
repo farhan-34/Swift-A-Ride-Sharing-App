@@ -6,27 +6,92 @@
     android:layout_height="match_parent"
     tools:context=".frontEnd.rider.panicButton.PanicButtonActivity">
 
+
+    <TextView
+        android:id="@+id/panic_button_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="80dp"
+        android:gravity="center"
+        android:text="Panic Button"
+        android:textColor="@color/main_orange_color"
+        android:textSize="32sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <net.rimoto.intlphoneinput.IntlPhoneInput
+        android:id="@+id/emergency_contact_input"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="88dp"
+        android:layout_marginEnd="10dp"
+        android:background="@drawable/rectangle"
+        android:padding="9dp"
+        app:flagPaddingBottom="4dp"
+        app:flagPaddingEnd="4dp"
+        app:flagPaddingStart="4dp"
+        app:flagPaddingTop="4dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/panic_button_text"
+        app:textColor="#000000"
+        app:textSize="14sp" />
+
+    <Button
+        android:id="@+id/btn_add_panic_contact"
+        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="56dp"
+        android:layout_marginEnd="20dp"
+        android:paddingVertical="10dp"
+        android:text="Add Contact"
+        android:textAllCaps="false"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/emergency_contact_input"
+        tools:ignore="HardcodedText" />
+
     <Button
         android:id="@+id/panic_button"
         android:layout_width="210dp"
         android:layout_height="201dp"
-        android:layout_marginStart="108dp"
-        android:layout_marginTop="84dp"
+        android:layout_marginStart="88dp"
+        android:layout_marginTop="16dp"
         android:backgroundTint="#701B67"
         android:shadowColor="@color/black"
         android:text="SOS"
         android:textColor="@color/light_grey"
-
         android:textColorHint="#020202"
-
         android:textColorLink="#E1D1D1"
         android:textIsSelectable="false"
         android:textSize="48sp"
         android:textStyle="normal|bold"
-        app:cornerRadius="100dp"
+        app:cornerRadius="250dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/textView8" />
 
+    <TextView
+        android:id="@+id/textView8"
+        android:layout_width="258dp"
+        android:layout_height="95dp"
+        android:layout_marginStart="64dp"
+        android:layout_marginTop="44dp"
+        android:text="This SOS button will share your current  location, vehicle details and phone number of the opposite party to your emergency contact."
+        android:textAlignment="center"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_add_panic_contact" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
