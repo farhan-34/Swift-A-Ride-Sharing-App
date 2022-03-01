@@ -42,16 +42,19 @@ class PanicButtonActivity : AppCompatActivity() {
             RiderSession.getCurrentUser { rider ->
                 db.collection("EmergencyContact").document(rider.phoneNumber!!).get()
                     .addOnSuccessListener { document ->
-                            //getting list of phone numbers from firestore
-                            val phoneNumbers = document.get("contacts").toString()
-                            //list of the phone numbers to send the message to
-                            val phoneNumberList = phoneNumbers.split(",")
-
-                            //TODO("Send message here")
-
+                        //getting list of phone numbers from firestore
+                        val phoneNumbers = document.get("contacts").toString()
+                        //list of the phone numbers to send the message to
+                        val phoneNumberList = phoneNumbers.split(",")
+                        //message to send
+                        val message = "I am in panic"
+                        //sending message here to all the numbers
+                        for (number in phoneNumberList){
+                            val sentPI: PendingIntent = PendingIntent.getBroadcast(this, 0, Intent("SMS_SENT"), 0)
+                            SmsManager.getDefault().sendTextMessage(number, null, message, sentPI, null)
                         }
+                    }
             }
         }
     }
-
 }
