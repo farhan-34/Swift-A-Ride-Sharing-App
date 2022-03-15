@@ -84,6 +84,18 @@
         app:layout_constraintVertical_bias="0.0" />
 
     <Button
+        android:id="@+id/driversOffers_accept_btn"
+        android:layout_width="96dp"
+        android:layout_height="48dp"
+        android:layout_marginEnd="24dp"
+        android:text="Accept"
+        app:cornerRadius="50dp"
+        app:layout_constraintBottom_toBottomOf="@+id/driversOffers_chat_btn"
+        app:layout_constraintEnd_toStartOf="@+id/driversOffers_chat_btn"
+        app:layout_constraintTop_toTopOf="@+id/driversOffers_chat_btn"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <Button
         android:id="@+id/driversOffers_cancel_btn"
         style="@style/Theme.MaterialComponents.Light"
         android:layout_width="80dp"

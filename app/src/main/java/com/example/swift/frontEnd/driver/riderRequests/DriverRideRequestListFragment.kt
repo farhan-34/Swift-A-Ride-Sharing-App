@@ -15,9 +15,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.swift.R
 import com.example.swift.businessLayer.Common.Common
+import com.example.swift.businessLayer.dataClasses.RideSession
 import com.example.swift.businessLayer.session.DriverSession
 import com.example.swift.frontEnd.Services.DriverOnlineService
 import com.example.swift.frontEnd.Services.NotifyOnDriverOffer
+import com.example.swift.frontEnd.activities.RequestDriverActivity
+import com.example.swift.frontEnd.driver.rideSession.DriverRideSessionActivity
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.fragment_driver_ride_request_list.*
 
@@ -49,6 +53,8 @@ class DriverRequestListFragment : Fragment() {
         rideRequest_sort_btn.setOnClickListener{
             Toast.makeText(view.context, "Sort applied", Toast.LENGTH_SHORT).show()
         }
+
+        rideSessionStart()
 
         val db = FirebaseDatabase.getInstance()
 
@@ -131,5 +137,39 @@ class DriverRequestListFragment : Fragment() {
         adapter = RideRequestListAdapter(rideRequestList)
         driverRiderRequestRecyclerView.adapter = adapter
         driverRiderRequestRecyclerView.layoutManager = LinearLayoutManager(view?.context)
+    }
+
+    private fun rideSessionStart() {
+        var db = FirebaseDatabase.getInstance().getReference("RideSessions")
+        db.addChildEventListener(object : ChildEventListener{
+            override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
+                val rideSession: RideSession? = snapshot.getValue(RideSession::class.java)
+                val curUser = FirebaseAuth.getInstance().currentUser!!.uid
+                if(rideSession != null){
+                    if(rideSession.driverId == curUser){
+                        Common.rideSession = rideSession
+
+
+                        val dialogIntent = Intent(requireContext(), DriverRideSessionActivity::class.java)
+                        //val dialogIntent = Intent(requireContext(), RequestDriverActivity::class.java)
+                        dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                        startActivity(dialogIntent)
+                    }
+                }
+            }
+
+            override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
+            }
+
+            override fun onChildRemoved(snapshot: DataSnapshot) {
+            }
+
+            override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+            }
+
+        })
     }
 }

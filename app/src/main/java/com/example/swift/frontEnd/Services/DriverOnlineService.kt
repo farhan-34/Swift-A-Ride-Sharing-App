@@ -10,6 +10,10 @@ import android.os.IBinder
 import android.os.Looper
 import android.util.Log
 import androidx.core.app.ActivityCompat
+import androidx.core.content.ContentProviderCompat.requireContext
+import com.example.swift.businessLayer.Common.Common
+import com.example.swift.businessLayer.dataClasses.RideSession
+import com.example.swift.frontEnd.driver.rideSession.DriverRideSessionActivity
 import com.firebase.geofire.GeoFire
 import com.firebase.geofire.GeoLocation
 import com.google.android.gms.location.*
@@ -59,8 +63,12 @@ class DriverOnlineService : Service() {
 
 
         init()
+
+
         return super.onStartCommand(intent, flags, startId)
     }
+
+
 
     override fun onDestroy() {
         fusedLocationProviderClient.removeLocationUpdates(locationCallback)
