@@ -2,6 +2,7 @@ package com.example.swift.businessLayer.Common
 
 import android.widget.TextView
 import com.example.swift.businessLayer.dataClasses.DriverGeo
+import com.example.swift.businessLayer.dataClasses.RideSession
 import com.google.android.gms.maps.model.Marker
 import java.util.*
 import kotlin.collections.ArrayList
@@ -9,6 +10,7 @@ import kotlin.collections.HashMap
 
 object Common {
 
+    var rideSession: RideSession = RideSession()
     var endThread: Boolean = false
     val offersReceived: MutableSet<String> = HashSet<String>()
 

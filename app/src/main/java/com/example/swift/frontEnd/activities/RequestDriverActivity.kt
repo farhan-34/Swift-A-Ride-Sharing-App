@@ -53,19 +53,19 @@ class RequestDriverActivity : AppCompatActivity(), OnMapReadyCallback {
     private var destinationMarker:Marker?=null
 
     override fun onStart() {
-        if(!EventBus.getDefault().isRegistered(this)){
-            EventBus.getDefault().register(this)
-        }
+//        if(!EventBus.getDefault().isRegistered(this)){
+//            EventBus.getDefault().register(this)
+//        }
         super.onStart()
     }
 
     override fun onStop() {
         compositeDisposable.clear()
-        if(EventBus.getDefault().hasSubscriberForEvent(SelectedPlaceEvent::class.java))
-        {
-            EventBus.getDefault().removeStickyEvent(SelectedPlaceEvent::class.java)
-        }
-        EventBus.getDefault().unregister(this)
+//        if(EventBus.getDefault().hasSubscriberForEvent(SelectedPlaceEvent::class.java))
+//        {
+//            EventBus.getDefault().removeStickyEvent(SelectedPlaceEvent::class.java)
+//        }
+//        EventBus.getDefault().unregister(this)
         super.onStop()
     }
 
@@ -130,10 +130,6 @@ class RequestDriverActivity : AppCompatActivity(), OnMapReadyCallback {
         catch (e:Exception){
             e.printStackTrace()
         }
-        // Add a marker in Sydney and move the camera
-//        val sydney = LatLng(-34.0, 151.0)
-//        mMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
-//        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
     }
 
     private fun drawPath(selectedPlaceEvent: SelectedPlaceEvent?) {

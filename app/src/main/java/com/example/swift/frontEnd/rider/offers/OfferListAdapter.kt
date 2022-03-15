@@ -10,6 +10,7 @@ import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.example.swift.R
 import com.example.swift.businessLayer.dataClasses.DriverOffer
+import com.example.swift.businessLayer.dataClasses.RideSession
 import com.google.firebase.database.FirebaseDatabase
 
 class OfferListAdapter (var context:Context, private val driversOfferList:  ArrayList<DriverOffer>) : RecyclerView.Adapter<OfferListAdapter.ViewHolder>() {
@@ -20,6 +21,7 @@ class OfferListAdapter (var context:Context, private val driversOfferList:  Arra
         var text: TextView = view.findViewById(R.id.driversOffers_Text)
         var chatBtn : Button = view.findViewById(R.id.driversOffers_chat_btn)
         var hideBtn : Button = view.findViewById(R.id.driversOffers_cancel_btn)
+        var acceptBtn : Button = view.findViewById(R.id.driversOffers_accept_btn)
 
         // TODO: also load the profile picture of the rider from the url present in the driver offer
 
@@ -43,6 +45,45 @@ class OfferListAdapter (var context:Context, private val driversOfferList:  Arra
                 //removing value from database
                 db.child(driversOfferList[position].offerId).removeValue()
             }
+
+            acceptBtn.setOnClickListener{
+                //TODO: remove other offers and Request as well
+
+                var db = FirebaseDatabase.getInstance().reference.child("RideRequests")
+
+
+                val position: Int = adapterPosition
+                var pickUpLocation:String  = ""
+                var dropOffLocation: String = ""
+
+               db.get().addOnSuccessListener {
+                   for (child in it.children) {
+                       if (child.child("driverId").value == driversOfferList[position].driverId) {
+                           pickUpLocation = child.child("sourceLocation").value.toString()
+                           dropOffLocation = child.child("destinationLocation").value.toString()
+
+                           var session: RideSession = RideSession( offerId = driversOfferList[position].offerId,
+                               driverId = driversOfferList[position].driverId,
+                               riderId = driversOfferList[position].riderId,
+                               rideState = "Picking_Up",
+                               pickUpLocation = pickUpLocation,
+                               dropOffLocation = dropOffLocation)
+
+
+                           db = FirebaseDatabase.getInstance().getReference("RideSessions")
+                           val offerId = db.push()
+                           session.offerId = offerId.key.toString()
+                           offerId.setValue(session)
+
+                           break
+
+                       }
+                   }
+
+               }
+
+            }
+
         }
 
     }
