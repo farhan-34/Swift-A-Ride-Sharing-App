@@ -1,6 +1,7 @@
 package com.example.swift.frontEnd.rider.offers
 
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.swift.R
 import com.example.swift.businessLayer.dataClasses.DriverOffer
 import com.example.swift.businessLayer.dataClasses.RideSession
+import com.example.swift.frontEnd.rider.rideSession.RiderRideSessionActivity
 import com.google.firebase.database.FirebaseDatabase
 
 class OfferListAdapter (var context:Context, private val driversOfferList:  ArrayList<DriverOffer>) : RecyclerView.Adapter<OfferListAdapter.ViewHolder>() {
@@ -75,13 +77,16 @@ class OfferListAdapter (var context:Context, private val driversOfferList:  Arra
                            session.offerId = offerId.key.toString()
                            offerId.setValue(session)
 
+                           val intent = Intent(context, RiderRideSessionActivity::class.java)
+                           intent.putExtra("pickUp", pickUpLocation)
+                           intent.putExtra("dropOff", dropOffLocation)
+                           context.startActivity(intent)
                            break
 
                        }
                    }
 
                }
-
             }
 
         }
