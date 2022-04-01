@@ -1,6 +1,10 @@
 package com.example.swift.businessLayer.dataClasses
 
-class Driver (
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
+
+@Parcelize
+class Driver  (
     override var riderId:String = "",
     override var name:String = "",
     override var email:String = "",
@@ -14,6 +18,6 @@ class Driver (
     var vehicleType:String = "",
     var vehicleCapacity:String = "",
     var driverId: String = ""
-):Rider(riderId, name, email, age, gender, phoneNumber, isdriver, rating){
+):Rider(riderId, name, email, age, gender, phoneNumber, isdriver, rating) {
 
 }
