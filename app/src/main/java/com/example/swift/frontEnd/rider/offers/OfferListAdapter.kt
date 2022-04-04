@@ -1,7 +1,6 @@
 package com.example.swift.frontEnd.rider.offers
 
 import android.content.Context
-import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,10 +11,16 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.swift.R
 import com.example.swift.businessLayer.dataClasses.DriverOffer
 import com.example.swift.businessLayer.dataClasses.RideSession
-import com.example.swift.frontEnd.rider.rideSession.RiderRideSessionActivity
 import com.google.firebase.database.FirebaseDatabase
 
 class OfferListAdapter (var context:Context, private val driversOfferList:  ArrayList<DriverOffer>) : RecyclerView.Adapter<OfferListAdapter.ViewHolder>() {
+
+    companion object {
+        val OFFER_KEY = "OFFER_KEY"
+    }
+
+    var index = 0
+
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         var name : TextView = view.findViewById(R.id.driversOffers_Name)
@@ -29,8 +34,22 @@ class OfferListAdapter (var context:Context, private val driversOfferList:  Arra
 
         init {
             chatBtn.setOnClickListener {
-                //TODO: Ride Session
-                Toast.makeText(context,"Ride Session will start here!!",Toast.LENGTH_SHORT).show()
+
+
+                DriverSession.getCurrentUser { driver ->
+
+                    var offer = driversOfferList[index]
+
+                    val intent = Intent(view.context, RiderChatLogActivity::class.java)
+//                  intent.putExtra(USER_KEY,  userItem.user.username)
+                    intent.putExtra(OFFER_KEY, offer)
+
+                    context.startActivity(intent)
+
+                }
+
+
+
             }
 
             hideBtn.setOnClickListener{
@@ -87,6 +106,7 @@ class OfferListAdapter (var context:Context, private val driversOfferList:  Arra
                    }
 
                }
+
             }
 
         }
@@ -108,6 +128,8 @@ class OfferListAdapter (var context:Context, private val driversOfferList:  Arra
         viewHolder.name.text = driversOfferList[position].name
         viewHolder.rating.text = driversOfferList[position].rating.toString()
         viewHolder.text.text = driversOfferList[position].text
+
+        index = position
     }
 
 
