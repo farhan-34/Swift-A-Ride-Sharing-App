@@ -24,11 +24,9 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.*
 import com.google.firebase.ktx.Firebase
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.CompositeDisposable
@@ -62,9 +60,8 @@ class RiderRideSessionActivity : AppCompatActivity(), OnMapReadyCallback {
         super.onCreate(savedInstanceState)
 
         val pickUpLocation = intent.getStringExtra("pickUp").toString()
-        val dropOffLocation = intent.getStringExtra("dropOff").toString()
-        selectedPlaceEvent = SelectedPlaceEvent(Common.getLocationFromAddress(this,pickUpLocation)!!,
-        Common.getLocationFromAddress(this, dropOffLocation)!!)
+        val driverLocation: LatLng? = intent.getParcelableExtra<LatLng>("driver")
+        selectedPlaceEvent = SelectedPlaceEvent(Common.getLocationFromAddress(this,pickUpLocation)!!,driverLocation!!)
 
         binding = ActivityRiderRideSessionBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -132,15 +129,42 @@ class RiderRideSessionActivity : AppCompatActivity(), OnMapReadyCallback {
             true
         }
 
-        drawPath()
+        //drawing path for the first time
+        drawPath(selectedPlaceEvent)
+
+
+        //Checking location change in driver to update the path
+        db.addChildEventListener(object: ChildEventListener{
+            override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
+            }
+
+            override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
+                var session: RideSession = snapshot.value as RideSession
+                if(session.riderId == FirebaseAuth.getInstance().currentUser!!.uid){
+                    selectedPlaceEvent.origin = session.driverLocation
+                    drawPath(selectedPlaceEvent)
+                }
+            }
+
+            override fun onChildRemoved(snapshot: DataSnapshot) {
+            }
+
+            override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+            }
+
+        })
+
 
     }
 
-    private fun drawPath() {
+    private fun drawPath(selectedPlace: SelectedPlaceEvent) {
         //request Api
         compositeDisposable.add(iGoogleAPI.getDirections("driving",
             "less_driving",
-            selectedPlaceEvent.originString, selectedPlaceEvent.destinationString,
+            selectedPlace.originString, selectedPlace.destinationString,
             getString(R.string.google_maps_key))
         !!.subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
@@ -157,7 +181,7 @@ class RiderRideSessionActivity : AppCompatActivity(), OnMapReadyCallback {
                     }
 
                     polylineOptions = PolylineOptions()
-                    polylineOptions!!.color(Color.GRAY)
+                    polylineOptions!!.color(Color.parseColor("#E87C35"))
                     polylineOptions!!.width(12f)
                     polylineOptions!!.startCap(SquareCap())
                     polylineOptions!!.jointType(JointType.ROUND)
@@ -165,7 +189,7 @@ class RiderRideSessionActivity : AppCompatActivity(), OnMapReadyCallback {
                     greyPolyline = mMap.addPolyline(polylineOptions!!)
 
                     blackPolylineOptions = PolylineOptions()
-                    blackPolylineOptions!!.color(Color.BLACK)
+                    blackPolylineOptions!!.color(Color.parseColor("#fa8f5a"))
                     blackPolylineOptions!!.width(5f)
                     blackPolylineOptions!!.startCap(SquareCap())
                     blackPolylineOptions!!.jointType(JointType.ROUND)
@@ -174,7 +198,7 @@ class RiderRideSessionActivity : AppCompatActivity(), OnMapReadyCallback {
 
                     //Animator
                     val valueAnimator = ValueAnimator.ofInt(0,100)
-                    valueAnimator.duration = 1100
+                    valueAnimator.duration = 2100
                     valueAnimator.repeatCount = ValueAnimator.INFINITE
                     valueAnimator.interpolator = LinearInterpolator()
                     valueAnimator.addUpdateListener { value->
@@ -187,8 +211,8 @@ class RiderRideSessionActivity : AppCompatActivity(), OnMapReadyCallback {
                     }
                     valueAnimator.start()
 
-                    val latLngBound = LatLngBounds.Builder().include(selectedPlaceEvent.origin)
-                        .include(selectedPlaceEvent.destination)
+                    val latLngBound = LatLngBounds.Builder().include(selectedPlace.origin)
+                        .include(selectedPlace.destination)
                         .build()
 
                     //add car for origin
@@ -220,4 +244,6 @@ class RiderRideSessionActivity : AppCompatActivity(), OnMapReadyCallback {
     private fun addOriginMarker(duration: String, startAddress: String) {
 
     }
+
+
 }

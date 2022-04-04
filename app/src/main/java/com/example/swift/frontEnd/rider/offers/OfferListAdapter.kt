@@ -1,6 +1,7 @@
 package com.example.swift.frontEnd.rider.offers
 
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,8 +10,13 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.example.swift.R
+import com.example.swift.businessLayer.Common.Common
 import com.example.swift.businessLayer.dataClasses.DriverOffer
 import com.example.swift.businessLayer.dataClasses.RideSession
+import com.example.swift.businessLayer.session.DriverSession
+import com.example.swift.frontEnd.rider.chat.RiderChatLogActivity
+import com.example.swift.frontEnd.rider.rideSession.RiderRideSessionActivity
+import com.google.android.gms.maps.model.LatLng
 import com.google.firebase.database.FirebaseDatabase
 
 class OfferListAdapter (var context:Context, private val driversOfferList:  ArrayList<DriverOffer>) : RecyclerView.Adapter<OfferListAdapter.ViewHolder>() {
@@ -83,12 +89,16 @@ class OfferListAdapter (var context:Context, private val driversOfferList:  Arra
                            pickUpLocation = child.child("sourceLocation").value.toString()
                            dropOffLocation = child.child("destinationLocation").value.toString()
 
+                           val latLng: LatLng = LatLng(Common.driversFound[driversOfferList[position].driverId]!!.geoLocation!!.latitude,
+                               Common.driversFound[driversOfferList[position].driverId]!!.geoLocation!!.longitude)
+
                            var session: RideSession = RideSession( offerId = driversOfferList[position].offerId,
                                driverId = driversOfferList[position].driverId,
                                riderId = driversOfferList[position].riderId,
                                rideState = "Picking_Up",
                                pickUpLocation = pickUpLocation,
-                               dropOffLocation = dropOffLocation)
+                               dropOffLocation = dropOffLocation,
+                               driverLocation = latLng)
 
 
                            db = FirebaseDatabase.getInstance().getReference("RideSessions")
@@ -98,7 +108,7 @@ class OfferListAdapter (var context:Context, private val driversOfferList:  Arra
 
                            val intent = Intent(context, RiderRideSessionActivity::class.java)
                            intent.putExtra("pickUp", pickUpLocation)
-                           intent.putExtra("dropOff", dropOffLocation)
+                           intent.putExtra("driver", latLng)
                            context.startActivity(intent)
                            break
 
