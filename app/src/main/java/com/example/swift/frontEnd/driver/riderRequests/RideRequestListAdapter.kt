@@ -1,5 +1,6 @@
 package com.example.swift.frontEnd.driver.riderRequests
 
+import android.content.Intent
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
@@ -12,6 +13,8 @@ import com.example.swift.businessLayer.businessLogic.RideRequest
 import com.example.swift.businessLayer.dataClasses.DriverOffer
 import com.example.swift.businessLayer.session.DriverSession
 import com.example.swift.businessLayer.session.RiderSession
+import com.example.swift.frontEnd.rider.chat.RiderChatLogActivity
+import com.example.swift.frontEnd.rider.offers.OfferListAdapter
 import com.google.firebase.database.FirebaseDatabase
 
 
@@ -19,6 +22,7 @@ class RideRequestListAdapter(private val rideRequestList:  ArrayList<RideRequest
 
     var riderId:String = ""
     var offerFair:String = ""
+    var index = 0
 
     companion object {
         val REQUEST_KEY = "REQUEST_KEY"
@@ -30,6 +34,7 @@ class RideRequestListAdapter(private val rideRequestList:  ArrayList<RideRequest
         var destinationLocation_view : TextView = view.findViewById(R.id.rideRequest_destinationLocation)
         var riderRating_view : TextView = view.findViewById(R.id.rideRequest_riderRating)
         var hideBtn : Button = view.findViewById(R.id.riderRequest_Hide_btn)
+        var chatBtn : Button = view.findViewById(R.id.riderRequest_chat_btn)
         val db = FirebaseDatabase.getInstance()
 
 
@@ -73,6 +78,21 @@ class RideRequestListAdapter(private val rideRequestList:  ArrayList<RideRequest
 //                    }
 //                })
             }
+
+
+            chatBtn.setOnClickListener{
+                Toast.makeText(view.context, "chat", Toast.LENGTH_SHORT).show()
+
+                var request = rideRequestList[index]
+
+                val intent = Intent(view.context, RiderChatLogActivity::class.java)
+//                  intent.putExtra(USER_KEY,  userItem.user.username)
+                val nullRequest : DriverOffer? = null
+                intent.putExtra(OfferListAdapter.OFFER_KEY, nullRequest)
+                intent.putExtra(REQUEST_KEY, request)
+                view.context.startActivity(intent)
+
+            }
         }
 
     }
@@ -87,8 +107,8 @@ class RideRequestListAdapter(private val rideRequestList:  ArrayList<RideRequest
 
 
         //show popup to send offer
-        val chatBtn : Button = view.findViewById(R.id.riderRequest_chat_btn)
-        chatBtn.setOnClickListener {
+        val sendOfferBtn : Button = view.findViewById(R.id.riderRequest_sendOffer_btn)
+        sendOfferBtn.setOnClickListener {
             val window = PopupWindow(parent.context)
             val view = LayoutInflater.from(parent.context).inflate(R.layout.popup_send_offer_layout, null)
             window.contentView = view
@@ -127,7 +147,7 @@ class RideRequestListAdapter(private val rideRequestList:  ArrayList<RideRequest
             cancelOffer.setOnClickListener{
                 window.dismiss()
             }
-            window.showAsDropDown(chatBtn)
+            window.showAsDropDown(sendOfferBtn)
 
         }
 
@@ -144,6 +164,7 @@ class RideRequestListAdapter(private val rideRequestList:  ArrayList<RideRequest
         viewHolder.sourceLocation_view.text = rideRequestList[position].sourceLocation?.get("Address").toString()
         viewHolder.destinationLocation_view.text = rideRequestList[position].destinationLocation?.get("Address").toString()
         riderId = rideRequestList[position].riderId.toString()
+        index = position
     }
 
 
