@@ -141,8 +141,8 @@ class RideRequestListAdapter(private val rideRequestList:  ArrayList<RideRequest
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
         viewHolder.riderName_view.text = rideRequestList[position].riderName
         viewHolder.riderRating_view.text = rideRequestList[position].riderRating.toString()
-        viewHolder.sourceLocation_view.text = rideRequestList[position].sourceLocation
-        viewHolder.destinationLocation_view.text = rideRequestList[position].destinationLocation
+        viewHolder.sourceLocation_view.text = rideRequestList[position].sourceLocation?.get("Address").toString()
+        viewHolder.destinationLocation_view.text = rideRequestList[position].destinationLocation?.get("Address").toString()
         riderId = rideRequestList[position].riderId.toString()
     }
 

@@ -424,13 +424,17 @@ GoogleMap.OnCameraMoveStartedListener{
                 driverLocation.latitude = Common.driversFound[key]!!.geoLocation!!.latitude
                 driverLocation.longitude = Common.driversFound[key]!!.geoLocation!!.longitude
                 if(driverLocation.distanceTo(riderLocation)/1000 < maxDistance){
-                    var pickup:String = ""
-                    var dropOff:String = ""
+                    var pickup = mutableMapOf<String, Any>()
+                    var dropOff = mutableMapOf<String, Any>()
                     try {
                         var address = Geocoder(requireContext(), Locale.getDefault()).getFromLocation(origin.latitude,origin.longitude, 1)
-                        pickup = address[0].getAddressLine(0)
+                        pickup["Lat"] = origin.latitude
+                        pickup["Lng"] = origin.longitude
+                        pickup["Address"] = address[0].getAddressLine(0)
                         address = Geocoder(requireContext(), Locale.getDefault()).getFromLocation(destination.latitude,destination.longitude, 1)
-                        dropOff = address[0].getAddressLine(0)
+                        dropOff["Lat"] = destination.latitude
+                        dropOff["Lng"] = destination.longitude
+                        dropOff["Address"] = address[0].getAddressLine(0)
                     }catch (e:IOException){
                         e.printStackTrace()
                     }
@@ -493,13 +497,13 @@ GoogleMap.OnCameraMoveStartedListener{
         }
 
 
-        try {
-            val success = googleMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(requireContext(), R.raw.map_style))
-            if(!success)
-                Log.e("EDMT_ERROR", "Style parsing error")
-        }catch (e:Resources.NotFoundException){
-            Log.e("EDMT_ERROR", e.message!!)
-        }
+//        try {
+//            val success = googleMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(requireContext(), R.raw.map_style))
+//            if(!success)
+//                Log.e("EDMT_ERROR", "Style parsing error")
+//        }catch (e:Resources.NotFoundException){
+//            Log.e("EDMT_ERROR", e.message!!)
+//        }
 
         //mMap.isMyLocationEnabled = true
         mMap.setOnCameraIdleListener(this)

@@ -14,7 +14,6 @@ import java.util.*
 
 object Common {
 
-    var rideSession: RideSession = RideSession()
     var endThread: Boolean = false
     val offersReceived: MutableSet<String> = HashSet<String>()
 

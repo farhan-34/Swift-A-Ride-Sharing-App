@@ -5,10 +5,12 @@ import android.animation.ValueAnimator
 import android.content.pm.PackageManager
 import android.content.res.Resources
 import android.graphics.Color
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Looper
 import android.util.Log
 import android.view.animation.LinearInterpolator
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import com.example.swift.R
 import com.example.swift.businessLayer.Common.Common
@@ -16,26 +18,33 @@ import com.example.swift.businessLayer.EventBus.SelectedPlaceEvent
 import com.example.swift.businessLayer.dataClasses.RideSession
 import com.example.swift.databinding.ActivityDriverRideSessionBinding
 import com.example.swift.frontEnd.Remote.IGoogleAPI
-
+import com.example.swift.frontEnd.Remote.RetroFitClient
+import com.google.android.gms.location.*
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.ChildEventListener
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.*
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.schedulers.Schedulers
 import org.json.JSONObject
+import java.util.*
+
 
 class DriverRideSessionActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private lateinit var mMap: GoogleMap
     private lateinit var binding: ActivityDriverRideSessionBinding
 
+
+    //locations
+    private lateinit var locationRequest: com.google.android.gms.location.LocationRequest
+    private lateinit var locationCallback: LocationCallback
+
+    private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
 
     //Routes
     private val compositeDisposable = CompositeDisposable()
@@ -63,14 +72,6 @@ class DriverRideSessionActivity : AppCompatActivity(), OnMapReadyCallback {
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
 
-        try {
-            val success = googleMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(this, R.raw.map_style))
-            if(!success)
-                Log.e("ERROR", "Style parsing error")
-        }catch (e: Resources.NotFoundException){
-            Log.e("ERROR", e.message!!)
-        }
-
         if (ActivityCompat.checkSelfPermission(
                 this,
                 Manifest.permission.ACCESS_FINE_LOCATION
@@ -88,13 +89,13 @@ class DriverRideSessionActivity : AppCompatActivity(), OnMapReadyCallback {
             // for ActivityCompat#requestPermissions for more details.
             return
         }
-        try {
-            val success = googleMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(this, R.raw.map_style))
-            if(!success)
-                Log.e("ERROR", "Style parsing error")
-        }catch (e: Resources.NotFoundException){
-            Log.e("ERROR", e.message!!)
-        }
+//        try {
+//            val success = googleMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(this, R.raw.map_style))
+//            if(!success)
+//                Log.e("ERROR", "Style parsing error")
+//        }catch (e: Resources.NotFoundException){
+//            Log.e("ERROR", e.message!!)
+//        }
         mMap.isMyLocationEnabled = true
         mMap.uiSettings.isMyLocationButtonEnabled = true
 //        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(selectedPlaceEvent.origin, 18f))
@@ -105,6 +106,82 @@ class DriverRideSessionActivity : AppCompatActivity(), OnMapReadyCallback {
 //            true
 //        }
 
+
+        locationRequest = LocationRequest.create()
+        locationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
+        locationRequest.fastestInterval = 4000 //15 sec
+        locationRequest.interval = 3000  //10 sec
+        locationRequest.smallestDisplacement = 20f  //50m
+
+        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this@DriverRideSessionActivity)
+
+        locationCallback = object: LocationCallback(){
+            override fun onLocationResult(locationResult: LocationResult) {
+                super.onLocationResult(locationResult)
+                Toast.makeText(this@DriverRideSessionActivity,"location Updated", Toast.LENGTH_SHORT).show()
+                val newPos = LatLng(locationResult!!.lastLocation.latitude,locationResult.lastLocation.longitude)
+                var pickUp = ""
+
+                var db = FirebaseDatabase.getInstance().getReference("RideSessions")
+                db.addListenerForSingleValueEvent(object : ValueEventListener{
+                    override fun onDataChange(snapshot: DataSnapshot) {
+                        snapshot.children.forEach{
+                            val session = it.getValue(RideSession::class.java)
+                            if(session!!.driverId == FirebaseAuth.getInstance().currentUser!!.uid){
+                                db.child(it.key!!).updateChildren(mapOf("driverLat" to newPos.latitude))
+                                db.child(it.key!!).updateChildren(mapOf("driverLng" to newPos.longitude))
+                                var selectedPlace = SelectedPlaceEvent(origin = newPos,
+                                    destination = LatLng(
+                                        session.pickUpLocation?.get("Lat") as Double,
+                                        session.pickUpLocation?.get("Lng")!! as Double
+                                    )
+                                    )
+                                drawPath(selectedPlace)
+                            }
+                        }
+                    }
+
+                    override fun onCancelled(error: DatabaseError) {
+                    }
+
+                })
+
+                if (ActivityCompat.checkSelfPermission(
+                        this@DriverRideSessionActivity,
+                        Manifest.permission.ACCESS_FINE_LOCATION
+                    ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                        this@DriverRideSessionActivity,
+                        Manifest.permission.ACCESS_COARSE_LOCATION
+                    ) != PackageManager.PERMISSION_GRANTED
+                ) {
+                    // TODO: Consider calling
+                    //    ActivityCompat#requestPermissions
+                    // here to request the missing permissions, and then overriding
+                    //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                    //                                          int[] grantResults)
+                    // to handle the case where the user grants the permission. See the documentation
+                    // for ActivityCompat#requestPermissions for more details.
+                    return
+                }
+
+//                db = FirebaseDatabase.getInstance().getReference("RideSessions")
+//                db.addValueEventListener(object : ValueEventListener{
+//                    override fun onDataChange(snapshot: DataSnapshot) {
+//
+//                    }
+//
+//                    override fun onCancelled(error: DatabaseError) {
+//
+//                    }
+//
+//                })
+
+            }
+
+        }
+
+        fusedLocationProviderClient.requestLocationUpdates(locationRequest, locationCallback, Looper.myLooper()!!)
+
         //drawing path for the first time
 //        drawPath(selectedPlaceEvent)
 
@@ -114,6 +191,7 @@ class DriverRideSessionActivity : AppCompatActivity(), OnMapReadyCallback {
     }
 
     private fun drawPath(selectedPlace: SelectedPlaceEvent) {
+        iGoogleAPI = RetroFitClient.instance!!.create(IGoogleAPI::class.java)
         //request Api
         compositeDisposable.add(iGoogleAPI.getDirections("driving",
             "less_driving",
@@ -132,7 +210,8 @@ class DriverRideSessionActivity : AppCompatActivity(), OnMapReadyCallback {
                         val polyline = poly.getString("points")
                         polylineList = Common.decodePoly(polyline)
                     }
-
+                    blackPolyLine?.remove()
+                    greyPolyline?.remove()
                     polylineOptions = PolylineOptions()
                     polylineOptions!!.color(Color.parseColor("#E87C35"))
                     polylineOptions!!.width(12f)
@@ -164,8 +243,8 @@ class DriverRideSessionActivity : AppCompatActivity(), OnMapReadyCallback {
                     }
                     valueAnimator.start()
 
-                    val latLngBound = LatLngBounds.Builder().include(selectedPlace.origin)
-                        .include(selectedPlace.destination)
+                    val latLngBound = LatLngBounds.Builder().include(LatLng(selectedPlace.origin.latitude,selectedPlace.origin.longitude))
+                        .include(LatLng(selectedPlace.destination.latitude,selectedPlace.destination.longitude))
                         .build()
 
                     //add car for origin

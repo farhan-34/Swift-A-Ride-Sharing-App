@@ -83,16 +83,17 @@ class OfferListAdapter (var context:Context, private val driversOfferList:  Arra
 
 
                 val position: Int = adapterPosition
-                var pickUpLocation:String  = ""
-                var dropOffLocation: String = ""
+                var pickUpLocation:MutableMap<String, Any>
+                var dropOffLocation:MutableMap<String, Any>
 
                db.get().addOnSuccessListener {
                    for (child in it.children) {
-                       if (child.child("driverId").value == driversOfferList[position].driverId) {
-                           pickUpLocation = child.child("sourceLocation").value.toString()
-                           dropOffLocation = child.child("destinationLocation").value.toString()
+                       val req = child.getValue(RideRequest::class.java)
+                       if (req!!.driverId == driversOfferList[position].driverId) {
+                           pickUpLocation = req.sourceLocation!!
+                           dropOffLocation = req.destinationLocation!!
 
-                           val latLng: LatLng = LatLng(Common.driversFound[driversOfferList[position].driverId]!!.geoLocation!!.latitude,
+                           val latLng = LatLng(Common.driversFound[driversOfferList[position].driverId]!!.geoLocation!!.latitude,
                                Common.driversFound[driversOfferList[position].driverId]!!.geoLocation!!.longitude)
 
                            var session: RideSession = RideSession( offerId = driversOfferList[position].offerId,
@@ -101,7 +102,8 @@ class OfferListAdapter (var context:Context, private val driversOfferList:  Arra
                                rideState = "Picking_Up",
                                pickUpLocation = pickUpLocation,
                                dropOffLocation = dropOffLocation,
-                               driverLocation = latLng)
+                               driverLat = latLng.latitude,
+                               driverLng = latLng.longitude)
 
 
                            db = FirebaseDatabase.getInstance().getReference("RideSessions")
@@ -110,8 +112,6 @@ class OfferListAdapter (var context:Context, private val driversOfferList:  Arra
                            offerId.setValue(session)
 
                            val intent = Intent(context, RiderRideSessionActivity::class.java)
-                           intent.putExtra("pickUp", pickUpLocation)
-                           intent.putExtra("driver", latLng)
                            context.startActivity(intent)
                            break
 
