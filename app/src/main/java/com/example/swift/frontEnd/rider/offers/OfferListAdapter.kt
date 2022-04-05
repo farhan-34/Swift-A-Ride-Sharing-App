@@ -42,24 +42,19 @@ class OfferListAdapter (var context:Context, private val driversOfferList:  Arra
         init {
             chatBtn.setOnClickListener {
 
+                var offer = driversOfferList[index]
 
-                DriverSession.getCurrentUser { driver ->
-
-                    var offer = driversOfferList[index]
-
-                    val intent = Intent(view.context, RiderChatLogActivity::class.java)
+                val intent = Intent(view.context, RiderChatLogActivity::class.java)
 //                  intent.putExtra(USER_KEY,  userItem.user.username)
-                    val nullRequest : RideRequest? = null
-                    intent.putExtra(RideRequestListAdapter.REQUEST_KEY, nullRequest)
-                    intent.putExtra(OFFER_KEY, offer)
+                val nullRequest : RideRequest? = null
+                intent.putExtra(RideRequestListAdapter.REQUEST_KEY, nullRequest)
+                intent.putExtra(OFFER_KEY, offer)
 
-                    context.startActivity(intent)
-
-                }
-
+                context.startActivity(intent)
 
 
             }
+
 
             hideBtn.setOnClickListener{
                 var db = FirebaseDatabase.getInstance().getReference().child("RiderOffers")
