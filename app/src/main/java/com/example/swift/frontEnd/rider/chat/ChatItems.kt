@@ -1,8 +1,6 @@
 package com.example.swift.frontEnd.rider.chat
 
 import com.example.swift.R
-import com.example.swift.businessLayer.dataClasses.Rider
-import com.squareup.picasso.Picasso
 import com.xwray.groupie.GroupieViewHolder
 import com.xwray.groupie.Item
 import kotlinx.android.synthetic.main.chat_from_row.view.*
@@ -15,7 +13,7 @@ class ChatFromItem(val text: String): Item<GroupieViewHolder>() {
         viewHolder.itemView.textview_from_row.text = text
 
         //val uri = user.profileImageUrl
-        val targetImageView = viewHolder.itemView.imageview_chat_from_row
+        //val targetImageView = viewHolder.itemView.imageview_chat_from_row
         //Picasso.get().load(uri).into(targetImageView)
     }
 
@@ -31,7 +29,7 @@ class ChatToItem(val text: String): Item<GroupieViewHolder>() {
 
         // load our user image into the star
         //val uri = user.profileImageUrl
-        val targetImageView = viewHolder.itemView.imageview_chat_to_row
+        //val targetImageView = viewHolder.itemView.imageview_chat_to_row
         //Picasso.get().load(uri).into(targetImageView)
     }
 

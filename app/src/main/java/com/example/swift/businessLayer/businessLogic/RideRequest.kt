@@ -1,5 +1,9 @@
 package com.example.swift.businessLayer.businessLogic
 
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
+
+@Parcelize
 class RideRequest(
     var requestId: String? = "",
     var riderId: String? = "",
@@ -9,6 +13,8 @@ class RideRequest(
     var sourceLocation:String = "",
     var destinationLocation:String = "",
     var vehicleType:String = ""
-){
+)
+    : Parcelable
+{
     fun createRequest() {}
 }
