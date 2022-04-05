@@ -8,25 +8,27 @@
     android:layout_marginBottom="12dp">
 
     <TextView
-        android:id="@+id/textview_from_row"
+        android:id="@+id/textview_to_row"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="8dp"
-        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
         android:maxWidth="240dp"
         android:padding="16dp"
         android:text="This is my message that will wrap into multiple lines and keep on going"
-        app:layout_constraintStart_toEndOf="@+id/imageview_chat_from_row"
-        app:layout_constraintTop_toTopOf="@+id/imageview_chat_from_row" />
+        app:layout_constraintEnd_toStartOf="@+id/imageview_chat_to_row"
+        app:layout_constraintTop_toTopOf="@+id/imageview_chat_to_row" />
 
     <ImageView
-        android:id="@+id/imageview_chat_from_row"
+        android:id="@+id/imageview_chat_to_row"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:layout_marginStart="4dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
         android:layout_marginTop="8dp"
         app:civ_border_width="2dp"
-        app:layout_constraintStart_toStartOf="parent"
+        app:civ_border_color="@android:color/black"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@android:drawable/btn_star_big_on" />
 

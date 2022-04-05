@@ -36,7 +36,7 @@ class RiderChatLogActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chat_log)
 
-        offer = intent.getParcelableExtra<DriverOffer>(OfferListAdapter.OFFER_KEY)
+        offer = intent.getParcelableExtra(OfferListAdapter.OFFER_KEY)
         supportActionBar?.title = offer?.name
 
 
@@ -162,38 +162,10 @@ class RiderChatLogActivity : AppCompatActivity() {
     }
 
 
-
-    // TODO homeUp button not working
-    override fun onContextItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            android.R.id.home -> {
-                this.onBackPressed()
-                finish()
-                return true
-            }
-        }
-        return super.onContextItemSelected(item)
+    override fun onSupportNavigateUp(): Boolean {
+        finish()
+        return true
     }
 
 
 }
-//
-//class ChatFromItem: Item<GroupieViewHolder>(){
-//    override fun bind(viewHolder: GroupieViewHolder, position: Int){
-//
-//    }
-//
-//    override fun getLayout(): Int {
-//        return R.layout.chat_from_row
-//    }
-//}
-//
-//class ChatToItem: Item<GroupieViewHolder>(){
-//    override fun bind(viewHolder: GroupieViewHolder, position: Int){
-//
-//    }
-//
-//    override fun getLayout(): Int {
-//        return R.layout.chat_to_row
-//    }
-//}

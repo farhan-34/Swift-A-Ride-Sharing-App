@@ -1,8 +1,6 @@
 package com.example.swift.frontEnd.rider.chat
 
 import com.example.swift.R
-import com.example.swift.businessLayer.dataClasses.Rider
-import com.squareup.picasso.Picasso
 import com.xwray.groupie.GroupieViewHolder
 import com.xwray.groupie.Item
 import kotlinx.android.synthetic.main.chat_from_row.view.*
@@ -20,7 +18,7 @@ class ChatFromItem(val text: String): Item<GroupieViewHolder>() {
     }
 
     override fun getLayout(): Int {
-        return R.layout.chat_from_row
+        return R.layout.chat_to_row
     }
 }
 
@@ -36,6 +34,6 @@ class ChatToItem(val text: String): Item<GroupieViewHolder>() {
     }
 
     override fun getLayout(): Int {
-        return R.layout.chat_to_row
+        return R.layout.chat_from_row
     }
 }
