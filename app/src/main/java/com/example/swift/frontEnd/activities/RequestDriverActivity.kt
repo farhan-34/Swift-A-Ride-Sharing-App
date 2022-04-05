@@ -104,7 +104,8 @@ class RequestDriverActivity : AppCompatActivity(), OnMapReadyCallback {
         mMap.isMyLocationEnabled = true
         mMap.uiSettings.isMyLocationButtonEnabled = true
         mMap.setOnMyLocationClickListener {
-            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(selectedPlaceEvent!!.origin,18f))
+            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(LatLng(selectedPlaceEvent!!.origin.latitude,
+                selectedPlaceEvent!!.origin.longitude),18f))
             true
         }
 

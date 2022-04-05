@@ -32,48 +32,48 @@ class NotifyOnDriverOffer() : Service() {
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         //super.onStartCommand(intent, flags, startId)
 
-                FirebaseDatabase.getInstance().getReference("RiderOffers")
-                    .addChildEventListener(object : ChildEventListener{
-                        override fun onChildAdded(
-                            snapshot: DataSnapshot,
-                            previousChildName: String?
-                        ) {
-                            val i = snapshot.value.toString()
-                            val temp: DriverOffer? = snapshot.getValue(DriverOffer::class.java)
-                            val curUser = FirebaseAuth.getInstance().currentUser!!.uid
-                            if (temp != null) {
-                                val rider = temp.riderId
-                                if (rider == curUser) {
-                                    if (!Common.offersReceived.contains(temp.offerId)) {
-                                        createNotificationChannel(intent!!)
-                                        Common.offersReceived.add(temp.offerId)
-                                    }
-                                }
-                            }
-                        }
-
-                        override fun onChildChanged(
-                            snapshot: DataSnapshot,
-                            previousChildName: String?
-                        ) {
-
-                        }
-
-                        override fun onChildRemoved(snapshot: DataSnapshot) {
-                        }
-
-                        override fun onChildMoved(
-                            snapshot: DataSnapshot,
-                            previousChildName: String?
-                        ) {
-
-                        }
-
-                        override fun onCancelled(error: DatabaseError) {
-
-                        }
-
-                    })
+//                FirebaseDatabase.getInstance().getReference("RiderOffers")
+//                    .addChildEventListener(object : ChildEventListener{
+//                        override fun onChildAdded(
+//                            snapshot: DataSnapshot,
+//                            previousChildName: String?
+//                        ) {
+//                            val i = snapshot.value.toString()
+//                            val temp: DriverOffer? = snapshot.getValue(DriverOffer::class.java)
+//                            val curUser = FirebaseAuth.getInstance().currentUser!!.uid
+//                            if (temp != null) {
+//                                val rider = temp.riderId
+//                                if (rider == curUser) {
+//                                    if (!Common.offersReceived.contains(temp.offerId)) {
+//                                        createNotificationChannel(intent!!)
+//                                        Common.offersReceived.add(temp.offerId)
+//                                    }
+//                                }
+//                            }
+//                        }
+//
+//                        override fun onChildChanged(
+//                            snapshot: DataSnapshot,
+//                            previousChildName: String?
+//                        ) {
+//
+//                        }
+//
+//                        override fun onChildRemoved(snapshot: DataSnapshot) {
+//                        }
+//
+//                        override fun onChildMoved(
+//                            snapshot: DataSnapshot,
+//                            previousChildName: String?
+//                        ) {
+//
+//                        }
+//
+//                        override fun onCancelled(error: DatabaseError) {
+//
+//                        }
+//
+//                    })
 
         return super.onStartCommand(intent, flags, startId)
     }

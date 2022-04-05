@@ -59,10 +59,6 @@ class RiderRideSessionActivity : AppCompatActivity(), OnMapReadyCallback {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val pickUpLocation = intent.getStringExtra("pickUp").toString()
-        val driverLocation: LatLng? = intent.getParcelableExtra<LatLng>("driver")
-        selectedPlaceEvent = SelectedPlaceEvent(Common.getLocationFromAddress(this,pickUpLocation)!!,driverLocation!!)
-
         binding = ActivityRiderRideSessionBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -87,13 +83,13 @@ class RiderRideSessionActivity : AppCompatActivity(), OnMapReadyCallback {
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
 
-        try {
-            val success = googleMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(this, R.raw.map_style))
-            if(!success)
-                Log.e("ERROR", "Style parsing error")
-        }catch (e: Resources.NotFoundException){
-            Log.e("ERROR", e.message!!)
-        }
+//        try {
+//            val success = googleMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(this, R.raw.map_style))
+//            if(!success)
+//                Log.e("ERROR", "Style parsing error")
+//        }catch (e: Resources.NotFoundException){
+//            Log.e("ERROR", e.message!!)
+//        }
 
         if (ActivityCompat.checkSelfPermission(
                 this,
@@ -112,41 +108,40 @@ class RiderRideSessionActivity : AppCompatActivity(), OnMapReadyCallback {
             // for ActivityCompat#requestPermissions for more details.
             return
         }
-        try {
-            val success = googleMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(this, R.raw.map_style))
-            if(!success)
-                Log.e("ERROR", "Style parsing error")
-        }catch (e: Resources.NotFoundException){
-            Log.e("ERROR", e.message!!)
-        }
+//        try {
+//            val success = googleMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(this, R.raw.map_style))
+//            if(!success)
+//                Log.e("ERROR", "Style parsing error")
+//        }catch (e: Resources.NotFoundException){
+//            Log.e("ERROR", e.message!!)
+//        }
         mMap.isMyLocationEnabled = true
         mMap.uiSettings.isMyLocationButtonEnabled = true
-        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(selectedPlaceEvent.origin, 18f))
+//        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(selectedPlaceEvent.origin, 18f))
+//
+//        mMap.setOnMyLocationClickListener {
+//            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(selectedPlaceEvent.origin, 18f))
+//
+//            true
+//        }
 
-        mMap.setOnMyLocationClickListener {
-            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(selectedPlaceEvent.origin, 18f))
-
-            true
-        }
-
-        //drawing path for the first time
-        drawPath(selectedPlaceEvent)
-
-
-        //Checking location change in driver to update the path
-        db.addChildEventListener(object: ChildEventListener{
+        val db = FirebaseDatabase.getInstance().getReference("RideSessions")
+        db.addChildEventListener(object : ChildEventListener{
             override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
+
             }
 
             override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
-                var session: RideSession = snapshot.value as RideSession
-                if(session.riderId == FirebaseAuth.getInstance().currentUser!!.uid){
-                    selectedPlaceEvent.origin = session.driverLocation
-                    drawPath(selectedPlaceEvent)
-                }
+                    val session = snapshot.getValue(RideSession::class.java)
+                    if(session!!.riderId == FirebaseAuth.getInstance().currentUser!!.uid){
+                        selectedPlaceEvent = SelectedPlaceEvent(origin = LatLng(session.driverLat,session.driverLng),
+                            destination = LatLng(session.pickUpLocation!!["Lat"].toString().toDouble(), session.pickUpLocation!!["Lng"].toString().toDouble()))
+                        drawPath(selectedPlaceEvent)
+                    }
             }
 
             override fun onChildRemoved(snapshot: DataSnapshot) {
+
             }
 
             override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {
@@ -157,10 +152,9 @@ class RiderRideSessionActivity : AppCompatActivity(), OnMapReadyCallback {
 
         })
 
-
     }
 
-    private fun drawPath(selectedPlace: SelectedPlaceEvent) {
+    private fun drawPath(selectedPlace:SelectedPlaceEvent) {
         //request Api
         compositeDisposable.add(iGoogleAPI.getDirections("driving",
             "less_driving",
@@ -179,7 +173,8 @@ class RiderRideSessionActivity : AppCompatActivity(), OnMapReadyCallback {
                         val polyline = poly.getString("points")
                         polylineList = Common.decodePoly(polyline)
                     }
-
+                    greyPolyline?.remove()
+                    blackPolyLine?.remove()
                     polylineOptions = PolylineOptions()
                     polylineOptions!!.color(Color.parseColor("#E87C35"))
                     polylineOptions!!.width(12f)
@@ -198,7 +193,7 @@ class RiderRideSessionActivity : AppCompatActivity(), OnMapReadyCallback {
 
                     //Animator
                     val valueAnimator = ValueAnimator.ofInt(0,100)
-                    valueAnimator.duration = 2100
+                    valueAnimator.duration = 1100
                     valueAnimator.repeatCount = ValueAnimator.INFINITE
                     valueAnimator.interpolator = LinearInterpolator()
                     valueAnimator.addUpdateListener { value->
@@ -228,6 +223,15 @@ class RiderRideSessionActivity : AppCompatActivity(), OnMapReadyCallback {
                     addOriginMarker(duration, start_address)
                     addDestinationMarker(end_address)
 
+
+                    var marker:Marker?= null
+                    marker?.remove()
+                    marker = mMap.addMarker(MarkerOptions()
+                        .position(selectedPlace.origin)
+                        .flat(true)
+                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_red_car)))
+
+
                     mMap.moveCamera(CameraUpdateFactory.newLatLngBounds(latLngBound,160))
                     mMap.moveCamera(CameraUpdateFactory.zoomTo(mMap.cameraPosition!!.zoom-1))
                 }catch (e:java.lang.Exception){
@@ -244,6 +248,4 @@ class RiderRideSessionActivity : AppCompatActivity(), OnMapReadyCallback {
     private fun addOriginMarker(duration: String, startAddress: String) {
 
     }
-
-
 }
