@@ -20,6 +20,10 @@ class RideRequestListAdapter(private val rideRequestList:  ArrayList<RideRequest
     var riderId:String = ""
     var offerFair:String = ""
 
+    companion object {
+        val REQUEST_KEY = "REQUEST_KEY"
+    }
+
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         var riderName_view : TextView = view.findViewById(R.id.rideRequest_Item_riderName)
         var sourceLocation_view : TextView = view.findViewById(R.id.rideRequest_sourceLocation)
@@ -104,7 +108,7 @@ class RideRequestListAdapter(private val rideRequestList:  ArrayList<RideRequest
                     RiderSession.getCurrentUser { rider ->
                         DriverSession.getCurrentUser { driver ->
                             obj.driverId = driver.driverId
-                            obj.name = rider.name
+                            obj.driverName = rider.name
                             obj.riderId = riderId
                             obj.text = fair
                             val db = FirebaseDatabase.getInstance().getReference("RiderOffers")

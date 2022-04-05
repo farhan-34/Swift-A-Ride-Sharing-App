@@ -7,13 +7,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
-import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.example.swift.R
 import com.example.swift.businessLayer.Common.Common
+import com.example.swift.businessLayer.businessLogic.RideRequest
 import com.example.swift.businessLayer.dataClasses.DriverOffer
 import com.example.swift.businessLayer.dataClasses.RideSession
 import com.example.swift.businessLayer.session.DriverSession
+import com.example.swift.frontEnd.driver.riderRequests.RideRequestListAdapter
 import com.example.swift.frontEnd.rider.chat.RiderChatLogActivity
 import com.example.swift.frontEnd.rider.rideSession.RiderRideSessionActivity
 import com.google.android.gms.maps.model.LatLng
@@ -48,6 +49,8 @@ class OfferListAdapter (var context:Context, private val driversOfferList:  Arra
 
                     val intent = Intent(view.context, RiderChatLogActivity::class.java)
 //                  intent.putExtra(USER_KEY,  userItem.user.username)
+                    val nullRequest : RideRequest? = null
+                    intent.putExtra(RideRequestListAdapter.REQUEST_KEY, nullRequest)
                     intent.putExtra(OFFER_KEY, offer)
 
                     context.startActivity(intent)
@@ -135,7 +138,7 @@ class OfferListAdapter (var context:Context, private val driversOfferList:  Arra
 
     // Replace the contents of a view (invoked by the layout manager)
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
-        viewHolder.name.text = driversOfferList[position].name
+        viewHolder.name.text = driversOfferList[position].driverName
         viewHolder.rating.text = driversOfferList[position].rating.toString()
         viewHolder.text.text = driversOfferList[position].text
 

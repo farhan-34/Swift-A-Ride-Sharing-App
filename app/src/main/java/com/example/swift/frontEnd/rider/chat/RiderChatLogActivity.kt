@@ -3,11 +3,12 @@ package com.example.swift.frontEnd.rider.chat
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.view.MenuItem
 import com.example.swift.R
+import com.example.swift.businessLayer.businessLogic.RideRequest
 import com.example.swift.businessLayer.dataClasses.ChatMessage
 import com.example.swift.businessLayer.dataClasses.DriverOffer
 import com.example.swift.businessLayer.session.RiderSession
+import com.example.swift.frontEnd.driver.riderRequests.RideRequestListAdapter
 import com.example.swift.frontEnd.rider.offers.OfferListAdapter
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.ChildEventListener
@@ -21,41 +22,52 @@ import kotlinx.android.synthetic.main.activity_chat_log.*
 
 class RiderChatLogActivity : AppCompatActivity() {
 
-    var offer: DriverOffer? = null
-    var fromId : String? = null
-    var toId : String? = null
-
-    val adapter = GroupAdapter<GroupieViewHolder>()
+    private var offer: DriverOffer? = null
+    private var request: RideRequest? = null
+    private var toId : String? = null
+    private var toName : String? = null
+    private var isOffer = false
+    private var isRequest = false
 
 
     companion object {
         val TAG = "ChatLog"
     }
 
+
+    val adapter = GroupAdapter<GroupieViewHolder>()
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chat_log)
 
+        //fetching values from the intent
         offer = intent.getParcelableExtra(OfferListAdapter.OFFER_KEY)
-        supportActionBar?.title = offer?.name
-
-
-        recyclerview_chat_log.adapter = adapter
-
-        toId = offer?.driverId
-        RiderSession.getCurrentUser { rider ->
-            fromId = rider.riderId
+        request = intent.getParcelableExtra(RideRequestListAdapter.REQUEST_KEY)
+        if(offer != null){
+            toId = offer?.driverId
+            toName = offer?.driverName
+            isOffer = true
         }
+        if(request != null){
+            toId = request?.riderId
+            toName = request?.riderName
+            isRequest = true
+        }
+
+        // setting some variables
+        supportActionBar?.title = toName
+        recyclerview_chat_log.adapter = adapter
 
 
         // calling the action bar
         var actionBar = supportActionBar
-
         // showing the back button in action bar
         actionBar?.setDisplayHomeAsUpEnabled(true)
 
-        //setupDummyData()
 
+        // showing previous messages
         listenForMessages()
 
         send_button_chat_log.setOnClickListener {
@@ -65,26 +77,11 @@ class RiderChatLogActivity : AppCompatActivity() {
 
     }
 
-//    private fun setupDummyData(){
-//        val adapter = GroupAdapter<GroupieViewHolder>()
-//
-//        adapter.add(ChatFromItem(""))
-//        adapter.add(ChatToItem(""))
-//        adapter.add(ChatFromItem(""))
-//        adapter.add(ChatToItem(""))
-//        adapter.add(ChatFromItem(""))
-//        adapter.add(ChatToItem(""))
-//
-//        recyclerview_chat_log.adapter = adapter
-//    }
-
-
-
 
 
     private fun listenForMessages() {
         RiderSession.getCurrentUser { rider ->
-            fromId = rider.riderId
+            val fromId = rider.riderId
 
             val ref = FirebaseDatabase.getInstance().getReference("/user-messages/$fromId/$toId")
 
@@ -132,36 +129,41 @@ class RiderChatLogActivity : AppCompatActivity() {
     }
 
     private fun performSendMessage() {
-        // how do we actually send a message to firebase...
-        val text = edittext_chat_log.text.toString()
 
-        //val fromId = FirebaseAuth.getInstance().uid
-        //val user = intent.getParcelableExtra<User>(NewMessageActivity.USER_KEY)
-        //val toId = user.uid
+        RiderSession.getCurrentUser { rider ->
 
-        if (fromId == null) return
+            val fromId = rider.riderId
 
-//    val reference = FirebaseDatabase.getInstance().getReference("/messages").push()
-        val reference = FirebaseDatabase.getInstance().getReference("/user-messages/$fromId/$toId").push()
+            val text = edittext_chat_log.text.toString()
 
-        val toReference = FirebaseDatabase.getInstance().getReference("/user-messages/$toId/$fromId").push()
+            //    val reference = FirebaseDatabase.getInstance().getReference("/messages").push()
+            val reference =
+                FirebaseDatabase.getInstance().getReference("/user-messages/$fromId/$toId").push()
 
-        val chatMessage = toId?.let {
-            ChatMessage(reference.key!!, text, fromId!!,
-                it, System.currentTimeMillis() / 1000)
-        }
+            val toReference =
+                FirebaseDatabase.getInstance().getReference("/user-messages/$toId/$fromId").push()
 
-        reference.setValue(chatMessage)
-            .addOnSuccessListener {
-                Log.d(TAG, "Saved our chat message: ${reference.key}")
-                edittext_chat_log.text.clear()
-                recyclerview_chat_log.scrollToPosition(adapter.itemCount - 1)
+            val chatMessage = toId?.let {
+                ChatMessage(
+                    reference.key!!, text, fromId!!,
+                    it, System.currentTimeMillis() / 1000
+                )
             }
 
-        toReference.setValue(chatMessage)
+            reference.setValue(chatMessage)
+                .addOnSuccessListener {
+                    Log.d(TAG, "Saved our chat message: ${reference.key}")
+                    edittext_chat_log.text.clear()
+                    recyclerview_chat_log.scrollToPosition(adapter.itemCount - 1)
+                }
+
+            toReference.setValue(chatMessage)
+        }
     }
 
 
+    // updating home up button
+    // going back to the previous activity
     override fun onSupportNavigateUp(): Boolean {
         finish()
         return true
