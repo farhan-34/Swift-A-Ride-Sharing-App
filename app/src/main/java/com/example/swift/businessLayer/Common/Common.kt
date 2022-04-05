@@ -1,12 +1,16 @@
 package com.example.swift.businessLayer.Common
 
+import android.content.Context
+import android.location.Address
+import android.location.Geocoder
 import android.widget.TextView
 import com.example.swift.businessLayer.dataClasses.DriverGeo
 import com.example.swift.businessLayer.dataClasses.RideSession
+import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
+import java.io.IOException
 import java.util.*
-import kotlin.collections.ArrayList
-import kotlin.collections.HashMap
+
 
 object Common {
 
@@ -28,11 +32,29 @@ object Common {
         }
     }
 
+    fun getLocationFromAddress(context: Context, strAddress: String?): LatLng? {
+        val coder = Geocoder(context)
+        val address: List<Address>?
+        var p1: LatLng? = null
+        try {
+            // May throw an IOException
+            address = coder.getFromLocationName(strAddress, 5)
+            if (address == null) {
+                return null
+            }
+            val location: Address = address[0]
+            p1 = LatLng(location.latitude, location.longitude)
+        } catch (ex: IOException) {
+            ex.printStackTrace()
+        }
+        return p1
+    }
+
     const val DRIVER_LOCATION_REF: String = "DriversLocation"
     val markerList: MutableMap<String, Marker> = HashMap<String, Marker>()
     val driversFound: MutableMap<String, DriverGeo> = HashMap<String,DriverGeo>()
-    fun decodePoly(encoded: String): List<com.google.android.gms.maps.model.LatLng> {
-        val poly = ArrayList<com.google.android.gms.maps.model.LatLng>()
+    fun decodePoly(encoded: String): ArrayList<LatLng> {
+        val poly = ArrayList<LatLng>()
         var index = 0
         val len = encoded.length
         var lat = 0
@@ -57,7 +79,7 @@ object Common {
             } while (b >= 0x20)
             val dlng = if (result and 1 != 0) (result shr 1).inv() else result shr 1
             lng += dlng
-            val p = com.google.android.gms.maps.model.LatLng(lat.toDouble() / 1E5, lng.toDouble() / 1E5)
+            val p = LatLng(lat.toDouble() / 1E5, lng.toDouble() / 1E5)
             poly.add(p)
         }
         return poly
