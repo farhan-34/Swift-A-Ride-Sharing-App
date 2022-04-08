@@ -136,6 +136,10 @@ class RiderChatLogActivity : AppCompatActivity() {
 
             val text = edittext_chat_log.text.toString()
 
+            if (text.isEmpty())
+                return@getCurrentUser
+
+
             //    val reference = FirebaseDatabase.getInstance().getReference("/messages").push()
             val reference =
                 FirebaseDatabase.getInstance().getReference("/user-messages/$fromId/$toId").push()

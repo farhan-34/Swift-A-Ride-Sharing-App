@@ -26,7 +26,7 @@ class OfferListAdapter (var context:Context, private val driversOfferList:  Arra
         val OFFER_KEY = "OFFER_KEY"
     }
 
-    var index = 0
+
 
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -42,7 +42,8 @@ class OfferListAdapter (var context:Context, private val driversOfferList:  Arra
         init {
             chatBtn.setOnClickListener {
 
-                var offer = driversOfferList[index]
+                val position : Int = adapterPosition
+                var offer = driversOfferList[position]
 
                 val intent = Intent(view.context, RiderChatLogActivity::class.java)
 //                  intent.putExtra(USER_KEY,  userItem.user.username)
@@ -137,7 +138,7 @@ class OfferListAdapter (var context:Context, private val driversOfferList:  Arra
         viewHolder.rating.text = driversOfferList[position].rating.toString()
         viewHolder.text.text = driversOfferList[position].text
 
-        index = position
+
     }
 
 
