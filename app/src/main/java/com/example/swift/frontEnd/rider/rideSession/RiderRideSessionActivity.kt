@@ -55,6 +55,7 @@ class RiderRideSessionActivity : AppCompatActivity(), OnMapReadyCallback {
     private var polylineList:ArrayList<LatLng>? = null
     private var originMarker: Marker?= null
     private var destinationMarker: Marker?=null
+    var marker:Marker?= null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -64,7 +65,7 @@ class RiderRideSessionActivity : AppCompatActivity(), OnMapReadyCallback {
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         val mapFragment = supportFragmentManager
-            .findFragmentById(R.id.map) as SupportMapFragment
+            .findFragmentById(R.id.map_rider_session) as SupportMapFragment
         mapFragment.getMapAsync(this)
 
         initialize()
@@ -224,7 +225,6 @@ class RiderRideSessionActivity : AppCompatActivity(), OnMapReadyCallback {
                     addDestinationMarker(end_address)
 
 
-                    var marker:Marker?= null
                     marker?.remove()
                     marker = mMap.addMarker(MarkerOptions()
                         .position(selectedPlace.origin)

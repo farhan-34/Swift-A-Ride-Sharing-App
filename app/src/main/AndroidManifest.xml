@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.swift">
+
     <!--
          The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
          Google Maps Android API v2, but you must specify either coarse or fine
@@ -19,9 +20,7 @@
         android:roundIcon="@mipmap/ic_my_launcher"
         android:supportsRtl="true"
         android:theme="@style/Theme.Swift">
-        <activity
-            android:name=".frontEnd.rider.chat.RiderChatLogActivity"
-            android:exported="false" />
+
         <!--
              TODO: Before you run your application, you need a Google Maps API key.
 
@@ -35,8 +34,10 @@
         -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="YOUR_API_KEY" />
-
+            android:value="AIzaSyB4sppKZX0wUFNsv6CfU5MzfJK4PNRmNN0" />
+        <activity
+            android:name=".frontEnd.rider.chat.RiderChatLogActivity"
+            android:exported="false" />
         <activity
             android:name=".frontEnd.rider.rideSession.RiderRideSessionActivity"
             android:exported="false"
