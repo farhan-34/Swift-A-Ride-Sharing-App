@@ -119,8 +119,10 @@ class OfferListActivity : AppCompatActivity() {
                         }
                     }
 
-                    driversOffersList.removeAt(index)
-                    adapter.notifyDataSetChanged()
+                    if(driversOffersList.size >0) {
+                        driversOffersList.removeAt(index)
+                        adapter.notifyDataSetChanged()
+                    }
                 }
 
                 override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {

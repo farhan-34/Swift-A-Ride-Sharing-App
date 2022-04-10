@@ -1,7 +1,9 @@
 package com.example.swift.frontEnd.rider.offers
 
+import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,11 +16,15 @@ import com.example.swift.businessLayer.businessLogic.RideRequest
 import com.example.swift.businessLayer.dataClasses.DriverOffer
 import com.example.swift.businessLayer.dataClasses.RideSession
 import com.example.swift.businessLayer.session.DriverSession
+import com.example.swift.businessLayer.session.RiderSession
 import com.example.swift.frontEnd.driver.riderRequests.RideRequestListAdapter
 import com.example.swift.frontEnd.rider.chat.RiderChatLogActivity
 import com.example.swift.frontEnd.rider.rideSession.RiderRideSessionActivity
 import com.google.android.gms.maps.model.LatLng
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 
 class OfferListAdapter (var context:Context, private val driversOfferList:  ArrayList<DriverOffer>) : RecyclerView.Adapter<OfferListAdapter.ViewHolder>() {
 
@@ -82,7 +88,7 @@ class OfferListAdapter (var context:Context, private val driversOfferList:  Arra
                 var pickUpLocation:MutableMap<String, Any>
                 var dropOffLocation:MutableMap<String, Any>
 
-               db.get().addOnSuccessListener {
+                db.get().addOnSuccessListener {
                    for (child in it.children) {
                        val req = child.getValue(RideRequest::class.java)
                        if (req!!.driverId == driversOfferList[position].driverId) {
@@ -114,8 +120,46 @@ class OfferListAdapter (var context:Context, private val driversOfferList:  Arra
                        }
                    }
 
-               }
+                }
+                // deleting all the requests and offers once the offer is accepted
+                val db1 = FirebaseDatabase.getInstance()
+                RiderSession.getCurrentUser { rider ->
+                    //removing existing request for all drivers
+                    val query1 = db1.reference.child("RideRequests")
+                        .orderByChild("riderId")
+                        .equalTo(rider.riderId)
 
+                    query1.addListenerForSingleValueEvent(object : ValueEventListener {
+                        override fun onDataChange(dataSnapshot: DataSnapshot) {
+                            for (docs in dataSnapshot.children) {
+                                docs.ref.removeValue()
+                            }
+
+                        }
+
+                        override fun onCancelled(databaseError: DatabaseError) {
+                            Log.e(ContentValues.TAG, "onCancelled", databaseError.toException())
+                        }
+                    })
+
+                    //removing existing offers for current rider
+                    val query2 = db1.reference.child("RiderOffers")
+                        .orderByChild("riderId")
+                        .equalTo(rider.riderId)
+
+                    query2.addListenerForSingleValueEvent(object : ValueEventListener {
+                        override fun onDataChange(dataSnapshot: DataSnapshot) {
+                            for (docs in dataSnapshot.children) {
+                                docs.ref.removeValue()
+                            }
+
+                        }
+
+                        override fun onCancelled(databaseError: DatabaseError) {
+                            Log.e(ContentValues.TAG, "onCancelled", databaseError.toException())
+                        }
+                    })
+                }
             }
 
         }
