@@ -5,9 +5,11 @@ import android.animation.ValueAnimator
 import android.content.pm.PackageManager
 import android.content.res.Resources
 import android.graphics.Color
+import android.location.Location
 import android.os.Bundle
 import android.os.Looper
 import android.util.Log
+import android.view.View
 import android.view.animation.LinearInterpolator
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -30,8 +32,10 @@ import com.google.firebase.database.*
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.schedulers.Schedulers
+import kotlinx.android.synthetic.main.activity_driver_ride_session.*
 import org.json.JSONObject
 import java.util.*
+import kotlin.collections.ArrayList
 
 
 class DriverRideSessionActivity : AppCompatActivity(), OnMapReadyCallback {
@@ -62,6 +66,32 @@ class DriverRideSessionActivity : AppCompatActivity(), OnMapReadyCallback {
 
         binding = ActivityDriverRideSessionBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        session_cancel.visibility = View.GONE
+        session_start.visibility = View.GONE
+
+
+        session_start.setOnClickListener{
+            var db = FirebaseDatabase.getInstance().getReference("RideSessions")
+            db.addListenerForSingleValueEvent(object : ValueEventListener{
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    snapshot.children.forEach{
+                        val session = it.getValue(RideSession::class.java)
+                        if(session!!.driverId == FirebaseAuth.getInstance().currentUser!!.uid){
+                            db.child(it.key!!).updateChildren(mapOf("rideState" to "In_Session"))
+                        }
+                    }
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+
+                }
+
+            })
+            session_cancel.visibility = View.GONE
+            session_start.visibility = View.GONE
+            session_cancel1.visibility = View.VISIBLE
+        }
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         val mapFragment = supportFragmentManager
@@ -126,17 +156,36 @@ class DriverRideSessionActivity : AppCompatActivity(), OnMapReadyCallback {
                 db.addListenerForSingleValueEvent(object : ValueEventListener{
                     override fun onDataChange(snapshot: DataSnapshot) {
                         snapshot.children.forEach{
+                            var state = ""
                             val session = it.getValue(RideSession::class.java)
                             if(session!!.driverId == FirebaseAuth.getInstance().currentUser!!.uid){
+                                val result = FloatArray(1)
+                                state = session.rideState
+                                Location.distanceBetween(newPos.latitude,newPos.longitude,
+                                    session.pickUpLocation?.get("Lat") as Double,
+                                    session.pickUpLocation?.get("Lng") as Double,result)
+                                if(session.rideState == "Picking_Up" && result[0] < 200){
+                                    db.child(it.key!!).updateChildren(mapOf("rideState" to "Waiting"))
+                                    state = "Waiting"
+                                }
                                 db.child(it.key!!).updateChildren(mapOf("driverLat" to newPos.latitude))
                                 db.child(it.key!!).updateChildren(mapOf("driverLng" to newPos.longitude))
-                                var selectedPlace = SelectedPlaceEvent(origin = newPos,
+                                val selectedPlace = SelectedPlaceEvent(origin = newPos,
                                     destination = LatLng(
                                         session.pickUpLocation?.get("Lat") as Double,
-                                        session.pickUpLocation?.get("Lng")!! as Double
+                                        session.pickUpLocation?.get("Lng") as Double
                                     )
                                     )
-                                drawPath(selectedPlace)
+                                if (state == "Waiting"){
+                                    session_cancel.visibility = View.VISIBLE
+                                    session_start.visibility = View.VISIBLE
+                                    session_cancel1.visibility = View.GONE
+                                }
+                                if (state == "In_Session"){
+                                    selectedPlace.destination = LatLng(session.dropOffLocation?.get("Lat") as Double,
+                                        session.dropOffLocation?.get("Lng") as Double)
+                                }
+                                drawPath(selectedPlace, state)
                             }
                         }
                     }
@@ -190,7 +239,7 @@ class DriverRideSessionActivity : AppCompatActivity(), OnMapReadyCallback {
 
     }
 
-    private fun drawPath(selectedPlace: SelectedPlaceEvent) {
+    private fun drawPath(selectedPlace: SelectedPlaceEvent, state:String) {
         iGoogleAPI = RetroFitClient.instance!!.create(IGoogleAPI::class.java)
         //request Api
         compositeDisposable.add(iGoogleAPI.getDirections("driving",
@@ -212,36 +261,39 @@ class DriverRideSessionActivity : AppCompatActivity(), OnMapReadyCallback {
                     }
                     blackPolyLine?.remove()
                     greyPolyline?.remove()
-                    polylineOptions = PolylineOptions()
-                    polylineOptions!!.color(Color.parseColor("#E87C35"))
-                    polylineOptions!!.width(12f)
-                    polylineOptions!!.startCap(SquareCap())
-                    polylineOptions!!.jointType(JointType.ROUND)
-                    polylineOptions!!.addAll(polylineList!!)
-                    greyPolyline = mMap.addPolyline(polylineOptions!!)
+                    if(state!= "Waiting"){
+                        polylineOptions = PolylineOptions()
+                        polylineOptions!!.color(Color.parseColor("#E87C35"))
+                        polylineOptions!!.width(12f)
+                        polylineOptions!!.startCap(SquareCap())
+                        polylineOptions!!.jointType(JointType.ROUND)
+                        polylineOptions!!.addAll(polylineList!!)
+                        greyPolyline = mMap.addPolyline(polylineOptions!!)
 
-                    blackPolylineOptions = PolylineOptions()
-                    blackPolylineOptions!!.color(Color.parseColor("#fa8f5a"))
-                    blackPolylineOptions!!.width(5f)
-                    blackPolylineOptions!!.startCap(SquareCap())
-                    blackPolylineOptions!!.jointType(JointType.ROUND)
-                    blackPolylineOptions!!.addAll(polylineList!!)
-                    blackPolyLine = mMap.addPolyline(blackPolylineOptions!!)
+                        blackPolylineOptions = PolylineOptions()
+                        blackPolylineOptions!!.color(Color.parseColor("#fa8f5a"))
+                        blackPolylineOptions!!.width(5f)
+                        blackPolylineOptions!!.startCap(SquareCap())
+                        blackPolylineOptions!!.jointType(JointType.ROUND)
+                        blackPolylineOptions!!.addAll(polylineList!!)
+                        blackPolyLine = mMap.addPolyline(blackPolylineOptions!!)
 
-                    //Animator
-                    val valueAnimator = ValueAnimator.ofInt(0,100)
-                    valueAnimator.duration = 2100
-                    valueAnimator.repeatCount = ValueAnimator.INFINITE
-                    valueAnimator.interpolator = LinearInterpolator()
-                    valueAnimator.addUpdateListener { value->
-                        val points = greyPolyline!!.points
-                        val percentValue = value.animatedValue.toString().toInt()
-                        val size = points.size
-                        val newPoints = (size * (percentValue/100.0f)).toInt()
-                        val p = points.subList(0, newPoints)
-                        blackPolyLine!!.points = p
+                        //Animator
+                        val valueAnimator = ValueAnimator.ofInt(0,100)
+                        valueAnimator.duration = 2100
+                        valueAnimator.repeatCount = ValueAnimator.INFINITE
+                        valueAnimator.interpolator = LinearInterpolator()
+                        valueAnimator.addUpdateListener { value->
+                            val points = greyPolyline!!.points
+                            val percentValue = value.animatedValue.toString().toInt()
+                            val size = points.size
+                            val newPoints = (size * (percentValue/100.0f)).toInt()
+                            val p = points.subList(0, newPoints)
+                            blackPolyLine!!.points = p
+                        }
+                        valueAnimator.start()
                     }
-                    valueAnimator.start()
+
 
                     val latLngBound = LatLngBounds.Builder().include(LatLng(selectedPlace.origin.latitude,selectedPlace.origin.longitude))
                         .include(LatLng(selectedPlace.destination.latitude,selectedPlace.destination.longitude))
