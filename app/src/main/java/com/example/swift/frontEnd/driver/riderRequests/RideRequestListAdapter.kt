@@ -36,12 +36,15 @@ class RideRequestListAdapter(private val rideRequestList:  ArrayList<RideRequest
         var riderRating_view : TextView = view.findViewById(R.id.rideRequest_riderRating)
         var hideBtn : Button = view.findViewById(R.id.riderRequest_Hide_btn)
         var chatBtn : Button = view.findViewById(R.id.riderRequest_chat_btn)
+        val sendOfferBtn : Button = view.findViewById(R.id.riderRequest_sendOffer_btn)
         val db = FirebaseDatabase.getInstance()
 
 
         init {
             // hide chat button until the offer has not been sent
             chatBtn.visibility = View.INVISIBLE
+            sendOfferBtn.visibility = View.VISIBLE
+            hideBtn.visibility = View.VISIBLE
 
             hideBtn.setOnClickListener{
 //                val position : Int = adapterPosition
@@ -97,8 +100,9 @@ class RideRequestListAdapter(private val rideRequestList:  ArrayList<RideRequest
 
             }
 
+
             //show popup to send offer
-            val sendOfferBtn : Button = view.findViewById(R.id.riderRequest_sendOffer_btn)
+
             sendOfferBtn.setOnClickListener {
                 val window = PopupWindow(view.context)
                 val view = LayoutInflater.from(view.context).inflate(R.layout.popup_send_offer_layout, null)

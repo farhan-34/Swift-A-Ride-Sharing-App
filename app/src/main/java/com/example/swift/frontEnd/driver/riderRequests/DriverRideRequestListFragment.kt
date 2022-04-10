@@ -97,8 +97,10 @@ class DriverRequestListFragment : Fragment() {
                         }
                     }
 
-                    rideRequestList.removeAt(index)
-                    adapter.notifyItemRemoved(index)
+                    if(rideRequestList.size>0) {
+                        rideRequestList.removeAt(index)
+                        adapter.notifyItemRemoved(index)
+                    }
 
                 //adapter.notifyDataSetChanged()
                 }

@@ -3,6 +3,9 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Fast/7. Fall 2021/SMD/Swift-A-Ride-Sharing-App/app/src/main/res/drawable/gray_round_to_msg_layout.xml" value="0.2095" />
+        <entry key="..\:/Fast/7. Fall 2021/SMD/Swift-A-Ride-Sharing-App/app/src/main/res/drawable/orange_round_msg_layout.xml" value="0.2095" />
+        <entry key="..\:/Fast/7. Fall 2021/SMD/Swift-A-Ride-Sharing-App/app/src/main/res/drawable/white_rounded_rectangle.xml" value="0.2095" />
         <entry key="..\:/Fast/7. Fall 2021/SMD/Swift-A-Ride-Sharing-App/app/src/main/res/layout/activity_chat_log.xml" value="0.33" />
         <entry key="..\:/Fast/7. Fall 2021/SMD/Swift-A-Ride-Sharing-App/app/src/main/res/layout/activity_driver_main.xml" value="0.23839662447257384" />
         <entry key="..\:/Fast/7. Fall 2021/SMD/Swift-A-Ride-Sharing-App/app/src/main/res/layout/activity_driver_registration.xml" value="0.2879999900124293" />

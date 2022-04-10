@@ -15,6 +15,7 @@
         android:layout_marginRight="8dp"
         android:maxWidth="240dp"
         android:padding="16dp"
+        android:background="@drawable/orange_round_msg_layout"
         android:text="This is my message that will wrap into multiple lines and keep on going"
         app:layout_constraintEnd_toStartOf="@+id/imageview_chat_from_row"
         app:layout_constraintTop_toTopOf="@+id/imageview_chat_from_row" />
@@ -30,6 +31,6 @@
         app:civ_border_color="@android:color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@android:drawable/btn_star_big_on" />
+        app:srcCompat="@drawable/ic_person" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

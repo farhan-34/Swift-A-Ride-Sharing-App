@@ -101,6 +101,7 @@ class RiderChatLogActivity : AppCompatActivity() {
                             //adapter.add(ChatToItem(chatMessage.text, toUser!!))
                             adapter.add(ChatToItem(chatMessage.text))
                         }
+                        recyclerview_chat_log.scrollToPosition(adapter.itemCount -1)
                     }
 
                 }
