@@ -35,5 +35,6 @@
     </string-array>
     <string name="title_activity_driver_ride_session">DriverRideSessionActivity</string>
     <string name="title_activity_rider_ride_session">RiderRideSessionActivity</string>
+    <string name="title_activity_temp">TempActivity</string>
 
 </resources>
