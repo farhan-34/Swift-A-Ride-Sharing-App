@@ -2,6 +2,7 @@ package com.example.swift.frontEnd.rider.rideSession
 
 import android.Manifest
 import android.animation.ValueAnimator
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.content.res.Resources
 import android.graphics.Color
@@ -18,6 +19,7 @@ import com.example.swift.businessLayer.dataClasses.RideSession
 import com.example.swift.databinding.ActivityRiderRideSessionBinding
 import com.example.swift.frontEnd.Remote.IGoogleAPI
 import com.example.swift.frontEnd.Remote.RetroFitClient
+import com.example.swift.frontEnd.rider.riderMain.RiderMainActivity
 
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -70,6 +72,7 @@ class RiderRideSessionActivity : AppCompatActivity(), OnMapReadyCallback {
 
         initialize()
     }
+
 
     override fun onDestroy() {
         compositeDisposable.clear()
@@ -142,7 +145,14 @@ class RiderRideSessionActivity : AppCompatActivity(), OnMapReadyCallback {
             }
 
             override fun onChildRemoved(snapshot: DataSnapshot) {
-
+                val session = snapshot.getValue(RideSession::class.java)
+                if(session!!.riderId == FirebaseAuth.getInstance().currentUser!!.uid){
+                    val intent = Intent(this@RiderRideSessionActivity, RiderMainActivity::class.java)
+                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                    intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK
+                    startActivity(intent)
+                    finish()
+                }
             }
 
             override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {

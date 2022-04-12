@@ -13,5 +13,7 @@ data class RideSession(
     var pickUpLocation: MutableMap<String, @RawValue Any>? = null,
     var dropOffLocation: MutableMap<String,@RawValue Any>? = null,
     var driverLat: Double = 0.0,
-    var driverLng: Double = 0.0
+    var driverLng: Double = 0.0,
+    var vehicleType:String = "",
+    var money: String = ""
 ):Parcelable{}

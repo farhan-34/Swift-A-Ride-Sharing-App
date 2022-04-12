@@ -2,6 +2,7 @@ package com.example.swift.frontEnd.driver.rideSession
 
 import android.Manifest
 import android.animation.ValueAnimator
+import android.content.ContentValues
 import android.content.pm.PackageManager
 import android.content.res.Resources
 import android.graphics.Color
@@ -93,10 +94,65 @@ class DriverRideSessionActivity : AppCompatActivity(), OnMapReadyCallback {
             session_cancel1.visibility = View.VISIBLE
         }
 
+        session_cancel.setOnClickListener {
+            cancelSession()
+        }
+        session_cancel1.setOnClickListener {
+            cancelSession()
+        }
+
+        //checkSession()
+
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         val mapFragment = supportFragmentManager
             .findFragmentById(R.id.map_driver_session) as SupportMapFragment
         mapFragment.getMapAsync(this)
+    }
+
+    private fun checkSession() {
+        val db = FirebaseDatabase.getInstance().getReference("RideSessions")
+        db.addChildEventListener(object : ChildEventListener{
+            override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
+            }
+
+            override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
+            }
+
+            override fun onChildRemoved(snapshot: DataSnapshot) {
+                val session = snapshot.getValue(RideSession::class.java)
+                if(session!!.driverId == FirebaseAuth.getInstance().currentUser!!.uid){
+                    finish()
+                }
+            }
+
+            override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+            }
+
+        })
+    }
+
+    private fun cancelSession() {
+        val db = FirebaseDatabase.getInstance()
+        val query1 = db.reference.child("RideSessions")
+            .orderByChild("driverId")
+            .equalTo(FirebaseAuth.getInstance().currentUser!!.uid)
+
+        query1.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                for (docs in dataSnapshot.children) {
+                    docs.ref.removeValue()
+                }
+
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                Log.e(ContentValues.TAG, "onCancelled", databaseError.toException())
+            }
+        })
+        finish()
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
@@ -164,7 +220,8 @@ class DriverRideSessionActivity : AppCompatActivity(), OnMapReadyCallback {
                                 Location.distanceBetween(newPos.latitude,newPos.longitude,
                                     session.pickUpLocation?.get("Lat") as Double,
                                     session.pickUpLocation?.get("Lng") as Double,result)
-                                if(session.rideState == "Picking_Up" && result[0] < 200){
+                                state = session.rideState
+                                if(session.rideState == "Picking_Up" && result[0] < 400){
                                     db.child(it.key!!).updateChildren(mapOf("rideState" to "Waiting"))
                                     state = "Waiting"
                                 }
@@ -261,7 +318,7 @@ class DriverRideSessionActivity : AppCompatActivity(), OnMapReadyCallback {
                     }
                     blackPolyLine?.remove()
                     greyPolyline?.remove()
-                    if(state!= "Waiting"){
+                    if(state != "Waiting"){
                         polylineOptions = PolylineOptions()
                         polylineOptions!!.color(Color.parseColor("#E87C35"))
                         polylineOptions!!.width(12f)
@@ -293,8 +350,6 @@ class DriverRideSessionActivity : AppCompatActivity(), OnMapReadyCallback {
                         }
                         valueAnimator.start()
                     }
-
-
                     val latLngBound = LatLngBounds.Builder().include(LatLng(selectedPlace.origin.latitude,selectedPlace.origin.longitude))
                         .include(LatLng(selectedPlace.destination.latitude,selectedPlace.destination.longitude))
                         .build()
