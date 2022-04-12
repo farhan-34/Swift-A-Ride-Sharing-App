@@ -36,6 +36,7 @@ class RiderRegisterActivity : AppCompatActivity() {
         var html = "<u><b>Login<b></u>"
         backToLogin_button.text = Html.fromHtml(html)
 
+
         backToLogin_button.setOnClickListener {
             this.finish()
         }

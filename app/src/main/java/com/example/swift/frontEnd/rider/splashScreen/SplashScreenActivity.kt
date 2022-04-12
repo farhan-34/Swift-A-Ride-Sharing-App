@@ -39,14 +39,22 @@ class SplashScreenActivity : AppCompatActivity() {
 
         Handler(Looper.getMainLooper()).postDelayed({
             if(ContextCompat.checkSelfPermission(
-                this,
-                Manifest.permission.ACCESS_FINE_LOCATION
-            ) == PackageManager.PERMISSION_GRANTED) {
-                gotoSignIn()
+                    this,
+                    Manifest.permission.SEND_SMS
+                ) == PackageManager.PERMISSION_GRANTED){
+                    if(ContextCompat.checkSelfPermission(
+                        this,
+                        Manifest.permission.ACCESS_FINE_LOCATION
+                    ) == PackageManager.PERMISSION_GRANTED) {
+
+                    gotoSignIn()
+                    }
             } else {
                 // The registered ActivityResultCallback gets the result of this request.
                 requestPermissionLauncher.launch(
                     Manifest.permission.ACCESS_FINE_LOCATION)
+                requestPermissionLauncher.launch(
+                    Manifest.permission.SEND_SMS)
             }
 
         }, splashScreenTimeOut.toLong())
