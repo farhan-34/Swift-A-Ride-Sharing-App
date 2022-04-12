@@ -101,6 +101,7 @@ class RiderChatLogActivity : AppCompatActivity() {
                             //adapter.add(ChatToItem(chatMessage.text, toUser!!))
                             adapter.add(ChatToItem(chatMessage.text))
                         }
+                        recyclerview_chat_log.scrollToPosition(adapter.itemCount -1)
                     }
 
                 }
@@ -135,6 +136,10 @@ class RiderChatLogActivity : AppCompatActivity() {
             val fromId = rider.riderId
 
             val text = edittext_chat_log.text.toString()
+
+            if (text.isEmpty())
+                return@getCurrentUser
+
 
             //    val reference = FirebaseDatabase.getInstance().getReference("/messages").push()
             val reference =

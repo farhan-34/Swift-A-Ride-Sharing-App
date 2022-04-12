@@ -22,7 +22,8 @@ class RideRequestListAdapter(private val rideRequestList:  ArrayList<RideRequest
 
     var riderId:String = ""
     var offerFair:String = ""
-    var index = 0
+
+
 
     companion object {
         val REQUEST_KEY = "REQUEST_KEY"
@@ -35,10 +36,15 @@ class RideRequestListAdapter(private val rideRequestList:  ArrayList<RideRequest
         var riderRating_view : TextView = view.findViewById(R.id.rideRequest_riderRating)
         var hideBtn : Button = view.findViewById(R.id.riderRequest_Hide_btn)
         var chatBtn : Button = view.findViewById(R.id.riderRequest_chat_btn)
+        val sendOfferBtn : Button = view.findViewById(R.id.riderRequest_sendOffer_btn)
         val db = FirebaseDatabase.getInstance()
 
 
         init {
+            // hide chat button until the offer has not been sent
+            chatBtn.visibility = View.INVISIBLE
+            sendOfferBtn.visibility = View.VISIBLE
+            hideBtn.visibility = View.VISIBLE
 
             hideBtn.setOnClickListener{
 //                val position : Int = adapterPosition
@@ -81,9 +87,9 @@ class RideRequestListAdapter(private val rideRequestList:  ArrayList<RideRequest
 
 
             chatBtn.setOnClickListener{
-                Toast.makeText(view.context, "chat", Toast.LENGTH_SHORT).show()
+                val position : Int = adapterPosition
 
-                var request = rideRequestList[index]
+                var request = rideRequestList[position]
 
                 val intent = Intent(view.context, RiderChatLogActivity::class.java)
 //                  intent.putExtra(USER_KEY,  userItem.user.username)
@@ -93,6 +99,56 @@ class RideRequestListAdapter(private val rideRequestList:  ArrayList<RideRequest
                 view.context.startActivity(intent)
 
             }
+
+
+            //show popup to send offer
+
+            sendOfferBtn.setOnClickListener {
+                val window = PopupWindow(view.context)
+                val view = LayoutInflater.from(view.context).inflate(R.layout.popup_send_offer_layout, null)
+                window.contentView = view
+                window.isFocusable = true
+                window.showAtLocation(view, Gravity.CENTER, 0 , 0);
+                window.isOutsideTouchable = false;
+                window.update()
+                val sndOfferBtn = view.findViewById<Button>(R.id.popup_send_offer_btn)
+                val cancelOffer = view.findViewById<Button>(R.id.popup_cancleOffer_btn)
+                sndOfferBtn.setOnClickListener{
+                    //check validation
+                    val temp: EditText = view.findViewById(R.id.popup_offer_price_view)
+                    val fair = temp.text.toString()
+                    if(isPositiveNumber(fair)) {
+                        val obj = DriverOffer()
+                        //getting current driver
+                        RiderSession.getCurrentUser { rider ->
+                            DriverSession.getCurrentUser { driver ->
+                                obj.driverId = driver.driverId
+                                obj.driverName = rider.name
+                                obj.riderId = riderId
+                                obj.text = fair
+                                val db = FirebaseDatabase.getInstance().getReference("RiderOffers")
+                                val offerId = db.push()
+                                obj.offerId = offerId.key.toString()
+                                offerId.setValue(obj)
+                            }
+                        }
+                        Toast.makeText(view.context, "Offer Sent", Toast.LENGTH_SHORT).show()
+                        window.dismiss()
+                        chatBtn.visibility = View.VISIBLE
+                        sendOfferBtn.visibility = View.INVISIBLE
+                        hideBtn.visibility = View.INVISIBLE
+
+                    }else {
+                        Toast.makeText(view.context, "Price not valid", Toast.LENGTH_SHORT).show()
+                    }
+                }
+                cancelOffer.setOnClickListener{
+                    window.dismiss()
+                }
+                window.showAsDropDown(sendOfferBtn)
+            }
+
+
         }
 
     }
@@ -106,50 +162,7 @@ class RideRequestListAdapter(private val rideRequestList:  ArrayList<RideRequest
             .inflate(R.layout.request_list_item, parent, false)
 
 
-        //show popup to send offer
-        val sendOfferBtn : Button = view.findViewById(R.id.riderRequest_sendOffer_btn)
-        sendOfferBtn.setOnClickListener {
-            val window = PopupWindow(parent.context)
-            val view = LayoutInflater.from(parent.context).inflate(R.layout.popup_send_offer_layout, null)
-            window.contentView = view
-            window.isFocusable = true
-            window.showAtLocation(parent, Gravity.CENTER, 0 , 0);
-            window.isOutsideTouchable = false;
-            window.update()
-            val sndOfferBtn = view.findViewById<Button>(R.id.popup_send_offer_btn)
-            val cancelOffer = view.findViewById<Button>(R.id.popup_cancleOffer_btn)
-            sndOfferBtn.setOnClickListener{
-                //check validation
-                val temp: EditText = view.findViewById(R.id.popup_offer_price_view)
-                val fair = temp.text.toString()
-                if(isPositiveNumber(fair)) {
-                    val obj = DriverOffer()
-                    //getting current driver
-                    RiderSession.getCurrentUser { rider ->
-                        DriverSession.getCurrentUser { driver ->
-                            obj.driverId = driver.driverId
-                            obj.driverName = rider.name
-                            obj.riderId = riderId
-                            obj.text = fair
-                            val db = FirebaseDatabase.getInstance().getReference("RiderOffers")
-                            val offerId = db.push()
-                            obj.offerId = offerId.key.toString()
-                            offerId.setValue(obj)
-                        }
-                    }
-                    Toast.makeText(parent.context, "Offer Sent", Toast.LENGTH_SHORT).show()
-                    window.dismiss()
 
-                }else {
-                    Toast.makeText(parent.context, "Price not valid", Toast.LENGTH_SHORT).show()
-                }
-            }
-            cancelOffer.setOnClickListener{
-                window.dismiss()
-            }
-            window.showAsDropDown(sendOfferBtn)
-
-        }
 
 
         return ViewHolder(view)
@@ -164,7 +177,7 @@ class RideRequestListAdapter(private val rideRequestList:  ArrayList<RideRequest
         viewHolder.sourceLocation_view.text = rideRequestList[position].sourceLocation?.get("Address").toString()
         viewHolder.destinationLocation_view.text = rideRequestList[position].destinationLocation?.get("Address").toString()
         riderId = rideRequestList[position].riderId.toString()
-        index = position
+
     }
 
 

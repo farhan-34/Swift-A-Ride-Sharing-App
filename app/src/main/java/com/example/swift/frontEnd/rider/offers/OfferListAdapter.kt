@@ -17,6 +17,7 @@ import com.example.swift.businessLayer.businessLogic.RideRequest
 import com.example.swift.businessLayer.dataClasses.DriverOffer
 import com.example.swift.businessLayer.dataClasses.RideSession
 import com.example.swift.businessLayer.session.DriverSession
+import com.example.swift.businessLayer.session.RiderSession
 import com.example.swift.frontEnd.driver.riderRequests.RideRequestListAdapter
 import com.example.swift.frontEnd.rider.chat.RiderChatLogActivity
 import com.example.swift.frontEnd.rider.rideSession.RiderRideSessionActivity
@@ -33,7 +34,7 @@ class OfferListAdapter (var context:Context, private val driversOfferList:  Arra
         val OFFER_KEY = "OFFER_KEY"
     }
 
-    var index = 0
+
 
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -49,7 +50,8 @@ class OfferListAdapter (var context:Context, private val driversOfferList:  Arra
         init {
             chatBtn.setOnClickListener {
 
-                var offer = driversOfferList[index]
+                val position : Int = adapterPosition
+                var offer = driversOfferList[position]
 
                 val intent = Intent(view.context, RiderChatLogActivity::class.java)
 //                  intent.putExtra(USER_KEY,  userItem.user.username)
@@ -88,7 +90,7 @@ class OfferListAdapter (var context:Context, private val driversOfferList:  Arra
                 var pickUpLocation:MutableMap<String, Any>
                 var dropOffLocation:MutableMap<String, Any>
 
-               db.get().addOnSuccessListener {
+                db.get().addOnSuccessListener {
                    for (child in it.children) {
                        val req = child.getValue(RideRequest::class.java)
                        if (req!!.driverId == driversOfferList[position].driverId) {
@@ -168,8 +170,46 @@ class OfferListAdapter (var context:Context, private val driversOfferList:  Arra
                        }
                    }
 
-               }
+                }
+                // deleting all the requests and offers once the offer is accepted
+                val db1 = FirebaseDatabase.getInstance()
+                RiderSession.getCurrentUser { rider ->
+                    //removing existing request for all drivers
+                    val query1 = db1.reference.child("RideRequests")
+                        .orderByChild("riderId")
+                        .equalTo(rider.riderId)
 
+                    query1.addListenerForSingleValueEvent(object : ValueEventListener {
+                        override fun onDataChange(dataSnapshot: DataSnapshot) {
+                            for (docs in dataSnapshot.children) {
+                                docs.ref.removeValue()
+                            }
+
+                        }
+
+                        override fun onCancelled(databaseError: DatabaseError) {
+                            Log.e(ContentValues.TAG, "onCancelled", databaseError.toException())
+                        }
+                    })
+
+                    //removing existing offers for current rider
+                    val query2 = db1.reference.child("RiderOffers")
+                        .orderByChild("riderId")
+                        .equalTo(rider.riderId)
+
+                    query2.addListenerForSingleValueEvent(object : ValueEventListener {
+                        override fun onDataChange(dataSnapshot: DataSnapshot) {
+                            for (docs in dataSnapshot.children) {
+                                docs.ref.removeValue()
+                            }
+
+                        }
+
+                        override fun onCancelled(databaseError: DatabaseError) {
+                            Log.e(ContentValues.TAG, "onCancelled", databaseError.toException())
+                        }
+                    })
+                }
             }
 
         }
@@ -192,7 +232,7 @@ class OfferListAdapter (var context:Context, private val driversOfferList:  Arra
         viewHolder.rating.text = driversOfferList[position].rating.toString()
         viewHolder.text.text = driversOfferList[position].text
 
-        index = position
+
     }
 
 
