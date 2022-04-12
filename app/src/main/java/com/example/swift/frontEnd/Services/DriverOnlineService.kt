@@ -83,9 +83,9 @@ class DriverOnlineService : Service() {
 
         locationRequest = LocationRequest.create()
         locationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
-        locationRequest.fastestInterval = 15000 //15 sec
-        locationRequest.interval = 10000  //10 sec
-        locationRequest.smallestDisplacement = 50f  //50m
+        locationRequest.fastestInterval = 10000 //15 sec
+        locationRequest.interval = 7000  //10 sec
+        locationRequest.smallestDisplacement = 20f  //50m
 
         locationCallback = object: LocationCallback() {
             override fun onLocationResult(locationResult: LocationResult) {

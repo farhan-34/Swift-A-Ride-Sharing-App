@@ -97,8 +97,10 @@ class DriverRequestListFragment : Fragment() {
                         }
                     }
 
-                    rideRequestList.removeAt(index)
-                    adapter.notifyItemRemoved(index)
+                    if(rideRequestList.size>0) {
+                        rideRequestList.removeAt(index)
+                        adapter.notifyItemRemoved(index)
+                    }
 
                 //adapter.notifyDataSetChanged()
                 }
@@ -147,9 +149,6 @@ class DriverRequestListFragment : Fragment() {
                 val curUser = FirebaseAuth.getInstance().currentUser!!.uid
                 if(rideSession != null){
                     if(rideSession.driverId == curUser){
-                        Common.rideSession = rideSession
-
-
                         val dialogIntent = Intent(requireContext(), DriverRideSessionActivity::class.java)
                         //val dialogIntent = Intent(requireContext(), RequestDriverActivity::class.java)
                         dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)

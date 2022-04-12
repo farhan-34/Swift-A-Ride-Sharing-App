@@ -35,12 +35,13 @@
 
     <TextView
         android:id="@+id/driversOffers_Text"
-        android:layout_width="180dp"
-        android:layout_height="15dp"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
         android:layout_marginTop="8dp"
-        android:text="Source Location"
-        android:textColor="@color/light_grey_text"
-        android:textSize="12sp"
+        android:text="100"
+        android:textColor="@color/quantum_googgreen"
+        android:textSize="24sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="@+id/driversOffers_Name"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/driversOffers_Name"

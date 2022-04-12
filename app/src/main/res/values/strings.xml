@@ -6,7 +6,6 @@
     <string name="reset_password">Reset Password</string>
     <string name="new_password">New Password</string>
     <string name="reset">Reset</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="driver_n_registration">Driver\nRegistration</string>
     <string name="cnic">CNIC</string>
@@ -36,5 +35,6 @@
     </string-array>
     <string name="title_activity_driver_ride_session">DriverRideSessionActivity</string>
     <string name="title_activity_rider_ride_session">RiderRideSessionActivity</string>
+    <string name="title_activity_temp">TempActivity</string>
 
 </resources>

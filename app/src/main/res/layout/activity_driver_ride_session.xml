@@ -1,9 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
-<fragment xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:map="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/map"
-    android:name="com.google.android.gms.maps.SupportMapFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".frontEnd.driver.rideSession.DriverRideSessionActivity" />
+    tools:context=".frontEnd.driver.rideSession.DriverRideSessionActivity" >
+
+
+    <fragment
+        android:id="@+id/map_driver_session"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="408dp"
+        android:layout_height="630dp"
+        map:layout_constraintEnd_toEndOf="parent"
+        map:layout_constraintStart_toStartOf="parent"
+        map:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/session_start"
+        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+        android:layout_width="138dp"
+        android:layout_height="58dp"
+        android:layout_marginStart="44dp"
+        android:text="Start Ride"
+        map:layout_constraintBottom_toBottomOf="parent"
+        map:layout_constraintStart_toStartOf="parent"
+        map:layout_constraintTop_toBottomOf="@+id/map_driver_session"
+        map:layout_constraintVertical_bias="0.511" />
+
+    <Button
+        android:id="@+id/session_cancel"
+        android:layout_width="138dp"
+        android:layout_height="58dp"
+        android:backgroundTint="@color/error_red"
+        android:text="Cancel"
+        map:layout_constraintBottom_toBottomOf="@+id/session_start"
+        map:layout_constraintEnd_toEndOf="parent"
+        map:layout_constraintStart_toEndOf="@+id/session_start"
+        map:layout_constraintTop_toTopOf="@+id/session_start" />
+
+    <Button
+        android:id="@+id/session_cancel1"
+        android:layout_width="138dp"
+        android:layout_height="58dp"
+        android:backgroundTint="@color/error_red"
+        android:text="Cancel"
+        map:layout_constraintBottom_toBottomOf="parent"
+        map:layout_constraintEnd_toEndOf="parent"
+        map:layout_constraintStart_toStartOf="parent"
+        map:layout_constraintTop_toBottomOf="@+id/map_driver_session" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

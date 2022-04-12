@@ -34,8 +34,10 @@
         -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="YOUR_API_KEY" />
-
+            android:value="AIzaSyB4sppKZX0wUFNsv6CfU5MzfJK4PNRmNN0" />
+        <activity
+            android:name=".frontEnd.rider.chat.RiderChatLogActivity"
+            android:exported="false" />
         <activity
             android:name=".frontEnd.rider.rideSession.RiderRideSessionActivity"
             android:exported="false"
