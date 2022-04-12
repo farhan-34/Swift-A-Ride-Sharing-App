@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.recyclerview.widget.RecyclerView
 import com.example.swift.R
 import com.example.swift.businessLayer.Common.Common
@@ -21,6 +22,7 @@ import com.example.swift.frontEnd.driver.riderRequests.RideRequestListAdapter
 import com.example.swift.frontEnd.rider.chat.RiderChatLogActivity
 import com.example.swift.frontEnd.rider.rideSession.RiderRideSessionActivity
 import com.google.android.gms.maps.model.LatLng
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -98,24 +100,72 @@ class OfferListAdapter (var context:Context, private val driversOfferList:  Arra
                            val latLng = LatLng(Common.driversFound[driversOfferList[position].driverId]!!.geoLocation!!.latitude,
                                Common.driversFound[driversOfferList[position].driverId]!!.geoLocation!!.longitude)
 
-                           var session: RideSession = RideSession( offerId = driversOfferList[position].offerId,
-                               driverId = driversOfferList[position].driverId,
-                               riderId = driversOfferList[position].riderId,
-                               rideState = "Picking_Up",
-                               pickUpLocation = pickUpLocation,
-                               dropOffLocation = dropOffLocation,
-                               driverLat = latLng.latitude,
-                               driverLng = latLng.longitude)
+                           val d = FirebaseDatabase.getInstance().getReference("RiderOffers")
+                           var money = ""
+                           d.get().addOnSuccessListener { i ->
+                               for (ch in i.children){
+                                   val offer = ch.getValue(DriverOffer::class.java)
+                                   if (req.driverId == offer?.driverId){
+                                       money = offer!!.text
+                                       var session: RideSession = RideSession( offerId = driversOfferList[position].offerId,
+                                           driverId = driversOfferList[position].driverId,
+                                           riderId = driversOfferList[position].riderId,
+                                           rideState = "Picking_Up",
+                                           pickUpLocation = pickUpLocation,
+                                           dropOffLocation = dropOffLocation,
+                                           driverLat = latLng.latitude,
+                                           driverLng = latLng.longitude,
+                                           vehicleType = req.vehicleType,
+                                           money = money)
 
 
-                           db = FirebaseDatabase.getInstance().getReference("RideSessions")
-                           val offerId = db.push()
-                           session.offerId = offerId.key.toString()
-                           offerId.setValue(session)
+                                       db = FirebaseDatabase.getInstance().getReference("RideSessions")
+                                       val offerId = db.push()
+                                       session.offerId = offerId.key.toString()
+                                       offerId.setValue(session)
 
-                           val intent = Intent(context, RiderRideSessionActivity::class.java)
-                           context.startActivity(intent)
-                           break
+                                       val intent = Intent(context, RiderRideSessionActivity::class.java)
+                                       intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                                       context.startActivity(intent)
+                                       break
+                                   }
+                               }
+                               db = FirebaseDatabase.getInstance().reference
+                               val query1 = db.child("RideRequests")
+                                   .orderByChild("riderId")
+                                   .equalTo(FirebaseAuth.getInstance().currentUser!!.uid)
+
+                               query1.addListenerForSingleValueEvent(object : ValueEventListener {
+                                   override fun onDataChange(dataSnapshot: DataSnapshot) {
+                                       for (docs in dataSnapshot.children) {
+                                           docs.ref.removeValue()
+                                       }
+
+                                   }
+
+                                   override fun onCancelled(databaseError: DatabaseError) {
+                                       Log.e(ContentValues.TAG, "onCancelled", databaseError.toException())
+                                   }
+                               })
+
+                               //removing existing offers for current rider
+                               val query2 = db.child("RiderOffers")
+                                   .orderByChild("riderId")
+                                   .equalTo(FirebaseAuth.getInstance().currentUser!!.uid)
+
+                               query2.addListenerForSingleValueEvent(object : ValueEventListener {
+                                   override fun onDataChange(dataSnapshot: DataSnapshot) {
+                                       for (docs in dataSnapshot.children) {
+                                           docs.ref.removeValue()
+                                       }
+
+                                   }
+
+                                   override fun onCancelled(databaseError: DatabaseError) {
+                                       Log.e(ContentValues.TAG, "onCancelled", databaseError.toException())
+                                   }
+                               })
+                           }
 
                        }
                    }

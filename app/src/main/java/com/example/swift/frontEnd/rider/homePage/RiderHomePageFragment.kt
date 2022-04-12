@@ -23,12 +23,15 @@ import com.example.swift.businessLayer.businessLogic.RideRequest
 import com.example.swift.businessLayer.dataClasses.Driver
 import com.example.swift.businessLayer.dataClasses.DriverGeo
 import com.example.swift.businessLayer.dataClasses.GeoQueryModel
+import com.example.swift.businessLayer.dataClasses.RideSession
 import com.example.swift.businessLayer.session.RiderSession
 import com.example.swift.frontEnd.Callback.FirebaseDriverInfoListener
 import com.example.swift.frontEnd.Callback.FirebaseFailedListener
 import com.example.swift.frontEnd.Services.NotifyOnDriverOffer
+import com.example.swift.frontEnd.driver.rideSession.DriverRideSessionActivity
 import com.example.swift.frontEnd.rider.offers.OfferListActivity
 import com.example.swift.frontEnd.rider.offers.RiderOfferListFragment
+import com.example.swift.frontEnd.rider.rideSession.RiderRideSessionActivity
 import com.firebase.geofire.GeoFire
 import com.firebase.geofire.GeoLocation
 import com.firebase.geofire.GeoQueryEventListener
@@ -109,8 +112,42 @@ GoogleMap.OnCameraMoveStartedListener{
     ): View? {
         val root = inflater.inflate(R.layout.fragment_rider_home_page, container, false)
         // Inflate the layout for this fragment
+
+        checkSession()
+
         initViews(root)
         return root
+    }
+
+    private fun checkSession() {
+        var db = FirebaseDatabase.getInstance().getReference("RideSessions")
+        db.addChildEventListener(object : ChildEventListener{
+            override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
+                val rideSession: RideSession? = snapshot.getValue(RideSession::class.java)
+                val curUser = FirebaseAuth.getInstance().currentUser!!.uid
+                if(rideSession != null){
+                    if(rideSession.riderId == curUser){
+                        val dialogIntent = Intent(requireContext(), RiderRideSessionActivity::class.java)
+                        //val dialogIntent = Intent(requireContext(), RequestDriverActivity::class.java)
+                        dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                        startActivity(dialogIntent)
+                    }
+                }
+            }
+
+            override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
+            }
+
+            override fun onChildRemoved(snapshot: DataSnapshot) {
+            }
+
+            override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+            }
+
+        })
     }
 
     private fun initViews(root: View?) {
