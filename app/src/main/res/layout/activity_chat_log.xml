@@ -48,4 +48,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1.0" />
+
+    <ImageButton
+        android:id="@+id/update_offer_btn_chat_log"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/recyclerview_chat_log"
+        app:layout_constraintEnd_toEndOf="@+id/recyclerview_chat_log"
+        app:srcCompat="@drawable/icon_material_update"
+        android:backgroundTint="@color/white"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

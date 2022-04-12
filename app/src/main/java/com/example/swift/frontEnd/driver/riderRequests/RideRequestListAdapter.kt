@@ -38,6 +38,7 @@ class RideRequestListAdapter(private val rideRequestList:  ArrayList<RideRequest
         var chatBtn : Button = view.findViewById(R.id.riderRequest_chat_btn)
         val sendOfferBtn : Button = view.findViewById(R.id.riderRequest_sendOffer_btn)
         val db = FirebaseDatabase.getInstance()
+        val offerObj = DriverOffer()
 
 
         init {
@@ -93,8 +94,8 @@ class RideRequestListAdapter(private val rideRequestList:  ArrayList<RideRequest
 
                 val intent = Intent(view.context, RiderChatLogActivity::class.java)
 //                  intent.putExtra(USER_KEY,  userItem.user.username)
-                val nullRequest : DriverOffer? = null
-                intent.putExtra(OfferListAdapter.OFFER_KEY, nullRequest)
+
+                intent.putExtra(OfferListAdapter.OFFER_KEY, offerObj)
                 intent.putExtra(REQUEST_KEY, request)
                 view.context.startActivity(intent)
 
@@ -118,18 +119,18 @@ class RideRequestListAdapter(private val rideRequestList:  ArrayList<RideRequest
                     val temp: EditText = view.findViewById(R.id.popup_offer_price_view)
                     val fair = temp.text.toString()
                     if(isPositiveNumber(fair)) {
-                        val obj = DriverOffer()
+
                         //getting current driver
                         RiderSession.getCurrentUser { rider ->
                             DriverSession.getCurrentUser { driver ->
-                                obj.driverId = driver.driverId
-                                obj.driverName = rider.name
-                                obj.riderId = riderId
-                                obj.text = fair
+                                offerObj.driverId = driver.driverId
+                                offerObj.driverName = rider.name
+                                offerObj.riderId = riderId
+                                offerObj.text = fair
                                 val db = FirebaseDatabase.getInstance().getReference("RiderOffers")
                                 val offerId = db.push()
-                                obj.offerId = offerId.key.toString()
-                                offerId.setValue(obj)
+                                offerObj.offerId = offerId.key.toString()
+                                offerId.setValue(offerObj)
                             }
                         }
                         Toast.makeText(view.context, "Offer Sent", Toast.LENGTH_SHORT).show()

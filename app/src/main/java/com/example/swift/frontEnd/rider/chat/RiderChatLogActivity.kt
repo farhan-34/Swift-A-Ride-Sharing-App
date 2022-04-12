@@ -3,10 +3,18 @@ package com.example.swift.frontEnd.rider.chat
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.Gravity
+import android.view.LayoutInflater
+import android.view.View
+import android.widget.Button
+import android.widget.EditText
+import android.widget.PopupWindow
+import android.widget.Toast
 import com.example.swift.R
 import com.example.swift.businessLayer.businessLogic.RideRequest
 import com.example.swift.businessLayer.dataClasses.ChatMessage
 import com.example.swift.businessLayer.dataClasses.DriverOffer
+import com.example.swift.businessLayer.session.DriverSession
 import com.example.swift.businessLayer.session.RiderSession
 import com.example.swift.frontEnd.driver.riderRequests.RideRequestListAdapter
 import com.example.swift.frontEnd.rider.offers.OfferListAdapter
@@ -15,6 +23,7 @@ import com.google.firebase.database.ChildEventListener
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.ktx.Firebase
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import kotlinx.android.synthetic.main.activity_chat_log.*
@@ -28,6 +37,7 @@ class RiderChatLogActivity : AppCompatActivity() {
     private var toName : String? = null
     private var isOffer = false
     private var isRequest = false
+    private var offerID : String? = null
 
 
     companion object {
@@ -46,6 +56,7 @@ class RiderChatLogActivity : AppCompatActivity() {
         offer = intent.getParcelableExtra(OfferListAdapter.OFFER_KEY)
         request = intent.getParcelableExtra(RideRequestListAdapter.REQUEST_KEY)
         if(offer != null){
+            offerID = offer?.offerId
             toId = offer?.driverId
             toName = offer?.driverName
             isOffer = true
@@ -74,6 +85,43 @@ class RiderChatLogActivity : AppCompatActivity() {
             Log.d(TAG, "Attempt to send message....")
             performSendMessage()
         }
+
+        update_offer_btn_chat_log.setOnClickListener{
+            Log.d(TAG, "Attempt to update offer....")
+
+            val window = PopupWindow(this)
+            val view = LayoutInflater.from(this).inflate(R.layout.popup_send_offer_layout, null)
+            window.contentView = view
+            window.isFocusable = true
+            window.showAtLocation(view, Gravity.CENTER, 0 , 0);
+            window.isOutsideTouchable = false;
+            window.update()
+            val sndOfferBtn = view.findViewById<Button>(R.id.popup_send_offer_btn)
+            val cancelOffer = view.findViewById<Button>(R.id.popup_cancleOffer_btn)
+            sndOfferBtn.setOnClickListener{
+                //check validation
+                val temp: EditText = view.findViewById(R.id.popup_offer_price_view)
+                val fair = temp.text.toString()
+                if(isPositiveNumber(fair)) {
+                    val db = FirebaseDatabase.getInstance().getReference("/RideOffers/$offerID")
+
+
+
+
+                    window.dismiss()
+
+
+                }else {
+                    Toast.makeText(view.context, "Price not valid", Toast.LENGTH_SHORT).show()
+                }
+            }
+            cancelOffer.setOnClickListener{
+                window.dismiss()
+            }
+            window.showAsDropDown(update_offer_btn_chat_log)
+        }
+
+
 
     }
 
@@ -173,6 +221,15 @@ class RiderChatLogActivity : AppCompatActivity() {
         finish()
         return true
     }
+
+    private fun isPositiveNumber(string: String): Boolean {
+
+        var numeric = true
+
+        numeric = string.matches("0?\\d+(\\.\\d+)?".toRegex())
+        return numeric
+    }
+
 
 
 }
