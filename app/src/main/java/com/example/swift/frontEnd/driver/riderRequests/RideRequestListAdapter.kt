@@ -97,6 +97,7 @@ class RideRequestListAdapter(private val rideRequestList:  ArrayList<RideRequest
 
                 intent.putExtra(OfferListAdapter.OFFER_KEY, offerObj)
                 intent.putExtra(REQUEST_KEY, request)
+                intent.putExtra(OfferListAdapter.IS_RIDER, false)
                 view.context.startActivity(intent)
 
             }

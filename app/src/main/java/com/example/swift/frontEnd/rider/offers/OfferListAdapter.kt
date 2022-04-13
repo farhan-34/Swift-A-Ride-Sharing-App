@@ -32,6 +32,7 @@ class OfferListAdapter (var context:Context, private val driversOfferList:  Arra
 
     companion object {
         val OFFER_KEY = "OFFER_KEY"
+        val IS_RIDER = "IS_RIDER"
     }
 
 
@@ -58,6 +59,7 @@ class OfferListAdapter (var context:Context, private val driversOfferList:  Arra
                 val nullRequest : RideRequest? = null
                 intent.putExtra(RideRequestListAdapter.REQUEST_KEY, nullRequest)
                 intent.putExtra(OFFER_KEY, offer)
+                intent.putExtra(IS_RIDER, true)
 
                 context.startActivity(intent)
 

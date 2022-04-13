@@ -10,17 +10,14 @@
         android:id="@+id/edittext_chat_log"
         android:layout_width="0dp"
         android:layout_height="50dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
         android:layout_marginStart="8dp"
+        android:layout_marginBottom="8dp"
+        android:background="@android:color/white"
         android:ems="10"
         android:hint="Enter Message"
-        android:background="@android:color/white"
         android:inputType="textPersonName"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/send_button_chat_log"
+        app:layout_constraintEnd_toStartOf="@+id/update_offer_btn_chat_log"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
@@ -51,13 +48,11 @@
 
     <ImageButton
         android:id="@+id/update_offer_btn_chat_log"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toBottomOf="@+id/recyclerview_chat_log"
-        app:layout_constraintEnd_toEndOf="@+id/recyclerview_chat_log"
-        app:srcCompat="@drawable/icon_material_update"
-        android:backgroundTint="@color/white"/>
+        android:layout_width="53dp"
+        android:layout_height="51dp"
+        android:backgroundTint="@color/white"
+        app:layout_constraintEnd_toStartOf="@+id/send_button_chat_log"
+        app:layout_constraintTop_toTopOf="@+id/send_button_chat_log"
+        app:srcCompat="@drawable/icon_material_update" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
