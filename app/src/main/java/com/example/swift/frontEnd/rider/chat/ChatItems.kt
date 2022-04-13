@@ -5,6 +5,8 @@ import com.xwray.groupie.GroupieViewHolder
 import com.xwray.groupie.Item
 import kotlinx.android.synthetic.main.chat_from_row.view.*
 import kotlinx.android.synthetic.main.chat_to_row.view.*
+import kotlinx.android.synthetic.main.offer_message_from.view.*
+import kotlinx.android.synthetic.main.offer_message_to.view.*
 
 
 //class ChatFromItem(val text: String, val user: Rider): Item<GroupieViewHolder>() {
@@ -35,5 +37,28 @@ class ChatToItem(val text: String): Item<GroupieViewHolder>() {
 
     override fun getLayout(): Int {
         return R.layout.chat_to_row
+    }
+}
+
+
+class OfferMsgFromItem(val text: String): Item<GroupieViewHolder>() {
+    override fun bind(viewHolder: GroupieViewHolder, position: Int) {
+        viewHolder.itemView.from_offer_msg_textView.text = text
+
+    }
+
+    override fun getLayout(): Int {
+        return R.layout.offer_message_from
+    }
+}
+
+class OfferMsgToItem(val text: String): Item<GroupieViewHolder>() {
+    override fun bind(viewHolder: GroupieViewHolder, position: Int) {
+        viewHolder.itemView.to_offer_msg_textView.text = text
+
+    }
+
+    override fun getLayout(): Int {
+        return R.layout.offer_message_to
     }
 }
