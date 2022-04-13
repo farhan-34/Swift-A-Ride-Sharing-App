@@ -13,43 +13,64 @@
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="408dp"
         android:layout_height="630dp"
+        map:layout_constraintBottom_toTopOf="@+id/session_start"
         map:layout_constraintEnd_toEndOf="parent"
+        map:layout_constraintHorizontal_bias="0.333"
         map:layout_constraintStart_toStartOf="parent"
-        map:layout_constraintTop_toTopOf="parent" />
+        map:layout_constraintTop_toTopOf="parent"
+        map:layout_constraintVertical_bias="0.022" />
 
     <Button
         android:id="@+id/session_start"
         style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
         android:layout_width="138dp"
         android:layout_height="58dp"
-        android:layout_marginStart="44dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginBottom="16dp"
         android:text="Start Ride"
         map:layout_constraintBottom_toBottomOf="parent"
-        map:layout_constraintStart_toStartOf="parent"
-        map:layout_constraintTop_toBottomOf="@+id/map_driver_session"
-        map:layout_constraintVertical_bias="0.511" />
+        map:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/session_cancel"
+        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
         android:layout_width="138dp"
         android:layout_height="58dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="16dp"
         android:backgroundTint="@color/error_red"
         android:text="Cancel"
-        map:layout_constraintBottom_toBottomOf="@+id/session_start"
-        map:layout_constraintEnd_toEndOf="parent"
-        map:layout_constraintStart_toEndOf="@+id/session_start"
-        map:layout_constraintTop_toTopOf="@+id/session_start" />
+        map:layout_constraintBottom_toBottomOf="parent"
+        map:layout_constraintEnd_toEndOf="parent" />
+
+
 
     <Button
         android:id="@+id/session_cancel1"
+        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
         android:layout_width="138dp"
         android:layout_height="58dp"
         android:backgroundTint="@color/error_red"
         android:text="Cancel"
         map:layout_constraintBottom_toBottomOf="parent"
         map:layout_constraintEnd_toEndOf="parent"
+        map:layout_constraintHorizontal_bias="0.498"
         map:layout_constraintStart_toStartOf="parent"
-        map:layout_constraintTop_toBottomOf="@+id/map_driver_session" />
+        map:layout_constraintTop_toBottomOf="@+id/map_driver_session"
+        map:layout_constraintVertical_bias="0.627" />
+
+    <Button
+        android:id="@+id/session_finish"
+        android:layout_width="138dp"
+        android:layout_height="58dp"
+        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+        android:text="Finish"
+        map:layout_constraintBottom_toBottomOf="parent"
+        map:layout_constraintEnd_toEndOf="parent"
+        map:layout_constraintHorizontal_bias="0.498"
+        map:layout_constraintStart_toStartOf="parent"
+        map:layout_constraintTop_toBottomOf="@+id/map_driver_session"
+        map:layout_constraintVertical_bias="0.627" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
