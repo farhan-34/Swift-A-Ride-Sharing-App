@@ -3,6 +3,7 @@ package com.example.swift.frontEnd.rider.rideSession
 import android.Manifest
 import android.animation.ValueAnimator
 import android.content.Intent
+import android.content.pm.ActivityInfo
 import android.content.pm.PackageManager
 import android.content.res.Resources
 import android.graphics.Color
@@ -57,10 +58,18 @@ class RiderRideSessionActivity : AppCompatActivity(), OnMapReadyCallback {
     private var polylineList:ArrayList<LatLng>? = null
     private var originMarker: Marker?= null
     private var destinationMarker: Marker?=null
-    var marker:Marker?= null
+
+    //markers
+    private var marker:Marker?= null
+    private var destMarker:Marker?= null
+    private var pickUpMarker:Marker?= null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        requestedOrientation =  (ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
+        setContentView(R.layout.activity_driver_main)
+        supportActionBar?.hide()
 
         binding = ActivityRiderRideSessionBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -138,9 +147,14 @@ class RiderRideSessionActivity : AppCompatActivity(), OnMapReadyCallback {
             override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
                     val session = snapshot.getValue(RideSession::class.java)
                     if(session!!.riderId == FirebaseAuth.getInstance().currentUser!!.uid){
+                        var state = session.rideState
                         selectedPlaceEvent = SelectedPlaceEvent(origin = LatLng(session.driverLat,session.driverLng),
                             destination = LatLng(session.pickUpLocation!!["Lat"].toString().toDouble(), session.pickUpLocation!!["Lng"].toString().toDouble()))
-                        drawPath(selectedPlaceEvent)
+                        if(state == "In_Session" || state == "Reached"){
+                            selectedPlaceEvent.destination = LatLng(session.dropOffLocation?.get("Lat") as Double,
+                                session.dropOffLocation?.get("Lng") as Double)
+                        }
+                        drawPath(selectedPlaceEvent, state)
                     }
             }
 
@@ -151,7 +165,7 @@ class RiderRideSessionActivity : AppCompatActivity(), OnMapReadyCallback {
                     intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
                     intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK
                     startActivity(intent)
-                    finish()
+                    finishAffinity()
                 }
             }
 
@@ -165,7 +179,7 @@ class RiderRideSessionActivity : AppCompatActivity(), OnMapReadyCallback {
 
     }
 
-    private fun drawPath(selectedPlace:SelectedPlaceEvent) {
+    private fun drawPath(selectedPlace:SelectedPlaceEvent, state:String) {
         //request Api
         compositeDisposable.add(iGoogleAPI.getDirections("driving",
             "less_driving",
@@ -186,36 +200,40 @@ class RiderRideSessionActivity : AppCompatActivity(), OnMapReadyCallback {
                     }
                     greyPolyline?.remove()
                     blackPolyLine?.remove()
-                    polylineOptions = PolylineOptions()
-                    polylineOptions!!.color(Color.parseColor("#E87C35"))
-                    polylineOptions!!.width(12f)
-                    polylineOptions!!.startCap(SquareCap())
-                    polylineOptions!!.jointType(JointType.ROUND)
-                    polylineOptions!!.addAll(polylineList!!)
-                    greyPolyline = mMap.addPolyline(polylineOptions!!)
 
-                    blackPolylineOptions = PolylineOptions()
-                    blackPolylineOptions!!.color(Color.parseColor("#fa8f5a"))
-                    blackPolylineOptions!!.width(5f)
-                    blackPolylineOptions!!.startCap(SquareCap())
-                    blackPolylineOptions!!.jointType(JointType.ROUND)
-                    blackPolylineOptions!!.addAll(polylineList!!)
-                    blackPolyLine = mMap.addPolyline(blackPolylineOptions!!)
+                    if(state != "Waiting" || state != "Reached"){
+                        polylineOptions = PolylineOptions()
+                        polylineOptions!!.color(Color.parseColor("#E87C35"))
+                        polylineOptions!!.width(12f)
+                        polylineOptions!!.startCap(SquareCap())
+                        polylineOptions!!.jointType(JointType.ROUND)
+                        polylineOptions!!.addAll(polylineList!!)
+                        greyPolyline = mMap.addPolyline(polylineOptions!!)
 
-                    //Animator
-                    val valueAnimator = ValueAnimator.ofInt(0,100)
-                    valueAnimator.duration = 1100
-                    valueAnimator.repeatCount = ValueAnimator.INFINITE
-                    valueAnimator.interpolator = LinearInterpolator()
-                    valueAnimator.addUpdateListener { value->
-                        val points = greyPolyline!!.points
-                        val percentValue = value.animatedValue.toString().toInt()
-                        val size = points.size
-                        val newPoints = (size * (percentValue/100.0f)).toInt()
-                        val p = points.subList(0, newPoints)
-                        blackPolyLine!!.points = p
+                        blackPolylineOptions = PolylineOptions()
+                        blackPolylineOptions!!.color(Color.parseColor("#fa8f5a"))
+                        blackPolylineOptions!!.width(5f)
+                        blackPolylineOptions!!.startCap(SquareCap())
+                        blackPolylineOptions!!.jointType(JointType.ROUND)
+                        blackPolylineOptions!!.addAll(polylineList!!)
+                        blackPolyLine = mMap.addPolyline(blackPolylineOptions!!)
+
+                        //Animator
+                        val valueAnimator = ValueAnimator.ofInt(0,100)
+                        valueAnimator.duration = 1100
+                        valueAnimator.repeatCount = ValueAnimator.INFINITE
+                        valueAnimator.interpolator = LinearInterpolator()
+                        valueAnimator.addUpdateListener { value->
+                            val points = greyPolyline!!.points
+                            val percentValue = value.animatedValue.toString().toInt()
+                            val size = points.size
+                            val newPoints = (size * (percentValue/100.0f)).toInt()
+                            val p = points.subList(0, newPoints)
+                            blackPolyLine!!.points = p
+                        }
+                        valueAnimator.start()
                     }
-                    valueAnimator.start()
+
 
                     val latLngBound = LatLngBounds.Builder().include(selectedPlace.origin)
                         .include(selectedPlace.destination)
@@ -234,6 +252,20 @@ class RiderRideSessionActivity : AppCompatActivity(), OnMapReadyCallback {
                     addOriginMarker(duration, start_address)
                     addDestinationMarker(end_address)
 
+
+                    if (state == "Picking_Up"){
+                        pickUpMarker = mMap.addMarker(MarkerOptions()
+                            .position(selectedPlace.destination)
+                            .flat(true)
+                            .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_pin)))
+                    }
+
+                    if(state == "In_Session"){
+                        destMarker = mMap.addMarker(MarkerOptions()
+                            .position(selectedPlace.destination)
+                            .flat(true)
+                            .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_pin)))
+                    }
 
                     marker?.remove()
                     marker = mMap.addMarker(MarkerOptions()

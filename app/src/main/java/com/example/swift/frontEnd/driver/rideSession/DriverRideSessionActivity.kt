@@ -3,6 +3,8 @@ package com.example.swift.frontEnd.driver.rideSession
 import android.Manifest
 import android.animation.ValueAnimator
 import android.content.ContentValues
+import android.content.Intent
+import android.content.pm.ActivityInfo
 import android.content.pm.PackageManager
 import android.content.res.Resources
 import android.graphics.Color
@@ -22,6 +24,7 @@ import com.example.swift.businessLayer.dataClasses.RideSession
 import com.example.swift.databinding.ActivityDriverRideSessionBinding
 import com.example.swift.frontEnd.Remote.IGoogleAPI
 import com.example.swift.frontEnd.Remote.RetroFitClient
+import com.example.swift.frontEnd.driver.main.DriverMainActivity
 import com.google.android.gms.location.*
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -51,6 +54,11 @@ class DriverRideSessionActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
 
+    //markers
+    private var destMarker:Marker?= null
+    private var picUpMarker: Marker?= null
+    private var driverMarker: Marker?= null
+
     //Routes
     private val compositeDisposable = CompositeDisposable()
     private lateinit var iGoogleAPI: IGoogleAPI
@@ -65,11 +73,17 @@ class DriverRideSessionActivity : AppCompatActivity(), OnMapReadyCallback {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        requestedOrientation =  (ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
+        setContentView(R.layout.activity_driver_main)
+        supportActionBar?.hide()
+
         binding = ActivityDriverRideSessionBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         session_cancel.visibility = View.GONE
         session_start.visibility = View.GONE
+        session_finish.visibility = View.GONE
+
 
 
         session_start.setOnClickListener{
@@ -101,7 +115,29 @@ class DriverRideSessionActivity : AppCompatActivity(), OnMapReadyCallback {
             cancelSession()
         }
 
-        //checkSession()
+        session_finish.setOnClickListener {
+            val db = FirebaseDatabase.getInstance()
+            val query = db.reference.child("RideSessions")
+                .orderByChild("driverId")
+                .equalTo(FirebaseAuth.getInstance().currentUser!!.uid)
+
+            query.addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(dataSnapshot: DataSnapshot) {
+                    //TODO: Store the session info in history
+                    for (docs in dataSnapshot.children) {
+                        docs.ref.removeValue()
+                    }
+
+                }
+
+                override fun onCancelled(databaseError: DatabaseError) {
+                    Log.e(ContentValues.TAG, "onCancelled", databaseError.toException())
+                }
+            })
+            finish()
+        }
+
+        checkSession()
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         val mapFragment = supportFragmentManager
@@ -216,14 +252,24 @@ class DriverRideSessionActivity : AppCompatActivity(), OnMapReadyCallback {
                             val session = it.getValue(RideSession::class.java)
                             if(session!!.driverId == FirebaseAuth.getInstance().currentUser!!.uid){
                                 val result = FloatArray(1)
-                                state = session.rideState
+                                val dis = FloatArray(1)
                                 Location.distanceBetween(newPos.latitude,newPos.longitude,
                                     session.pickUpLocation?.get("Lat") as Double,
                                     session.pickUpLocation?.get("Lng") as Double,result)
+
+                                Location.distanceBetween(newPos.latitude,newPos.longitude,
+                                    session.dropOffLocation?.get("Lat") as Double,
+                                    session.dropOffLocation?.get("Lng") as Double,dis)
                                 state = session.rideState
                                 if(session.rideState == "Picking_Up" && result[0] < 400){
                                     db.child(it.key!!).updateChildren(mapOf("rideState" to "Waiting"))
                                     state = "Waiting"
+                                }
+
+
+                                if(session.rideState == "In_Session" && dis[0] < 400){
+                                    db.child(it.key!!).updateChildren(mapOf("rideState" to "Reached"))
+                                    state = "Reached"
                                 }
                                 db.child(it.key!!).updateChildren(mapOf("driverLat" to newPos.latitude))
                                 db.child(it.key!!).updateChildren(mapOf("driverLng" to newPos.longitude))
@@ -233,14 +279,22 @@ class DriverRideSessionActivity : AppCompatActivity(), OnMapReadyCallback {
                                         session.pickUpLocation?.get("Lng") as Double
                                     )
                                     )
-                                if (state == "Waiting"){
-                                    session_cancel.visibility = View.VISIBLE
-                                    session_start.visibility = View.VISIBLE
-                                    session_cancel1.visibility = View.GONE
+                                when (state) {
+                                    "Waiting" -> {
+                                        session_cancel.visibility = View.VISIBLE
+                                        session_start.visibility = View.VISIBLE
+                                        session_cancel1.visibility = View.GONE
+                                    }
+                                    "In_Session" -> {
+                                        selectedPlace.destination = LatLng(session.dropOffLocation?.get("Lat") as Double,
+                                            session.dropOffLocation?.get("Lng") as Double)
+                                    }
                                 }
-                                if (state == "In_Session"){
+                                if(state=="Reached"){
                                     selectedPlace.destination = LatLng(session.dropOffLocation?.get("Lat") as Double,
                                         session.dropOffLocation?.get("Lng") as Double)
+                                    session_cancel1.visibility = View.GONE
+                                    session_finish.visibility = View.VISIBLE
                                 }
                                 drawPath(selectedPlace, state)
                             }
@@ -318,7 +372,7 @@ class DriverRideSessionActivity : AppCompatActivity(), OnMapReadyCallback {
                     }
                     blackPolyLine?.remove()
                     greyPolyline?.remove()
-                    if(state != "Waiting"){
+                    if(state != "Waiting" || state != "Reached"){
                         polylineOptions = PolylineOptions()
                         polylineOptions!!.color(Color.parseColor("#E87C35"))
                         polylineOptions!!.width(12f)
@@ -366,6 +420,26 @@ class DriverRideSessionActivity : AppCompatActivity(), OnMapReadyCallback {
 
                     addOriginMarker(duration, start_address)
                     addDestinationMarker(end_address)
+
+                    if (state == "Picking_Up"){
+                        picUpMarker = mMap.addMarker(MarkerOptions()
+                            .position(selectedPlace.destination)
+                            .flat(true)
+                            .icon(BitmapDescriptorFactory.fromResource((R.drawable.ic_pin))))
+                    }
+
+                    if (state == "In_Session"){
+                        destMarker = mMap.addMarker(MarkerOptions()
+                            .position(selectedPlace.destination)
+                            .flat(true)
+                            .icon(BitmapDescriptorFactory.fromResource((R.drawable.ic_pin))))
+                    }
+
+                    driverMarker?.remove()
+                    driverMarker = mMap.addMarker(MarkerOptions()
+                        .position(selectedPlace.origin)
+                        .flat(true)
+                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_red_car)))
 
                     mMap.moveCamera(CameraUpdateFactory.newLatLngBounds(latLngBound,160))
                     mMap.moveCamera(CameraUpdateFactory.zoomTo(mMap.cameraPosition!!.zoom-1))
