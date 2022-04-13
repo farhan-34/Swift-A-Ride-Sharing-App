@@ -48,6 +48,9 @@ class DriverRideSessionActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var binding: ActivityDriverRideSessionBinding
 
 
+    //camera flag
+    private var flag = true
+
     //locations
     private lateinit var locationRequest: com.google.android.gms.location.LocationRequest
     private lateinit var locationCallback: LocationCallback
@@ -441,8 +444,12 @@ class DriverRideSessionActivity : AppCompatActivity(), OnMapReadyCallback {
                         .flat(true)
                         .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_red_car)))
 
-                    mMap.moveCamera(CameraUpdateFactory.newLatLngBounds(latLngBound,160))
-                    mMap.moveCamera(CameraUpdateFactory.zoomTo(mMap.cameraPosition!!.zoom-1))
+                    if(flag){
+                        mMap.moveCamera(CameraUpdateFactory.newLatLngBounds(latLngBound,160))
+                        mMap.moveCamera(CameraUpdateFactory.zoomTo(mMap.cameraPosition!!.zoom-1))
+                        flag = false
+                    }
+
                 }catch (e:java.lang.Exception){
                     e.printStackTrace()
                 }

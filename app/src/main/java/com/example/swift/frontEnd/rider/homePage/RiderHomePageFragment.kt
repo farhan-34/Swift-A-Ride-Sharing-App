@@ -169,11 +169,17 @@ GoogleMap.OnCameraMoveStartedListener{
         //TODO : remove Later
         autocompleteSupportFragment.setOnPlaceSelectedListener(object:PlaceSelectionListener{
             override fun onError(p0: Status) {
-                //Snackbar.make(requireView(),p0.statusMessage!!,Snackbar.LENGTH_SHORT).show()
+
             }
 
             override fun onPlaceSelected(p0: Place) {
-                Snackbar.make(requireView(),"" + p0.latLng!!,Snackbar.LENGTH_SHORT).show()
+                mMap.animateCamera(
+                    CameraUpdateFactory.newLatLngZoom(
+                        p0.latLng as LatLng,
+                        18f
+                    )
+                )
+                destination = p0.latLng as LatLng
             }
 
         })

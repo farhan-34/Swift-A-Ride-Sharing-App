@@ -41,6 +41,9 @@ class RiderRideSessionActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var mMap: GoogleMap
     private lateinit var binding: ActivityRiderRideSessionBinding
 
+    //camera counter
+    private var flag = true
+
     //Session db
     val db = FirebaseDatabase.getInstance().getReference("RideSessions")
 
@@ -273,9 +276,12 @@ class RiderRideSessionActivity : AppCompatActivity(), OnMapReadyCallback {
                         .flat(true)
                         .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_red_car)))
 
+                    if(flag){
+                        mMap.moveCamera(CameraUpdateFactory.newLatLngBounds(latLngBound,160))
+                        mMap.moveCamera(CameraUpdateFactory.zoomTo(mMap.cameraPosition!!.zoom-1))
+                        flag = false
+                    }
 
-                    mMap.moveCamera(CameraUpdateFactory.newLatLngBounds(latLngBound,160))
-                    mMap.moveCamera(CameraUpdateFactory.zoomTo(mMap.cameraPosition!!.zoom-1))
                 }catch (e:java.lang.Exception){
                     e.printStackTrace()
                 }
