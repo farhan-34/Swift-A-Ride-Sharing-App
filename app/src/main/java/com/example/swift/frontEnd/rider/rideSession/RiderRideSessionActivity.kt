@@ -2,6 +2,7 @@ package com.example.swift.frontEnd.rider.rideSession
 
 import android.Manifest
 import android.animation.ValueAnimator
+import android.app.PendingIntent
 import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.content.pm.PackageManager
@@ -9,14 +10,18 @@ import android.content.res.Resources
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.telephony.SmsManager
 import android.util.Log
 import android.view.animation.LinearInterpolator
+import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import com.example.swift.R
 import com.example.swift.businessLayer.Common.Common
 import com.example.swift.businessLayer.EventBus.SelectedPlaceEvent
+import com.example.swift.businessLayer.dataClasses.Driver
 import com.example.swift.businessLayer.dataClasses.Ride
 import com.example.swift.businessLayer.dataClasses.RideSession
+import com.example.swift.businessLayer.session.RiderSession
 import com.example.swift.databinding.ActivityRiderRideSessionBinding
 import com.example.swift.frontEnd.Remote.IGoogleAPI
 import com.example.swift.frontEnd.Remote.RetroFitClient
@@ -30,10 +35,13 @@ import com.google.android.gms.maps.model.*
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.*
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.schedulers.Schedulers
+import kotlinx.android.synthetic.main.activity_rider_ride_session.*
 import org.json.JSONObject
 
 class RiderRideSessionActivity : AppCompatActivity(), OnMapReadyCallback {
@@ -83,6 +91,60 @@ class RiderRideSessionActivity : AppCompatActivity(), OnMapReadyCallback {
         mapFragment.getMapAsync(this)
 
         initialize()
+
+        riderSession_panic.setOnClickListener {
+            //fetch information about driver
+            val db = FirebaseDatabase.getInstance().getReference("RideSessions")
+            RiderSession.getCurrentUser { rider ->
+                db.get().addOnSuccessListener {
+                    it.children.forEach { child ->
+                        val session = child.getValue(RideSession::class.java)
+                        if (session?.riderId == rider.riderId){
+                            val lat = session.driverLat
+                            val long = session.driverLng
+                            val driverId = session.driverId
+
+                            //send message for help
+                            val db1 = Firebase.firestore
+                            db1.collection("EmergencyContact").document(rider.phoneNumber!!).get()
+                                .addOnSuccessListener { document ->
+                                    //getting list of phone numbers from firestore
+                                    val phoneNumbers = document.get("contacts").toString()
+                                    //list of the phone numbers to send the message to
+                                    val phoneNumberList = phoneNumbers.split(",")
+                                    //message to send
+                                    val ref = FirebaseFirestore.getInstance()
+                                    db1.collection("Driver").whereEqualTo("driverId", driverId)
+                                        .get().addOnSuccessListener { documents ->
+                                            documents.documents.forEach{
+                                                val driver = it.toObject(Driver::class.java)
+                                                val locationUrl = "https://maps.google.com/?q=$lat,$long"
+                                                val driverCNIC = driver?.cnic
+                                                val driverPhoneNumber = driver?.phoneNumber
+                                                val driverLicenseNumber = driver?.licenseNumber
+                                                val message1 = "I am in danger. Please HELP ME!\nInformation:\n" +
+                                                        "Driver CNIC : $driverCNIC "
+                                                val message2 = "Driver Phone Number : $driverPhoneNumber \n" +
+                                                        "Vehicle License Number : $driverLicenseNumber \n"
+                                                val message3 = "Driver Current Location : $locationUrl \n"
+                                                //sending message here to all the numbers
+                                                for (number in phoneNumberList){
+                                                    val sentPI: PendingIntent = PendingIntent.getBroadcast(this, 0, Intent("SMS_SENT"), 0)
+                                                    SmsManager.getDefault().sendTextMessage(number, null, message1, sentPI, null)
+                                                    SmsManager.getDefault().sendTextMessage(number, null, message2, sentPI, null)
+                                                    SmsManager.getDefault().sendTextMessage(number, null, message3, sentPI, null)
+                                                }
+                                            }
+                                        }
+
+                                }
+                        }
+                    }
+                }
+
+            }
+            Toast.makeText(this, "Message Sent", Toast.LENGTH_SHORT).show()
+        }
     }
 
 

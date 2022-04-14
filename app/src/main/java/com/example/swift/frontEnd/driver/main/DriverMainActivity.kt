@@ -159,7 +159,6 @@ class DriverMainActivity : AppCompatActivity(), NavigationView.OnNavigationItemS
         val intent = Intent(this, DriverOnlineService::class.java)
         this.stopService(intent)
 
-        Toast.makeText(this, "Lagggg gyeeee", Toast.LENGTH_SHORT).show()
         super.onDestroy()
     }
 }
