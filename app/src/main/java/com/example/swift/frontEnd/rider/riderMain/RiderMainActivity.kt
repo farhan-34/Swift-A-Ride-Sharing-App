@@ -13,6 +13,7 @@ import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import com.example.swift.R
 import com.example.swift.businessLayer.BroadCasts.InternetConnectivityBroadcastReceiver
+import com.example.swift.businessLayer.dataClasses.RideSession
 import com.example.swift.businessLayer.session.RiderSession
 import com.example.swift.frontEnd.driver.main.DriverMainActivity
 import com.example.swift.frontEnd.driver.registration.DriverRegistrationActivity
@@ -21,9 +22,14 @@ import com.example.swift.frontEnd.rider.homePage.RiderHomePageFragment
 import com.example.swift.frontEnd.rider.offers.RiderOfferListFragment
 import com.example.swift.frontEnd.rider.panicButton.PanicButtonActivity
 import com.example.swift.frontEnd.rider.panicButton.PanicButtonFragment
+import com.example.swift.frontEnd.rider.rideSession.RiderRideSessionActivity
 import com.example.swift.frontEnd.rider.signIn.SignInActivity
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.ChildEventListener
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
 import kotlinx.android.synthetic.main.activity_rider_main.*
 import kotlinx.android.synthetic.main.rider_menu_header.*
 
@@ -44,6 +50,8 @@ class RiderMainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSe
         requestedOrientation =  (ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
         setContentView(R.layout.activity_rider_main)
         supportActionBar?.hide()
+
+        checkSession()
 
         activate_menu.setOnClickListener {
             rider_drawer.openDrawer(GravityCompat.START)
@@ -116,6 +124,37 @@ class RiderMainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSe
             super.onBackPressed()
         }
     }
+
+    private fun checkSession() {
+        var db = FirebaseDatabase.getInstance().getReference("RideSessions")
+        db.addChildEventListener(object : ChildEventListener {
+            override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
+                val rideSession: RideSession? = snapshot.getValue(RideSession::class.java)
+                val curUser = FirebaseAuth.getInstance().currentUser!!.uid
+                if(rideSession != null){
+                    if(rideSession.riderId == curUser){
+                        val dialogIntent = Intent(this@RiderMainActivity, RiderRideSessionActivity::class.java)
+                        //val dialogIntent = Intent(requireContext(), RequestDriverActivity::class.java)
+                        startActivity(dialogIntent)
+                    }
+                }
+            }
+
+            override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
+            }
+
+            override fun onChildRemoved(snapshot: DataSnapshot) {
+            }
+
+            override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+            }
+
+        })
+    }
+
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when(item.itemId){

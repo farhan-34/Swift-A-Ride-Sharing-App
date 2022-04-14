@@ -170,10 +170,8 @@ class RiderRideSessionActivity : AppCompatActivity(), OnMapReadyCallback {
                     id.setValue(session)
 
                     val intent = Intent(this@RiderRideSessionActivity, RiderMainActivity::class.java)
-                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-                    intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK
                     startActivity(intent)
-                    finishAffinity()
+                    finish()
                 }
             }
 

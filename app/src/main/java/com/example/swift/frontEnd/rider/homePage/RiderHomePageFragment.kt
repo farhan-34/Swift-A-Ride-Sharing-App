@@ -113,42 +113,10 @@ GoogleMap.OnCameraMoveStartedListener{
         val root = inflater.inflate(R.layout.fragment_rider_home_page, container, false)
         // Inflate the layout for this fragment
 
-        checkSession()
-
         initViews(root)
         return root
     }
 
-    private fun checkSession() {
-        var db = FirebaseDatabase.getInstance().getReference("RideSessions")
-        db.addChildEventListener(object : ChildEventListener{
-            override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
-                val rideSession: RideSession? = snapshot.getValue(RideSession::class.java)
-                val curUser = FirebaseAuth.getInstance().currentUser!!.uid
-                if(rideSession != null){
-                    if(rideSession.riderId == curUser){
-                        val dialogIntent = Intent(requireContext(), RiderRideSessionActivity::class.java)
-                        //val dialogIntent = Intent(requireContext(), RequestDriverActivity::class.java)
-                        dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                        startActivity(dialogIntent)
-                    }
-                }
-            }
-
-            override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
-            }
-
-            override fun onChildRemoved(snapshot: DataSnapshot) {
-            }
-
-            override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {
-            }
-
-            override fun onCancelled(error: DatabaseError) {
-            }
-
-        })
-    }
 
     private fun initViews(root: View?) {
         slidingUpPanelLayout = root!!.findViewById(R.id.sliding_layout) as SlidingUpPanelLayout
@@ -417,6 +385,7 @@ GoogleMap.OnCameraMoveStartedListener{
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
         init()
@@ -562,6 +531,7 @@ GoogleMap.OnCameraMoveStartedListener{
 
     override fun onResume() {
         super.onResume()
+
         mapFragment.getMapAsync(this)
         //init()
     }

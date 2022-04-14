@@ -158,7 +158,7 @@ class RiderChatLogActivity : AppCompatActivity() {
                             //adapter.add(ChatToItem(chatMessage.text, toUser!!))
 
                             if(chatMessage.offer)
-                                adapter.add(OfferMsgToItem(chatMessage.text))
+                                adapter.add(OfferMsgToItem(chatMessage.text, offerID!!, offer!!.driverId, offer!!.riderId))
                             else
                                 adapter.add(ChatToItem(chatMessage.text))
                         }

@@ -1,6 +1,10 @@
 package com.example.swift.frontEnd.rider.chat
 
+import android.content.Context
+import android.widget.Toast
 import com.example.swift.R
+import com.example.swift.frontEnd.rider.offers.AcceptOfferAction
+import com.google.firebase.database.FirebaseDatabase
 import com.xwray.groupie.GroupieViewHolder
 import com.xwray.groupie.Item
 import kotlinx.android.synthetic.main.chat_from_row.view.*
@@ -52,9 +56,23 @@ class OfferMsgFromItem(val text: String): Item<GroupieViewHolder>() {
     }
 }
 
-class OfferMsgToItem(val text: String): Item<GroupieViewHolder>() {
+class OfferMsgToItem(val text: String, val offerID: String, val offerDriverID: String, val offerRiderID:String): Item<GroupieViewHolder>() {
     override fun bind(viewHolder: GroupieViewHolder, position: Int) {
         viewHolder.itemView.to_offer_msg_textView.text = text
+
+        viewHolder.itemView.accept_btn_offer_to_msg.setOnClickListener{
+            Toast.makeText(viewHolder.itemView.context, text, Toast.LENGTH_SHORT).show()
+
+            // update offer price in database
+            val db = FirebaseDatabase.getInstance().getReference("/RiderOffers/$offerID")
+            val updateOffer = mapOf(
+                "text" to text
+            )
+            db.updateChildren(updateOffer)
+            //starting ride session
+            val obj = AcceptOfferAction()
+            obj.acceptOffer(offerDriverID,offerRiderID,offerID, viewHolder.itemView.context)
+        }
 
     }
 
