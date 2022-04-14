@@ -5,20 +5,28 @@ import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import com.example.swift.R
+import com.example.swift.businessLayer.dataClasses.RideSession
 import com.example.swift.businessLayer.session.DriverSession
 import com.example.swift.businessLayer.session.RiderSession
 import com.example.swift.frontEnd.Services.DriverOnlineService
 import com.example.swift.frontEnd.driver.driverInfo.DriverDisplayInformationFragment
 import com.example.swift.frontEnd.driver.rideHistory.DriverRideHistoryFragment
+import com.example.swift.frontEnd.driver.rideSession.DriverRideSessionActivity
 import com.example.swift.frontEnd.driver.riderRequests.DriverRequestListFragment
 import com.example.swift.frontEnd.driver.vehicleInfo.DriverVehicleDisplayInformationFragment
 import com.example.swift.frontEnd.rider.riderMain.RiderMainActivity
 import com.example.swift.frontEnd.rider.signIn.SignInActivity
 import com.google.android.material.navigation.NavigationView
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.ChildEventListener
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
 import kotlinx.android.synthetic.main.activity_driver_main.*
 import kotlinx.android.synthetic.main.driver_menu_header.*
 
@@ -28,6 +36,9 @@ class DriverMainActivity : AppCompatActivity(), NavigationView.OnNavigationItemS
         requestedOrientation =  (ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
         setContentView(R.layout.activity_driver_main)
         supportActionBar?.hide()
+
+        rideSessionStart()
+
 
         driver_activate_menu.setOnClickListener {
             driver_drawer.openDrawer(GravityCompat.START)
@@ -92,7 +103,35 @@ class DriverMainActivity : AppCompatActivity(), NavigationView.OnNavigationItemS
             super.onBackPressed()
         }
     }
+    private fun rideSessionStart() {
+        var db = FirebaseDatabase.getInstance().getReference("RideSessions")
+        db.addChildEventListener(object : ChildEventListener {
+            override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
+                val rideSession: RideSession? = snapshot.getValue(RideSession::class.java)
+                val curUser = FirebaseAuth.getInstance().currentUser!!.uid
+                if(rideSession != null){
+                    if(rideSession.driverId == curUser){
+                        val dialogIntent = Intent(this@DriverMainActivity, DriverRideSessionActivity::class.java)
+                        //val dialogIntent = Intent(requireContext(), RequestDriverActivity::class.java)
+                        startActivity(dialogIntent)
+                    }
+                }
+            }
 
+            override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
+            }
+
+            override fun onChildRemoved(snapshot: DataSnapshot) {
+            }
+
+            override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+            }
+
+        })
+    }
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when(item.itemId){
             R.id.driver_nav_home -> {
@@ -123,6 +162,8 @@ class DriverMainActivity : AppCompatActivity(), NavigationView.OnNavigationItemS
     override fun onDestroy() {
         val intent = Intent(this, DriverOnlineService::class.java)
         this.stopService(intent)
+
+        Toast.makeText(this, "Lagggg gyeeee", Toast.LENGTH_SHORT).show()
         super.onDestroy()
     }
 }

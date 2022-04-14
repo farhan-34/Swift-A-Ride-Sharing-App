@@ -1,6 +1,5 @@
 package com.example.swift.frontEnd.rider.chat
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.Gravity
@@ -10,11 +9,11 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.PopupWindow
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.example.swift.R
 import com.example.swift.businessLayer.businessLogic.RideRequest
 import com.example.swift.businessLayer.dataClasses.ChatMessage
 import com.example.swift.businessLayer.dataClasses.DriverOffer
-import com.example.swift.businessLayer.session.DriverSession
 import com.example.swift.businessLayer.session.RiderSession
 import com.example.swift.frontEnd.driver.riderRequests.RideRequestListAdapter
 import com.example.swift.frontEnd.rider.offers.OfferListAdapter
@@ -23,7 +22,6 @@ import com.google.firebase.database.ChildEventListener
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.ktx.Firebase
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import kotlinx.android.synthetic.main.activity_chat_log.*
@@ -38,6 +36,8 @@ class RiderChatLogActivity : AppCompatActivity() {
     private var isOffer = false
     private var isRequest = false
     private var offerID : String? = null
+    private var isRider : Boolean = false
+
 
 
     companion object {
@@ -55,6 +55,8 @@ class RiderChatLogActivity : AppCompatActivity() {
         //fetching values from the intent
         offer = intent.getParcelableExtra(OfferListAdapter.OFFER_KEY)
         request = intent.getParcelableExtra(RideRequestListAdapter.REQUEST_KEY)
+        isRider = intent.extras!!.getBoolean(OfferListAdapter.IS_RIDER)
+
         if(offer != null){
             offerID = offer?.offerId
             toId = offer?.driverId
@@ -66,6 +68,8 @@ class RiderChatLogActivity : AppCompatActivity() {
             toName = request?.riderName
             isRequest = true
         }
+        if(isRider)
+            update_offer_btn_chat_log.visibility = View.INVISIBLE
 
         // setting some variables
         supportActionBar?.title = toName
@@ -83,7 +87,8 @@ class RiderChatLogActivity : AppCompatActivity() {
 
         send_button_chat_log.setOnClickListener {
             Log.d(TAG, "Attempt to send message....")
-            performSendMessage()
+            val text = edittext_chat_log.text.toString()
+            performSendMessage(text,false)
         }
 
         update_offer_btn_chat_log.setOnClickListener{
@@ -103,10 +108,8 @@ class RiderChatLogActivity : AppCompatActivity() {
                 val temp: EditText = view.findViewById(R.id.popup_offer_price_view)
                 val fair = temp.text.toString()
                 if(isPositiveNumber(fair)) {
-                    val db = FirebaseDatabase.getInstance().getReference("/RideOffers/$offerID")
-
-
-
+                    //val db = FirebaseDatabase.getInstance().getReference("/RideOffers/$offerID")
+                    performSendMessage(fair, true)
 
                     window.dismiss()
 
@@ -144,10 +147,20 @@ class RiderChatLogActivity : AppCompatActivity() {
                         if (chatMessage.fromId == FirebaseAuth.getInstance().uid) {
                             //val currentUser = LatestMessagesActivity.currentUser ?: return
                             //adapter.add(ChatFromItem(chatMessage.text, currentUser))
-                            adapter.add(ChatFromItem(chatMessage.text))
-                        } else {
+                            if(chatMessage.offer)
+                                adapter.add(OfferMsgFromItem(chatMessage.text))
+                            else
+                                adapter.add(ChatFromItem(chatMessage.text))
+
+                        }
+
+                        else {
                             //adapter.add(ChatToItem(chatMessage.text, toUser!!))
-                            adapter.add(ChatToItem(chatMessage.text))
+
+                            if(chatMessage.offer)
+                                adapter.add(OfferMsgToItem(chatMessage.text, offerID!!, offer!!.driverId, offer!!.riderId))
+                            else
+                                adapter.add(ChatToItem(chatMessage.text))
                         }
                         recyclerview_chat_log.scrollToPosition(adapter.itemCount -1)
                     }
@@ -177,13 +190,13 @@ class RiderChatLogActivity : AppCompatActivity() {
 
     }
 
-    private fun performSendMessage() {
+    private fun performSendMessage(text:String, isOffer:Boolean) {
 
         RiderSession.getCurrentUser { rider ->
 
             val fromId = rider.riderId
 
-            val text = edittext_chat_log.text.toString()
+
 
             if (text.isEmpty())
                 return@getCurrentUser
@@ -199,7 +212,7 @@ class RiderChatLogActivity : AppCompatActivity() {
             val chatMessage = toId?.let {
                 ChatMessage(
                     reference.key!!, text, fromId!!,
-                    it, System.currentTimeMillis() / 1000
+                    it, System.currentTimeMillis() / 1000, isOffer
                 )
             }
 

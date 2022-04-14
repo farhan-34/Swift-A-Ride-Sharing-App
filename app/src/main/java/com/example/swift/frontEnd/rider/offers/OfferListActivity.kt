@@ -138,7 +138,7 @@ class OfferListActivity : AppCompatActivity() {
     }
 
     private fun init_recycler_view(){
-        adapter = OfferListAdapter(this, driversOffersList)
+        adapter = OfferListAdapter( driversOffersList)
         driversOffersRecyclerView.adapter = adapter
         driversOffersRecyclerView.layoutManager = LinearLayoutManager(this)
     }

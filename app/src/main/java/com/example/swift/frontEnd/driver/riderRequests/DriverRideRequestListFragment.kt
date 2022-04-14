@@ -32,12 +32,7 @@ private lateinit var adapter: RideRequestListAdapter
 class DriverRequestListFragment : Fragment() {
 
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
 
-        val intent = Intent(requireContext(), DriverOnlineService::class.java)
-        requireContext().startService(intent)
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -50,11 +45,12 @@ class DriverRequestListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val intent = Intent(requireContext(), DriverOnlineService::class.java)
+        requireContext().startService(intent)
+
         rideRequest_sort_btn.setOnClickListener{
             Toast.makeText(view.context, "Sort applied", Toast.LENGTH_SHORT).show()
         }
-
-        rideSessionStart()
 
         val db = FirebaseDatabase.getInstance()
 
@@ -141,34 +137,5 @@ class DriverRequestListFragment : Fragment() {
         driverRiderRequestRecyclerView.layoutManager = LinearLayoutManager(view?.context)
     }
 
-    private fun rideSessionStart() {
-        var db = FirebaseDatabase.getInstance().getReference("RideSessions")
-        db.addChildEventListener(object : ChildEventListener{
-            override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
-                val rideSession: RideSession? = snapshot.getValue(RideSession::class.java)
-                val curUser = FirebaseAuth.getInstance().currentUser!!.uid
-                if(rideSession != null){
-                    if(rideSession.driverId == curUser){
-                        val dialogIntent = Intent(requireContext(), DriverRideSessionActivity::class.java)
-                        //val dialogIntent = Intent(requireContext(), RequestDriverActivity::class.java)
-                        dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                        startActivity(dialogIntent)
-                    }
-                }
-            }
 
-            override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
-            }
-
-            override fun onChildRemoved(snapshot: DataSnapshot) {
-            }
-
-            override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {
-            }
-
-            override fun onCancelled(error: DatabaseError) {
-            }
-
-        })
-    }
 }
