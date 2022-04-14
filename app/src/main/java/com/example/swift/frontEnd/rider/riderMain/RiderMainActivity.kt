@@ -22,6 +22,7 @@ import com.example.swift.frontEnd.rider.homePage.RiderHomePageFragment
 import com.example.swift.frontEnd.rider.offers.RiderOfferListFragment
 import com.example.swift.frontEnd.rider.panicButton.PanicButtonActivity
 import com.example.swift.frontEnd.rider.panicButton.PanicButtonFragment
+import com.example.swift.frontEnd.rider.rideHistory.RiderRideHistoryFragment
 import com.example.swift.frontEnd.rider.rideSession.RiderRideSessionActivity
 import com.example.swift.frontEnd.rider.signIn.SignInActivity
 import com.google.android.material.navigation.NavigationView
@@ -167,6 +168,10 @@ class RiderMainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSe
             R.id.nav_riderPanic ->{
                 supportFragmentManager.beginTransaction().replace(R.id.rider_main_fragment_container, PanicButtonFragment()).addToBackStack(null).commit()
             }
+            R.id.nav_riderRideHistory->{
+                supportFragmentManager.beginTransaction().replace(R.id.rider_main_fragment_container, RiderRideHistoryFragment()).addToBackStack(null).commit()
+            }
+
             R.id.nav_logout -> {
                 FirebaseAuth.getInstance().signOut()
                 startActivity(Intent(this, SignInActivity::class.java))
