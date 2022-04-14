@@ -24,8 +24,8 @@
 
         <TextView
             android:id="@+id/editTextTextPersonName"
-            android:layout_width="87dp"
-            android:layout_height="48dp"
+            android:layout_width="88dp"
+            android:layout_height="34dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
             android:ems="10"

@@ -130,14 +130,14 @@ class DriverRideSessionActivity : AppCompatActivity(), OnMapReadyCallback {
                     for (docs in dataSnapshot.children) {
                         docs.ref.removeValue()
                     }
-
+                    finish()
                 }
 
                 override fun onCancelled(databaseError: DatabaseError) {
                     Log.e(ContentValues.TAG, "onCancelled", databaseError.toException())
                 }
             })
-            finish()
+
         }
 
         checkSession()
@@ -184,14 +184,14 @@ class DriverRideSessionActivity : AppCompatActivity(), OnMapReadyCallback {
                 for (docs in dataSnapshot.children) {
                     docs.ref.removeValue()
                 }
-
+                finish()
             }
 
             override fun onCancelled(databaseError: DatabaseError) {
                 Log.e(ContentValues.TAG, "onCancelled", databaseError.toException())
             }
         })
-        finish()
+
     }
 
     override fun onMapReady(googleMap: GoogleMap) {

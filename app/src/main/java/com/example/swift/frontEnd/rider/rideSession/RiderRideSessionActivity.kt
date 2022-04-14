@@ -165,10 +165,8 @@ class RiderRideSessionActivity : AppCompatActivity(), OnMapReadyCallback {
                 val session = snapshot.getValue(RideSession::class.java)
                 if(session!!.riderId == FirebaseAuth.getInstance().currentUser!!.uid){
                     val intent = Intent(this@RiderRideSessionActivity, RiderMainActivity::class.java)
-                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-                    intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK
                     startActivity(intent)
-                    finishAffinity()
+                    finish()
                 }
             }
 
