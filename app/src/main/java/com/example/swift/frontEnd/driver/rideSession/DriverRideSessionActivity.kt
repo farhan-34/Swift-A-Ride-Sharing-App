@@ -130,7 +130,6 @@ class DriverRideSessionActivity : AppCompatActivity(), OnMapReadyCallback {
                     for (docs in dataSnapshot.children) {
                         docs.ref.removeValue()
                     }
-
                 }
 
                 override fun onCancelled(databaseError: DatabaseError) {
