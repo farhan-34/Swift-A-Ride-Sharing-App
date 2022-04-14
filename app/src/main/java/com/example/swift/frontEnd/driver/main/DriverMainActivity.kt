@@ -13,6 +13,7 @@ import com.example.swift.businessLayer.session.DriverSession
 import com.example.swift.businessLayer.session.RiderSession
 import com.example.swift.frontEnd.Services.DriverOnlineService
 import com.example.swift.frontEnd.driver.driverInfo.DriverDisplayInformationFragment
+import com.example.swift.frontEnd.driver.rideHistory.DriverRideHistoryFragment
 import com.example.swift.frontEnd.driver.riderRequests.DriverRequestListFragment
 import com.example.swift.frontEnd.driver.vehicleInfo.DriverVehicleDisplayInformationFragment
 import com.example.swift.frontEnd.rider.riderMain.RiderMainActivity
@@ -102,6 +103,9 @@ class DriverMainActivity : AppCompatActivity(), NavigationView.OnNavigationItemS
             }
             R.id.driver_nav_vehicleInfo -> {
                 supportFragmentManager.beginTransaction().replace(R.id.driver_main_fragment_container, DriverVehicleDisplayInformationFragment()).commit()
+            }
+            R.id.driver_nav_RideHistory -> {
+                supportFragmentManager.beginTransaction().replace(R.id.driver_main_fragment_container, DriverRideHistoryFragment()).commit()
             }
 
             R.id.driver_nav_logout ->{
