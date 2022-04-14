@@ -164,6 +164,11 @@ class RiderRideSessionActivity : AppCompatActivity(), OnMapReadyCallback {
             override fun onChildRemoved(snapshot: DataSnapshot) {
                 val session = snapshot.getValue(RideSession::class.java)
                 if(session!!.riderId == FirebaseAuth.getInstance().currentUser!!.uid){
+
+                    val d = FirebaseDatabase.getInstance().getReference("Ride History")
+                    val id = d.push()
+                    id.setValue(session)
+
                     val intent = Intent(this@RiderRideSessionActivity, RiderMainActivity::class.java)
                     intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
                     intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK
