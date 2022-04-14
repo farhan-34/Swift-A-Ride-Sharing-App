@@ -89,7 +89,7 @@ class PanicButtonFragment : Fragment() {
                         //list of the phone numbers to send the message to
                         val phoneNumberList = phoneNumbers.split(",")
                         //message to send
-                        val message = "I am in panic"
+                        val message = "I am in danger. Please HELP ME!"
                         //sending message here to all the numbers
                         for (number in phoneNumberList){
                             val sentPI: PendingIntent = PendingIntent.getBroadcast(context, 0, Intent("SMS_SENT"), 0)

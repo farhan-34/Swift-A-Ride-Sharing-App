@@ -1,9 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<fragment xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:map="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/map_rider_session"
-    android:name="com.google.android.gms.maps.SupportMapFragment"
-    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".frontEnd.rider.rideSession.RiderRideSessionActivity" />
+    android:layout_width="match_parent">
+
+
+    <fragment
+        android:id="@+id/map_rider_session"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="410dp"
+        android:layout_height="646dp"
+        map:layout_constraintEnd_toEndOf="parent"
+        map:layout_constraintStart_toStartOf="parent"
+        map:layout_constraintTop_toTopOf="parent"
+        tools:context=".frontEnd.rider.rideSession.RiderRideSessionActivity" />
+
+    <Button
+        android:id="@+id/rider_session_cancel"
+        android:layout_width="113dp"
+        android:layout_height="47dp"
+        android:layout_marginStart="72dp"
+        android:layout_marginTop="21dp"
+        android:layout_marginBottom="16dp"
+        android:backgroundTint="@color/error_red"
+        android:text="Cancel"
+        map:layout_constraintBottom_toBottomOf="parent"
+        map:layout_constraintStart_toStartOf="parent"
+        map:layout_constraintTop_toBottomOf="@+id/map_rider_session"
+        map:layout_constraintVertical_bias="1.0" />
+
+    <Button
+        android:id="@+id/riderSession_panic"
+        android:layout_width="113dp"
+        android:layout_height="47dp"
+        android:text="SOS"
+        android:backgroundTint="@color/purple_700"
+        map:layout_constraintBottom_toBottomOf="@+id/rider_session_cancel"
+        map:layout_constraintEnd_toEndOf="parent"
+        map:layout_constraintStart_toEndOf="@+id/rider_session_cancel"
+        map:layout_constraintTop_toTopOf="@+id/rider_session_cancel" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
