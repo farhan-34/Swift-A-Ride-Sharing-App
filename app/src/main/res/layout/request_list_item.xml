@@ -41,7 +41,7 @@
     <TextView
         android:id="@+id/rideRequest_sourceLocation"
         android:layout_width="273dp"
-        android:layout_height="27dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:maxWidth="250dp"
         android:maxLines="2"
@@ -56,7 +56,7 @@
     <TextView
         android:id="@+id/rideRequest_destinationLocation"
         android:layout_width="273dp"
-        android:layout_height="23dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:maxWidth="250dp"
         android:maxLines="2"
