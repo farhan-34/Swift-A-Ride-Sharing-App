@@ -164,6 +164,11 @@ class RiderRideSessionActivity : AppCompatActivity(), OnMapReadyCallback {
             override fun onChildRemoved(snapshot: DataSnapshot) {
                 val session = snapshot.getValue(RideSession::class.java)
                 if(session!!.riderId == FirebaseAuth.getInstance().currentUser!!.uid){
+
+                    val d = FirebaseDatabase.getInstance().getReference("Ride History")
+                    val id = d.push()
+                    id.setValue(session)
+
                     val intent = Intent(this@RiderRideSessionActivity, RiderMainActivity::class.java)
                     startActivity(intent)
                     finish()
