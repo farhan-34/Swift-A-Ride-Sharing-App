@@ -19,6 +19,7 @@ import com.example.swift.frontEnd.driver.rideHistory.DriverRideHistoryFragment
 import com.example.swift.frontEnd.driver.rideSession.DriverRideSessionActivity
 import com.example.swift.frontEnd.driver.riderRequests.DriverRequestListFragment
 import com.example.swift.frontEnd.driver.vehicleInfo.DriverVehicleDisplayInformationFragment
+import com.example.swift.frontEnd.rider.donation.DonationFragment
 import com.example.swift.frontEnd.rider.riderMain.RiderMainActivity
 import com.example.swift.frontEnd.rider.signIn.SignInActivity
 import com.google.android.material.navigation.NavigationView
@@ -146,7 +147,9 @@ class DriverMainActivity : AppCompatActivity(), NavigationView.OnNavigationItemS
             R.id.driver_nav_RideHistory -> {
                 supportFragmentManager.beginTransaction().replace(R.id.driver_main_fragment_container, DriverRideHistoryFragment()).commit()
             }
-
+            R.id.driver_nav_DonationPage ->{
+                supportFragmentManager.beginTransaction().replace(R.id.driver_main_fragment_container, DonationFragment()).commit()
+            }
             R.id.driver_nav_logout ->{
                 val intent = Intent(this, SignInActivity::class.java)
                 intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK

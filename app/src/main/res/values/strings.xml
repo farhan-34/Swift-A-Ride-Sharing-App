@@ -37,5 +37,6 @@
     <string name="title_activity_driver_ride_session">DriverRideSessionActivity</string>
     <string name="title_activity_rider_ride_session">RiderRideSessionActivity</string>
     <string name="SOS_message">This SOS button will share your current location, vehicle details and phone number of the opposite party to your emergency contact.</string>
+    <string name="donate_lines">By donating, You are supporting a local community of workers. This app is build for supporting the community and is free for all Users. So, you can support our work as donate by much as you can.</string>
 
 </resources>
