@@ -1,22 +1,31 @@
 package com.example.swift.frontEnd.rider.panicButton
 
+import android.app.Activity
 import android.app.PendingIntent
 import android.content.Intent
 import android.graphics.drawable.GradientDrawable
+import android.os.Build
 import android.os.Bundle
+import android.provider.ContactsContract
 import android.telephony.SmsManager
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.annotation.RequiresApi
+import androidx.core.content.contentValuesOf
 import androidx.core.view.get
 import com.example.swift.R
 import com.example.swift.businessLayer.session.RiderSession
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.activity_panic_button.*
+import kotlinx.android.synthetic.main.activity_panic_button.btn_add_panic_contact
+import kotlinx.android.synthetic.main.activity_panic_button.emergency_contact_input
+import kotlinx.android.synthetic.main.activity_panic_button.panic_button
 import kotlinx.android.synthetic.main.activity_rider_register.*
+import kotlinx.android.synthetic.main.fragment_panic_button.*
 import net.rimoto.intlphoneinput.IntlPhoneInput
 
 
@@ -80,6 +89,7 @@ class PanicButtonFragment : Fragment() {
             }
             }
         }
+
         panic_button.setOnClickListener {
             RiderSession.getCurrentUser { rider ->
                 db.collection("EmergencyContact").document(rider.phoneNumber).get()
@@ -96,6 +106,27 @@ class PanicButtonFragment : Fragment() {
                             SmsManager.getDefault().sendTextMessage(number, null, message, sentPI, null)
                         }
                     }
+            }
+        }
+
+        add_contact_from_phone.setOnClickListener {
+             var i = Intent(Intent.ACTION_PICK)
+            i.type = ContactsContract.CommonDataKinds.Phone.CONTENT_TYPE
+            startActivityForResult(i,111)
+        }
+
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if(requestCode == 111 && resultCode == Activity.RESULT_OK){
+            var contact_URI = data?.data ?: return
+            var cols = arrayOf(ContactsContract.CommonDataKinds.Phone.NUMBER)
+
+            var rs = activity?.contentResolver?.query(contact_URI, cols, null,null)
+            if(rs?.moveToFirst()!!){
+                emergency_contact_input.number = rs.getString(0)
             }
         }
     }
