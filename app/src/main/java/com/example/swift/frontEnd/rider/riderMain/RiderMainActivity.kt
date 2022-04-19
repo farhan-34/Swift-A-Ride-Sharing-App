@@ -17,6 +17,7 @@ import com.example.swift.businessLayer.dataClasses.RideSession
 import com.example.swift.businessLayer.session.RiderSession
 import com.example.swift.frontEnd.driver.main.DriverMainActivity
 import com.example.swift.frontEnd.driver.registration.DriverRegistrationActivity
+import com.example.swift.frontEnd.rider.donation.DonationFragment
 import com.example.swift.frontEnd.rider.riderInfo.RiderDisplayInformationFragment
 import com.example.swift.frontEnd.rider.homePage.RiderHomePageFragment
 import com.example.swift.frontEnd.rider.offers.RiderOfferListFragment
@@ -170,6 +171,9 @@ class RiderMainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSe
             }
             R.id.nav_riderRideHistory->{
                 supportFragmentManager.beginTransaction().replace(R.id.rider_main_fragment_container, RiderRideHistoryFragment()).addToBackStack(null).commit()
+            }
+            R.id.nav_riderDonationPage->{
+                supportFragmentManager.beginTransaction().replace(R.id.rider_main_fragment_container, DonationFragment()).addToBackStack(null).commit()
             }
 
             R.id.nav_logout -> {
