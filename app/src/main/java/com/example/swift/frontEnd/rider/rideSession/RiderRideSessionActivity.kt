@@ -20,6 +20,7 @@ import com.example.swift.businessLayer.dataClasses.RideSession
 import com.example.swift.databinding.ActivityRiderRideSessionBinding
 import com.example.swift.frontEnd.Remote.IGoogleAPI
 import com.example.swift.frontEnd.Remote.RetroFitClient
+import com.example.swift.frontEnd.driver.rating.DriverGiveRatingActivity
 import com.example.swift.frontEnd.rider.riderMain.RiderMainActivity
 
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -169,8 +170,12 @@ class RiderRideSessionActivity : AppCompatActivity(), OnMapReadyCallback {
                     val id = d.push()
                     id.setValue(session)
 
-                    val intent = Intent(this@RiderRideSessionActivity, RiderMainActivity::class.java)
+                    val intent = Intent(this@RiderRideSessionActivity, DriverGiveRatingActivity::class.java)
+                    intent.putExtra("DRIVER_ID", session!!.driverId)
+                    intent.putExtra("RIDER_ID",session!!.riderId)
+                    intent.putExtra("IS_DRIVER",false)
                     startActivity(intent)
+
                     finish()
                 }
             }

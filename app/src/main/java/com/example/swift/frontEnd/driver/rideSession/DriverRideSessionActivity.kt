@@ -25,6 +25,7 @@ import com.example.swift.databinding.ActivityDriverRideSessionBinding
 import com.example.swift.frontEnd.Remote.IGoogleAPI
 import com.example.swift.frontEnd.Remote.RetroFitClient
 import com.example.swift.frontEnd.driver.main.DriverMainActivity
+import com.example.swift.frontEnd.driver.rating.DriverGiveRatingActivity
 import com.google.android.gms.location.*
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -124,12 +125,23 @@ class DriverRideSessionActivity : AppCompatActivity(), OnMapReadyCallback {
                 .orderByChild("driverId")
                 .equalTo(FirebaseAuth.getInstance().currentUser!!.uid)
 
+            var riderId :String = ""
             query.addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
                     //TODO: Store the session info in history
                     for (docs in dataSnapshot.children) {
+                        val session = docs.getValue(RideSession::class.java)
+                        riderId=session?.riderId.toString()
                         docs.ref.removeValue()
                     }
+                    var driverId = FirebaseAuth.getInstance().currentUser!!.uid
+
+
+                    val intent = Intent(this@DriverRideSessionActivity, DriverGiveRatingActivity::class.java)
+                    intent.putExtra("DRIVER_ID", driverId)
+                    intent.putExtra("RIDER_ID",riderId)
+                    intent.putExtra("IS_DRIVER",true)
+                    startActivity(intent)
 
                     finish()
 
