@@ -53,7 +53,7 @@ class RiderSignInOtpActivity : AppCompatActivity() {
                 override fun onVerificationFailed(p0: FirebaseException) {
                     Toast.makeText(
                         this@RiderSignInOtpActivity,
-                        "Please check Internet Connection",
+                        p0.message.toString(),
                         Toast.LENGTH_SHORT
                     ).show()
                 }
