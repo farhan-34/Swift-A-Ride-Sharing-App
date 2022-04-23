@@ -14,6 +14,7 @@ import androidx.drawerlayout.widget.DrawerLayout
 import com.example.swift.R
 import com.example.swift.businessLayer.BroadCasts.InternetConnectivityBroadcastReceiver
 import com.example.swift.businessLayer.dataClasses.RideSession
+import com.example.swift.businessLayer.last_login_stats.LastLoginStats
 import com.example.swift.businessLayer.session.RiderSession
 import com.example.swift.frontEnd.driver.main.DriverMainActivity
 import com.example.swift.frontEnd.driver.registration.DriverRegistrationActivity
@@ -45,10 +46,16 @@ class RiderMainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSe
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-//        RiderSession.getCurrentUser { rider ->
-//            val email = rider.email
-//            val phonneNumber = rider.phoneNumber
-//        }
+        // if user was logged in as a driver then go to the driver main page
+        val obj = LastLoginStats()
+        if(obj.isDriverLastLogin()){
+            val intent = Intent(this, DriverMainActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            startActivity(intent)
+            finish()
+        }
+
+
         requestedOrientation =  (ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
         setContentView(R.layout.activity_rider_main)
         supportActionBar?.hide()
@@ -90,6 +97,7 @@ class RiderMainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSe
         })
 
 
+        //
         rider_becomeDriver_btn.setOnClickListener {
             //checking if the rider already registered as a driver or not
             RiderSession.getCurrentUser { rider ->
