@@ -12,7 +12,8 @@ open class Rider(
     open var gender:String = "",
     open var phoneNumber:String = "",
     open var isdriver:String = "j",
-    open var rating: Double = 0.0
+    open var rating: Double = 0.0,
+    open var isLastTimeDriverLogin: Boolean = false
     ) : Parcelable {
 
 }
