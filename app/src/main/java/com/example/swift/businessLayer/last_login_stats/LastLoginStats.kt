@@ -14,7 +14,8 @@ class LastLoginStats {
 
     }
 
-    fun isDriverLastLogin(){
+    fun isDriverLastLogin(): Boolean {
 
+        return false
     }
 }
