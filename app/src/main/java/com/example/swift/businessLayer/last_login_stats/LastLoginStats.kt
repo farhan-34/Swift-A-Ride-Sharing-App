@@ -6,6 +6,7 @@ import android.se.omapi.Session
 import androidx.core.content.ContextCompat
 import androidx.core.content.ContextCompat.startActivity
 import com.example.swift.businessLayer.Common.Common
+import com.example.swift.businessLayer.session.DriverSession
 import com.example.swift.businessLayer.session.RiderSession
 import com.example.swift.frontEnd.driver.main.DriverMainActivity
 import com.google.firebase.firestore.ktx.firestore
@@ -18,10 +19,14 @@ class LastLoginStats {
 
         val db  = Firebase.firestore
         RiderSession.getCurrentUser { rider ->
+
             val riderToUpdate = mapOf(
                 "isLastTimeDriverLogin" to "true",
             )
             db.collection("Rider").document(rider.phoneNumber).update(riderToUpdate)
+
+            rider.isLastTimeDriverLogin = "true"
+
         }
 
     }
@@ -29,11 +34,16 @@ class LastLoginStats {
     fun setAsRiderLastLogin(){
 
         val db  = Firebase.firestore
+
         RiderSession.getCurrentUser { rider ->
+
             val riderToUpdate = mapOf(
                 "isLastTimeDriverLogin" to "false",
             )
             db.collection("Rider").document(rider.phoneNumber).update(riderToUpdate)
+
+            rider.isLastTimeDriverLogin = "false"
+
         }
 
     }

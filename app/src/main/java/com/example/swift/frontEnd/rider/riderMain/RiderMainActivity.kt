@@ -6,8 +6,10 @@ import android.content.IntentFilter
 import android.content.pm.ActivityInfo
 import android.net.ConnectivityManager
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
@@ -15,10 +17,12 @@ import androidx.drawerlayout.widget.DrawerLayout
 import com.example.swift.R
 import com.example.swift.businessLayer.BroadCasts.InternetConnectivityBroadcastReceiver
 import com.example.swift.businessLayer.dataClasses.RideSession
+import com.example.swift.businessLayer.dataClasses.Rider
 import com.example.swift.businessLayer.last_login_stats.LastLoginStats
 import com.example.swift.businessLayer.session.RiderSession
 import com.example.swift.frontEnd.driver.main.DriverMainActivity
 import com.example.swift.frontEnd.driver.registration.DriverRegistrationActivity
+import com.example.swift.frontEnd.rider.chat.RiderChatLogActivity.Companion.TAG
 import com.example.swift.frontEnd.rider.donation.DonationFragment
 import com.example.swift.frontEnd.rider.riderInfo.RiderDisplayInformationFragment
 import com.example.swift.frontEnd.rider.homePage.RiderHomePageFragment
@@ -34,8 +38,14 @@ import com.google.firebase.database.ChildEventListener
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.firestore.DocumentReference
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.firestore.ktx.toObject
+import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.activity_rider_main.*
 import kotlinx.android.synthetic.main.rider_menu_header.*
+
 
 
 class RiderMainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
@@ -52,13 +62,25 @@ class RiderMainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSe
 
         checkSession()
 
+        val db = FirebaseFirestore.getInstance()
+
         // switch To Driver If Last Login was as driver
         RiderSession.getCurrentUser { rider ->
-            if(rider.isLastTimeDriverLogin == "true"){
-                val intent = Intent(this, DriverMainActivity::class.java)
-                startActivity(intent)
+
+            val docRef = db.collection("Rider").document(rider.phoneNumber)
+            docRef.get().addOnSuccessListener { doc ->
+                val person = doc.toObject(Rider::class.java)
+                if(person?.isLastTimeDriverLogin == "true"){
+                    val intent = Intent(this, DriverMainActivity::class.java)
+                    startActivity(intent)
+                }
+            }.addOnFailureListener {
+                it.stackTrace
+            }.addOnCanceledListener {
+                Toast.makeText(this, "hehe", Toast.LENGTH_SHORT).show()
             }
         }
+
 
         activate_menu.setOnClickListener {
             rider_drawer.openDrawer(GravityCompat.START)
