@@ -9,6 +9,7 @@ import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import com.example.swift.R
@@ -45,22 +46,19 @@ class RiderMainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSe
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        // if user was logged in as a driver then go to the driver main page
-        val obj = LastLoginStats()
-        if(obj.isDriverLastLogin()){
-            val intent = Intent(this, DriverMainActivity::class.java)
-            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-            startActivity(intent)
-            finish()
-        }
-
-
         requestedOrientation =  (ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
         setContentView(R.layout.activity_rider_main)
         supportActionBar?.hide()
 
         checkSession()
+
+        // switch To Driver If Last Login was as driver
+        RiderSession.getCurrentUser { rider ->
+            if(rider.isLastTimeDriverLogin == "true"){
+                val intent = Intent(this, DriverMainActivity::class.java)
+                startActivity(intent)
+            }
+        }
 
         activate_menu.setOnClickListener {
             rider_drawer.openDrawer(GravityCompat.START)
@@ -97,12 +95,16 @@ class RiderMainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSe
         })
 
 
-        //
+        // Become Driver Button
         rider_becomeDriver_btn.setOnClickListener {
             //checking if the rider already registered as a driver or not
             RiderSession.getCurrentUser { rider ->
                 if(rider.isdriver == "true") {
-                    startActivity(Intent(this, DriverMainActivity::class.java))
+                    val intent = Intent(this, DriverMainActivity::class.java)
+                    //intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                    startActivity(intent)
+                    //finish()
+
                 }
                 else {
                     startActivity(Intent(this, DriverRegistrationActivity::class.java))
