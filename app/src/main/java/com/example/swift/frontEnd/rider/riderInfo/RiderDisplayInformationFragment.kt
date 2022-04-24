@@ -55,11 +55,7 @@ class RiderDisplayInformationFragment : Fragment(), AdapterView.OnItemSelectedLi
                     .addOnSuccessListener {
                         db.collection("Driver").document(rider.phoneNumber).update(riderToUpdate)
                             .addOnSuccessListener {
-                                Toast.makeText(
-                                    requireContext(),
-                                    "Information Updated",
-                                    Toast.LENGTH_SHORT
-                                ).show()
+                                Toast.makeText(requireContext(),"Information Updated",Toast.LENGTH_SHORT).show()
                             }
                             .addOnFailureListener{
                                 Toast.makeText(requireContext(), " Information Not Updated!!!", Toast.LENGTH_SHORT).show()
