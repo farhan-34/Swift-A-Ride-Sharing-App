@@ -11,6 +11,7 @@ import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import com.example.swift.R
 import com.example.swift.businessLayer.dataClasses.RideSession
+import com.example.swift.businessLayer.last_login_stats.LastLoginStats
 import com.example.swift.businessLayer.session.DriverSession
 import com.example.swift.businessLayer.session.RiderSession
 import com.example.swift.frontEnd.Services.DriverOnlineService
@@ -37,6 +38,10 @@ class DriverMainActivity : AppCompatActivity(), NavigationView.OnNavigationItemS
         requestedOrientation =  (ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
         setContentView(R.layout.activity_driver_main)
         supportActionBar?.hide()
+
+        // setting last time login state
+        val obj = LastLoginStats()
+        obj.setAsDriverLastLogin()
 
         rideSessionStart()
 
@@ -84,9 +89,12 @@ class DriverMainActivity : AppCompatActivity(), NavigationView.OnNavigationItemS
         //setting buttons
         driver_becomeRider_btn.setOnClickListener {
 
+            // setting last time login state
+            val obj = LastLoginStats()
+            obj.setAsRiderLastLogin()
+
             val intent = Intent(this, RiderMainActivity::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-
             startActivity(intent)
             finish()
         }

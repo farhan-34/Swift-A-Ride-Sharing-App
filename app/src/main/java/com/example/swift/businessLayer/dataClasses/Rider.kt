@@ -13,7 +13,7 @@ open class Rider(
     open var phoneNumber:String = "",
     open var isdriver:String = "j",
     open var rating: Double = 0.0,
-    open var isLastTimeDriverLogin: Boolean = false
+    open var isLastTimeDriverLogin: String = ""
     ) : Parcelable {
 
 }
