@@ -3,14 +3,12 @@ package com.example.swift.frontEnd.rider.homePage
 import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.content.res.Resources
 import android.location.Address
 import android.location.Geocoder
 import android.location.Location
 import android.os.Bundle
 import android.os.Looper
 import android.text.TextUtils
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -23,15 +21,11 @@ import com.example.swift.businessLayer.businessLogic.RideRequest
 import com.example.swift.businessLayer.dataClasses.Driver
 import com.example.swift.businessLayer.dataClasses.DriverGeo
 import com.example.swift.businessLayer.dataClasses.GeoQueryModel
-import com.example.swift.businessLayer.dataClasses.RideSession
 import com.example.swift.businessLayer.session.RiderSession
 import com.example.swift.frontEnd.Callback.FirebaseDriverInfoListener
 import com.example.swift.frontEnd.Callback.FirebaseFailedListener
 import com.example.swift.frontEnd.Services.NotifyOnDriverOffer
-import com.example.swift.frontEnd.driver.rideSession.DriverRideSessionActivity
 import com.example.swift.frontEnd.rider.offers.OfferListActivity
-import com.example.swift.frontEnd.rider.offers.RiderOfferListFragment
-import com.example.swift.frontEnd.rider.rideSession.RiderRideSessionActivity
 import com.firebase.geofire.GeoFire
 import com.firebase.geofire.GeoLocation
 import com.firebase.geofire.GeoQueryEventListener
@@ -43,7 +37,6 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.MapStyleOptions
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.model.Place
@@ -56,7 +49,6 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.schedulers.Schedulers
-import kotlinx.android.synthetic.main.activity_rider_main.*
 import kotlinx.android.synthetic.main.fragment_rider_home_page.*
 import java.io.IOException
 import java.util.*
