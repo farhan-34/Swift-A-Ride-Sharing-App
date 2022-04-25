@@ -62,24 +62,7 @@ class RiderMainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSe
 
         checkSession()
 
-        val db = FirebaseFirestore.getInstance()
 
-        // switch To Driver If Last Login was as driver
-        RiderSession.getCurrentUser { rider ->
-
-            val docRef = db.collection("Rider").document(rider.phoneNumber)
-            docRef.get().addOnSuccessListener { doc ->
-                val person = doc.toObject(Rider::class.java)
-                if(person?.isLastTimeDriverLogin == "true"){
-                    val intent = Intent(this, DriverMainActivity::class.java)
-                    startActivity(intent)
-                }
-            }.addOnFailureListener {
-                it.stackTrace
-            }.addOnCanceledListener {
-                Toast.makeText(this, "hehe", Toast.LENGTH_SHORT).show()
-            }
-        }
 
 
         activate_menu.setOnClickListener {
@@ -140,6 +123,38 @@ class RiderMainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSe
     //for broadcasting
     override fun onStart() {
         super.onStart()
+
+        val db = FirebaseFirestore.getInstance()
+        // switch To Driver If Last Login was as driver
+        RiderSession.getCurrentUser { rider ->
+
+            val docRef = db.collection("Rider").document(rider.phoneNumber)
+            docRef.get().addOnSuccessListener { doc ->
+                val flag = doc["isLastTimeDriverLogin"]
+                if(flag == "true"){
+                    val intent = Intent(this, DriverMainActivity::class.java)
+                    startActivity(intent)
+                }
+            }.addOnFailureListener {
+                it.stackTrace
+            }.addOnCanceledListener {
+                Toast.makeText(this, "hehe", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+
+//        // switch To Driver If Last Login was as driver
+//        RiderSession.getCurrentUser { rider ->
+//            if(rider.isLastTimeDriverLogin == "true"){
+//                val intent = Intent(this, DriverMainActivity::class.java)
+//                startActivity(intent)
+//            }
+//        }
+
+
+
+
+
         val filter = IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION).apply {
             addAction(Intent.ACTION_AIRPLANE_MODE_CHANGED)
         }
