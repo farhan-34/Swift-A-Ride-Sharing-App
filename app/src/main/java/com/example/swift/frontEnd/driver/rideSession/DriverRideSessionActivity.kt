@@ -73,6 +73,13 @@ class DriverRideSessionActivity : AppCompatActivity(), OnMapReadyCallback {
     private var originMarker: Marker?= null
     private var destinationMarker: Marker?=null
 
+    //mid routes
+    private var blackPolyLineMid: Polyline?=null
+    private var greyPolylineMid: Polyline?= null
+    private var polylineOptionsMid: PolylineOptions?=null
+    private var blackPolylineOptionsMid: PolylineOptions?=null
+    private var polylineListMid:ArrayList<LatLng>? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -258,6 +265,7 @@ class DriverRideSessionActivity : AppCompatActivity(), OnMapReadyCallback {
                             if(session!!.driverId == FirebaseAuth.getInstance().currentUser!!.uid){
                                 val result = FloatArray(1)
                                 val dis = FloatArray(1)
+                                val midDis = FloatArray(1)
                                 Location.distanceBetween(newPos.latitude,newPos.longitude,
                                     session.pickUpLocation?.get("Lat") as Double,
                                     session.pickUpLocation?.get("Lng") as Double,result)
@@ -265,6 +273,7 @@ class DriverRideSessionActivity : AppCompatActivity(), OnMapReadyCallback {
                                 Location.distanceBetween(newPos.latitude,newPos.longitude,
                                     session.dropOffLocation?.get("Lat") as Double,
                                     session.dropOffLocation?.get("Lng") as Double,dis)
+
                                 state = session.rideState
                                 if(session.rideState == "Picking_Up" && result[0] < 400){
                                     db.child(it.key!!).updateChildren(mapOf("rideState" to "Waiting"))
@@ -301,7 +310,39 @@ class DriverRideSessionActivity : AppCompatActivity(), OnMapReadyCallback {
                                     session_cancel1.visibility = View.GONE
                                     session_finish.visibility = View.VISIBLE
                                 }
-                                drawPath(selectedPlace, state)
+
+
+                                driverMarker?.remove()
+                                driverMarker = mMap.addMarker(MarkerOptions()
+                                    .position(selectedPlace.origin)
+                                    .flat(true)
+                                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_red_car)))
+
+                                if(session.midPointFlag && state=="In_Session"){
+                                    Location.distanceBetween(newPos.latitude,newPos.longitude,
+                                        session.midPoint?.get("Lat") as Double,
+                                        session.midPoint?.get("Lng") as Double,midDis)
+
+                                    if(midDis[0] < 300){
+                                        db.child(it.key!!).updateChildren(mapOf("midPointFlag" to false))
+                                    }else{
+                                        var places = SelectedPlaceEvent(origin = selectedPlace.origin,
+                                            destination = LatLng(session.midPoint?.get("Lat") as Double,
+                                                session.midPoint?.get("Lng") as Double))
+                                        drawPath2(places,state)
+                                        places.origin = places.destination
+                                        places.destination = selectedPlace.destination
+                                        drawPath(places,state)
+
+                                        mMap.addMarker(MarkerOptions()
+                                            .position(places.origin)
+                                            .flat(true)
+                                            .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_pin)))
+                                    }
+                                }
+                                else {
+                                    drawPath(selectedPlace, state)
+                                }
                             }
                         }
                     }
@@ -440,11 +481,95 @@ class DriverRideSessionActivity : AppCompatActivity(), OnMapReadyCallback {
                             .icon(BitmapDescriptorFactory.fromResource((R.drawable.ic_pin))))
                     }
 
-                    driverMarker?.remove()
-                    driverMarker = mMap.addMarker(MarkerOptions()
-                        .position(selectedPlace.origin)
-                        .flat(true)
-                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_red_car)))
+
+                    if(flag){
+                        mMap.moveCamera(CameraUpdateFactory.newLatLngBounds(latLngBound,160))
+                        mMap.moveCamera(CameraUpdateFactory.zoomTo(mMap.cameraPosition!!.zoom-1))
+                        flag = false
+                    }
+
+                }catch (e:java.lang.Exception){
+                    e.printStackTrace()
+                }
+            }
+        )
+    }
+
+    private fun drawPath2(selectedPlace:SelectedPlaceEvent, state:String) {
+        iGoogleAPI = RetroFitClient.instance!!.create(IGoogleAPI::class.java)
+        //request Api
+        compositeDisposable.add(iGoogleAPI.getDirections("driving",
+            "less_driving",
+            selectedPlace.originString, selectedPlace.destinationString,
+            getString(R.string.google_maps_key))
+        !!.subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe{returnResult->
+                Log.d("Api_Return", returnResult)
+                try{
+                    val jsonObject = JSONObject(returnResult)
+                    val jsonArray = jsonObject.getJSONArray("routes")
+                    for(i in 0 until jsonArray.length()){
+                        val route = jsonArray.getJSONObject(i)
+                        val poly = route.getJSONObject("overview_polyline")
+                        val polyline = poly.getString("points")
+                        polylineListMid = Common.decodePoly(polyline)
+                    }
+                    greyPolylineMid?.remove()
+                    blackPolyLineMid?.remove()
+
+                    if(state != "Waiting" || state != "Reached"){
+                        polylineOptionsMid = PolylineOptions()
+                        polylineOptionsMid!!.color(Color.parseColor("#E87C35"))
+                        polylineOptionsMid!!.width(12f)
+                        polylineOptionsMid!!.startCap(SquareCap())
+                        polylineOptionsMid!!.jointType(JointType.ROUND)
+                        polylineOptionsMid!!.addAll(polylineListMid!!)
+                        greyPolylineMid = mMap.addPolyline(polylineOptionsMid!!)
+
+                        blackPolylineOptionsMid = PolylineOptions()
+                        blackPolylineOptionsMid!!.color(Color.parseColor("#fa8f5a"))
+                        blackPolylineOptionsMid!!.width(5f)
+                        blackPolylineOptionsMid!!.startCap(SquareCap())
+                        blackPolylineOptionsMid!!.jointType(JointType.ROUND)
+                        blackPolylineOptionsMid!!.addAll(polylineListMid!!)
+                        blackPolyLineMid = mMap.addPolyline(blackPolylineOptionsMid!!)
+
+                        //Animator
+                        val valueAnimator = ValueAnimator.ofInt(0,100)
+                        valueAnimator.duration = 1100
+                        valueAnimator.repeatCount = ValueAnimator.INFINITE
+                        valueAnimator.interpolator = LinearInterpolator()
+                        valueAnimator.addUpdateListener { value->
+                            val points = greyPolylineMid!!.points
+                            val percentValue = value.animatedValue.toString().toInt()
+                            val size = points.size
+                            val newPoints = (size * (percentValue/100.0f)).toInt()
+                            val p = points.subList(0, newPoints)
+                            blackPolyLineMid!!.points = p
+                        }
+                        valueAnimator.start()
+                    }
+
+
+                    val latLngBound = LatLngBounds.Builder().include(selectedPlace.origin)
+                        .include(selectedPlace.destination)
+                        .build()
+
+                    //add car for origin
+                    val objects = jsonArray.getJSONObject(0)
+                    val legs = objects.getJSONArray("legs")
+                    val legsObjects = legs.getJSONObject(0)
+                    val time = legsObjects.getJSONObject("duration")
+                    val duration = time.getString("text")
+
+                    val start_address = legsObjects.getString("start_address")
+                    val end_address = legsObjects.getString("end_address")
+
+                    addOriginMarker(duration, start_address)
+                    addDestinationMarker(end_address)
+
+
 
                     if(flag){
                         mMap.moveCamera(CameraUpdateFactory.newLatLngBounds(latLngBound,160))

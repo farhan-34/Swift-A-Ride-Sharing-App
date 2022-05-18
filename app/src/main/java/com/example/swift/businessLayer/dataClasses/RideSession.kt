@@ -15,5 +15,7 @@ data class RideSession(
     var driverLat: Double = 0.0,
     var driverLng: Double = 0.0,
     var vehicleType:String = "",
-    var money: String = ""
+    var money: String = "",
+    var midPoint:MutableMap<String, @RawValue Any>? = null,
+    var midPointFlag: Boolean = false
 ):Parcelable{}

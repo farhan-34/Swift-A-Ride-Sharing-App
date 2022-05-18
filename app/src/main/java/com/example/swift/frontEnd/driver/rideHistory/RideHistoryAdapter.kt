@@ -48,10 +48,12 @@ class RideHistoryAdapter(private val rideHistory:  ArrayList<RideSession>) : Rec
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val db = FirebaseFirestore.getInstance()
         DriverSession.getCurrentUser {
-            val docRef = db.collection("Rider").document(it.phoneNumber)
-            docRef.get().addOnSuccessListener { doc ->
-                val person = doc.toObject<Rider>()
-                holder.name.text = person?.name
+            val docRef = db.collection("Rider").whereEqualTo("riderId", rideHistory[position].riderId)
+            docRef.get().addOnSuccessListener { document ->
+                document.documents.forEach { doc->
+                    val person = doc.toObject(Rider::class.java)
+                    holder.name.text = person?.name
+                }
             }
         }
 
@@ -59,7 +61,7 @@ class RideHistoryAdapter(private val rideHistory:  ArrayList<RideSession>) : Rec
         holder.dropOff.text = rideHistory[position].dropOffLocation?.get("Address") as String
         holder.fare.text = rideHistory[position].money
 
-        if(rideHistory[position].rideState == "Finished"){
+        if(rideHistory[position].rideState == "Reached"){
             holder.status.text = "Complete"
         }
         else{

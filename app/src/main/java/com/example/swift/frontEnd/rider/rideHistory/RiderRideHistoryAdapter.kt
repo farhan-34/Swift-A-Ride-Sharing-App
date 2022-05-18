@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.swift.R
 import com.example.swift.businessLayer.dataClasses.RideSession
 import com.example.swift.businessLayer.dataClasses.Rider
+import com.example.swift.businessLayer.session.DriverSession
 import com.example.swift.businessLayer.session.RiderSession
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.toObject
@@ -32,11 +33,13 @@ class RiderRideHistoryAdapter(private val rideHistory:  ArrayList<RideSession>) 
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val db = FirebaseFirestore.getInstance()
-        RiderSession.getCurrentUser {
-            val docRef = db.collection("Rider").document()
-            docRef.get().addOnSuccessListener { doc ->
-                val person = doc.toObject<Rider>()
-                holder.name.text = person?.name
+        DriverSession.getCurrentUser {
+            val docRef = db.collection("Rider").whereEqualTo("riderId", rideHistory[position].driverId)
+            docRef.get().addOnSuccessListener { document ->
+                document.documents.forEach { doc->
+                    val person = doc.toObject(Rider::class.java)
+                    holder.name.text = person?.name
+                }
             }
         }
 
@@ -44,7 +47,7 @@ class RiderRideHistoryAdapter(private val rideHistory:  ArrayList<RideSession>) 
         holder.dropOff.text = rideHistory[position].dropOffLocation?.get("Address") as String
         holder.fare.text = rideHistory[position].money
 
-        if(rideHistory[position].rideState == "Finished"){
+        if(rideHistory[position].rideState == "Reached"){
             holder.status.text = "Complete"
         }
         else{
