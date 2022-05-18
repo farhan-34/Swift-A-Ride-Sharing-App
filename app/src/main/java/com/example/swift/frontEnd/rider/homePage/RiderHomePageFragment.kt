@@ -70,8 +70,13 @@ GoogleMap.OnCameraMoveStartedListener{
     private lateinit var locationRequest: com.google.android.gms.location.LocationRequest
     private lateinit var locationCallback: LocationCallback
 
-    //select locatin with pointer
+    //select location with pointer
     private lateinit var destination: LatLng
+
+    //for places midpoint
+    private lateinit var autocompleteSupportFragmentMid: AutocompleteSupportFragment
+    private var midPoint: LatLng? = null
+    private var midPointFlag:Boolean = false
 
 
     //load driver
@@ -140,6 +145,28 @@ GoogleMap.OnCameraMoveStartedListener{
                     )
                 )
                 destination = p0.latLng as LatLng
+            }
+
+        })
+
+
+        //for mid point
+        autocompleteSupportFragmentMid = childFragmentManager.findFragmentById(R.id.rider_midPoint_autoComplete) as AutocompleteSupportFragment
+        autocompleteSupportFragmentMid.setPlaceFields(Arrays.asList(
+            Place.Field.ID,
+            Place.Field.ADDRESS,
+            Place.Field.LAT_LNG,
+            Place.Field.NAME
+        ))
+
+        autocompleteSupportFragmentMid.setOnPlaceSelectedListener(object : PlaceSelectionListener{
+            override fun onError(p0: Status) {
+
+            }
+
+            override fun onPlaceSelected(p0: Place) {
+                midPoint = p0.latLng as LatLng
+                midPointFlag = true
             }
 
         })
@@ -430,6 +457,7 @@ GoogleMap.OnCameraMoveStartedListener{
                 if(driverLocation.distanceTo(riderLocation)/1000 < maxDistance){
                     var pickup = mutableMapOf<String, Any>()
                     var dropOff = mutableMapOf<String, Any>()
+                    var mid: MutableMap<String, Any>? = null
                     try {
                         var address = Geocoder(requireContext(), Locale.getDefault()).getFromLocation(origin.latitude,origin.longitude, 1)
                         pickup["Lat"] = origin.latitude
@@ -439,11 +467,23 @@ GoogleMap.OnCameraMoveStartedListener{
                         dropOff["Lat"] = destination.latitude
                         dropOff["Lng"] = destination.longitude
                         dropOff["Address"] = address[0].getAddressLine(0)
+                        if(midPoint != null) {
+                            mid = mutableMapOf<String, Any>()
+                            address =
+                                Geocoder(requireContext(), Locale.getDefault()).getFromLocation(
+                                    midPoint!!.latitude,
+                                    midPoint!!.longitude,
+                                    1
+                                )
+                            mid["Lat"] = midPoint!!.latitude
+                            mid["Lng"] = midPoint!!.longitude
+                            mid["Address"] = address[0].getAddressLine(0)
+                        }
                     }catch (e:IOException){
                         e.printStackTrace()
                     }
                     RiderSession.getCurrentUser { rider ->
-                        var riderRequest = RideRequest("",FirebaseAuth.getInstance().currentUser!!.uid,key,rider.name,rider.rating,pickup,dropOff,"")
+                        var riderRequest = RideRequest("",FirebaseAuth.getInstance().currentUser!!.uid,key,rider.name,rider.rating,pickup,dropOff,"",mid,midPointFlag)
                         val requestId = ref.push()
                         riderRequest.requestId = requestId.key.toString()
                         requestId.setValue(riderRequest)

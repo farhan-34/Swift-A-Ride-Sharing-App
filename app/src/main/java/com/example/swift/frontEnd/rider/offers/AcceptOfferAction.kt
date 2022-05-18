@@ -54,7 +54,9 @@ class AcceptOfferAction {
                                     driverLat = latLng.latitude,
                                     driverLng = latLng.longitude,
                                     vehicleType = req.vehicleType,
-                                    money = money)
+                                    money = money,
+                                    midPoint= req.midPoint,
+                                    midPointFlag = req.midPointFlag)
 
 
                                 // deleting all the requests and offers once the offer is accepted

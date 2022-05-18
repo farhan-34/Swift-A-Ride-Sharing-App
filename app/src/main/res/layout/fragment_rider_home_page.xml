@@ -44,13 +44,24 @@
             android:paddingRight="8dp"
             android:background="@color/light_black"/>
 
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:weightSum="10"
             android:orientation="horizontal"
             android:background="@drawable/white_rounded_rectangle">
-            
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="Destination"
+                android:textStyle="bold"
+                android:textAlignment="center"
+                android:textSize="20sp"
+                />
+
             <fragment
                 android:id="@+id/rider_pickUpLocation_autoComplete"
                 android:layout_width="0dp"
@@ -59,12 +70,6 @@
                 android:name="com.google.android.libraries.places.widget.AutocompleteSupportFragment"
                 tools:ignore="Suspicious0dp" />
 
-            <ImageView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_gravity="center"
-                android:src="@drawable/ic_baseline_add_24"/>
         </LinearLayout>
 
         <LinearLayout
@@ -73,24 +78,23 @@
             android:id="@+id/rider_chooseSavedPlaces"
             android:layout_marginTop="10dp"
             android:orientation="horizontal">
-
-            <ImageView
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_marginLeft="16dp"
-                android:layout_marginRight="16dp"
-                android:layout_gravity="center"
-                android:src="@drawable/ic_baseline_stars_24"/>
-
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:text="Saved Places"
-                android:textColor="@android:color/black"
-                android:textSize="18sp"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="20dp"/>
+                android:layout_marginTop="10dp"
+                android:text="Midpoint    "
+                android:textStyle="bold"
+                android:textAlignment="center"
+                android:textSize="20sp"
+                />
+            <fragment
+                android:id="@+id/rider_midPoint_autoComplete"
+                android:layout_width="0dp"
+                android:layout_weight="9"
+                android:layout_height="wrap_content"
+                android:name="com.google.android.libraries.places.widget.AutocompleteSupportFragment"
+                tools:ignore="Suspicious0dp" />
+
         </LinearLayout>
 
         <Button
