@@ -25,6 +25,7 @@ import com.example.swift.businessLayer.session.RiderSession
 import com.example.swift.frontEnd.Callback.FirebaseDriverInfoListener
 import com.example.swift.frontEnd.Callback.FirebaseFailedListener
 import com.example.swift.frontEnd.Services.NotifyOnDriverOffer
+import com.example.swift.frontEnd.rider.emergencyRide.PlaceTask
 import com.example.swift.frontEnd.rider.offers.OfferListActivity
 import com.firebase.geofire.GeoFire
 import com.firebase.geofire.GeoLocation
@@ -52,7 +53,6 @@ import io.reactivex.rxjava3.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_rider_home_page.*
 import java.io.IOException
 import java.util.*
-import kotlin.collections.ArrayList
 
 
 class RiderHomePageFragment : Fragment(), OnMapReadyCallback, FirebaseDriverInfoListener,LocationListener,GoogleMap.OnCameraIdleListener, GoogleMap.OnCameraMoveListener,
@@ -116,7 +116,7 @@ GoogleMap.OnCameraMoveStartedListener{
 
 
     private fun initViews(root: View?) {
-        slidingUpPanelLayout = root!!.findViewById(R.id.sliding_layout) as SlidingUpPanelLayout
+       // slidingUpPanelLayout = root!!.findViewById(R.id.sliding_layout) as SlidingUpPanelLayout
     }
 
     private fun init() {
@@ -361,7 +361,7 @@ GoogleMap.OnCameraMoveStartedListener{
                     }
                 }
                 catch(e:IOException){
-                    Snackbar.make(requireView(), getString(R.string.permission_require), Snackbar.LENGTH_SHORT).show()
+                    e.printStackTrace()
                 }
             }
 
@@ -440,6 +440,20 @@ GoogleMap.OnCameraMoveStartedListener{
                 //parentFragmentManager.beginTransaction().replace(R.id.rider_main_fragment_container, RiderOfferListFragment()).addToBackStack(null).commit()
                 startActivity(Intent(requireContext(), OfferListActivity::class.java))
             }
+        }
+
+        //for emergency ride
+        emergency_ride_button.bringToFront()
+
+        emergency_ride_button.setOnClickListener {
+            val url =
+                "https://maps.googleapis.com/maps/api/place/nearbysearch/json" +
+                        "?location=" + currentLocation!!.latitude + "," + currentLocation!!.longitude +
+                        "&radius=5000" +
+                        "&type=" + "Hospital"+
+                        "&sensor=true" + "&key=" + resources.getString(R.string.google_maps_key)
+
+            PlaceTask().execute(url)
         }
     }
 
