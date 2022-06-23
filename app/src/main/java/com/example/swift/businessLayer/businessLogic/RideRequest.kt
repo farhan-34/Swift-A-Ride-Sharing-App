@@ -15,7 +15,8 @@ data class RideRequest(
     var destinationLocation:MutableMap<String, @RawValue Any>? = null,
     var vehicleType:String = "",
     var midPoint:MutableMap<String,@RawValue Any>? = null,
-    var midPointFlag:Boolean = false
+    var midPointFlag:Boolean = false,
+    var distance_between_driver_and_rider: Double = 0.0
 )
     : Parcelable
 {}

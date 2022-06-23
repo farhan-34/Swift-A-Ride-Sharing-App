@@ -138,6 +138,8 @@ class DriverRideSessionActivity : AppCompatActivity(), OnMapReadyCallback {
                         docs.ref.removeValue()
                     }
 
+                    val intent = Intent(this@DriverRideSessionActivity, DriverMainActivity::class.java)
+                    startActivity(intent)
                     finish()
 
                 }
@@ -169,6 +171,8 @@ class DriverRideSessionActivity : AppCompatActivity(), OnMapReadyCallback {
             override fun onChildRemoved(snapshot: DataSnapshot) {
                 val session = snapshot.getValue(RideSession::class.java)
                 if(session!!.driverId == FirebaseAuth.getInstance().currentUser!!.uid){
+                    val intent = Intent(this@DriverRideSessionActivity, DriverMainActivity::class.java)
+                    startActivity(intent)
                     finish()
                 }
             }
@@ -193,6 +197,8 @@ class DriverRideSessionActivity : AppCompatActivity(), OnMapReadyCallback {
                 for (docs in dataSnapshot.children) {
                     docs.ref.removeValue()
                 }
+                val intent = Intent(this@DriverRideSessionActivity, DriverMainActivity::class.java)
+                startActivity(intent)
                 finish()
             }
 

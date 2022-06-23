@@ -3,8 +3,10 @@ package com.example.swift.frontEnd.driver.riderRequests
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.widget.PopupMenu
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.swift.businessLayer.businessLogic.RideRequest
@@ -29,6 +31,7 @@ import kotlinx.android.synthetic.main.fragment_driver_ride_request_list.*
 private lateinit var rideRequestList : ArrayList<RideRequest>
 private  lateinit var driverRiderRequestRecyclerView: RecyclerView
 private lateinit var adapter: RideRequestListAdapter
+private var sortBy = 0 // 0->default 1->distance 2->rating
 class DriverRequestListFragment : Fragment() {
 
 
@@ -42,6 +45,33 @@ class DriverRequestListFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_driver_ride_request_list, container, false)
     }
 
+
+    // fun to inflate the popup of sor by
+    private fun showPopupSortBy(view: View) {
+        val popup = PopupMenu(requireContext(), view)
+        popup.inflate(R.menu.sortby_items)
+
+        popup.setOnMenuItemClickListener(PopupMenu.OnMenuItemClickListener { item: MenuItem? ->
+
+            when (item!!.title) {
+                "Distance" -> {
+                   // Toast.makeText(this@MainActivity, item.title, Toast.LENGTH_SHORT).show()
+                    sortBy = 1
+                    rideRequestList?.sortBy { it.distance_between_driver_and_rider }
+                }
+                "Rating" -> {
+                    //Toast.makeText(this@MainActivity, item.title, Toast.LENGTH_SHORT).show()
+                    sortBy = 2
+                    rideRequestList?.sortByDescending { it.riderRating }
+                }
+            }
+
+            true
+        })
+
+        popup.show()
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -49,6 +79,11 @@ class DriverRequestListFragment : Fragment() {
         requireContext().startService(intent)
 
         rideRequest_sort_btn.setOnClickListener{
+
+
+            showPopupSortBy(rideRequest_sort_btn)
+
+
             Toast.makeText(view.context, "Sort applied", Toast.LENGTH_SHORT).show()
         }
 
