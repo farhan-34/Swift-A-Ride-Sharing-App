@@ -26,15 +26,17 @@
         <entry key="..\:/Fast/7. Fall 2021/SMD/Swift-A-Ride-Sharing-App/app/src/main/res/layout/drivers_offers_list_item.xml" value="0.33" />
         <entry key="..\:/Fast/7. Fall 2021/SMD/Swift-A-Ride-Sharing-App/app/src/main/res/layout/fragment_driver_display_information.xml" value="0.21012658227848102" />
         <entry key="..\:/Fast/7. Fall 2021/SMD/Swift-A-Ride-Sharing-App/app/src/main/res/layout/fragment_driver_request_list.xml" value="0.23839662447257384" />
-        <entry key="..\:/Fast/7. Fall 2021/SMD/Swift-A-Ride-Sharing-App/app/src/main/res/layout/fragment_driver_ride_request_list.xml" value="0.18277754326720136" />
+        <entry key="..\:/Fast/7. Fall 2021/SMD/Swift-A-Ride-Sharing-App/app/src/main/res/layout/fragment_driver_ride_request_list.xml" value="0.33" />
         <entry key="..\:/Fast/7. Fall 2021/SMD/Swift-A-Ride-Sharing-App/app/src/main/res/layout/fragment_driver_vehicle_display_information.xml" value="0.33" />
         <entry key="..\:/Fast/7. Fall 2021/SMD/Swift-A-Ride-Sharing-App/app/src/main/res/layout/fragment_panic_button.xml" value="0.3052586575459598" />
         <entry key="..\:/Fast/7. Fall 2021/SMD/Swift-A-Ride-Sharing-App/app/src/main/res/layout/fragment_rider_display_information.xml" value="0.2669826224328594" />
         <entry key="..\:/Fast/7. Fall 2021/SMD/Swift-A-Ride-Sharing-App/app/src/main/res/layout/fragment_rider_home_page.xml" value="0.2942708333333333" />
         <entry key="..\:/Fast/7. Fall 2021/SMD/Swift-A-Ride-Sharing-App/app/src/main/res/layout/gender_dropdown_list_item.xml" value="0.1581196581196581" />
+        <entry key="..\:/Fast/7. Fall 2021/SMD/Swift-A-Ride-Sharing-App/app/src/main/res/layout/popup_send_offer_layout.xml" value="0.2975630611372381" />
         <entry key="..\:/Fast/7. Fall 2021/SMD/Swift-A-Ride-Sharing-App/app/src/main/res/layout/request_list_item.xml" value="0.23839662447257384" />
         <entry key="..\:/Fast/7. Fall 2021/SMD/Swift-A-Ride-Sharing-App/app/src/main/res/layout/rider_menu_header.xml" value="0.2" />
         <entry key="..\:/Fast/7. Fall 2021/SMD/Swift-A-Ride-Sharing-App/app/src/main/res/layout/user_row_new_message.xml" value="0.3052586575459598" />
+        <entry key="..\:/Fast/7. Fall 2021/SMD/Swift-A-Ride-Sharing-App/app/src/main/res/menu/sortby_items.xml" value="0.1" />
         <entry key="..\:/Users/Farhan/Desktop/Swift/app/src/main/res/layout/activity_driver_main.xml" value="0.20520833333333333" />
         <entry key="..\:/Users/Farhan/Desktop/Swift/app/src/main/res/layout/activity_main.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/Farhan/Desktop/Swift/app/src/main/res/layout/activity_rider_main.xml" value="0.36666666666666664" />
