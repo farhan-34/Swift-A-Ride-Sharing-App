@@ -1,5 +1,6 @@
 package com.example.swift.frontEnd.rider.emergencyRide
 
+import android.content.Context
 import android.os.AsyncTask
 import java.io.BufferedReader
 import java.io.IOException
@@ -17,7 +18,6 @@ class PlaceTask: AsyncTask<String, Int, String>() {
         }
         return data
     }
-
     override fun onPostExecute(result: String?) {
         ParserTask().execute(result)
     }
