@@ -13,6 +13,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.RelativeLayout
+import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import com.example.swift.R
@@ -21,10 +22,12 @@ import com.example.swift.businessLayer.businessLogic.RideRequest
 import com.example.swift.businessLayer.dataClasses.Driver
 import com.example.swift.businessLayer.dataClasses.DriverGeo
 import com.example.swift.businessLayer.dataClasses.GeoQueryModel
+import com.example.swift.businessLayer.dataClasses.RideSession
 import com.example.swift.businessLayer.session.RiderSession
 import com.example.swift.frontEnd.Callback.FirebaseDriverInfoListener
 import com.example.swift.frontEnd.Callback.FirebaseFailedListener
 import com.example.swift.frontEnd.Services.NotifyOnDriverOffer
+import com.example.swift.frontEnd.rider.emergencyRide.JsonParser
 import com.example.swift.frontEnd.rider.offers.OfferListActivity
 import com.firebase.geofire.GeoFire
 import com.firebase.geofire.GeoLocation
@@ -46,13 +49,18 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.maps.android.SphericalUtil
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_rider_home_page.*
+import org.json.JSONException
+import org.json.JSONObject
+import java.io.BufferedReader
 import java.io.IOException
+import java.io.InputStreamReader
+import java.net.URL
 import java.util.*
-import kotlin.collections.ArrayList
 
 
 class RiderHomePageFragment : Fragment(), OnMapReadyCallback, FirebaseDriverInfoListener,LocationListener,GoogleMap.OnCameraIdleListener, GoogleMap.OnCameraMoveListener,
@@ -116,7 +124,7 @@ GoogleMap.OnCameraMoveStartedListener{
 
 
     private fun initViews(root: View?) {
-        slidingUpPanelLayout = root!!.findViewById(R.id.sliding_layout) as SlidingUpPanelLayout
+       // slidingUpPanelLayout = root!!.findViewById(R.id.sliding_layout) as SlidingUpPanelLayout
     }
 
     private fun init() {
@@ -361,7 +369,7 @@ GoogleMap.OnCameraMoveStartedListener{
                     }
                 }
                 catch(e:IOException){
-                    Snackbar.make(requireView(), getString(R.string.permission_require), Snackbar.LENGTH_SHORT).show()
+                    e.printStackTrace()
                 }
             }
 
@@ -440,6 +448,160 @@ GoogleMap.OnCameraMoveStartedListener{
                 //parentFragmentManager.beginTransaction().replace(R.id.rider_main_fragment_container, RiderOfferListFragment()).addToBackStack(null).commit()
                 startActivity(Intent(requireContext(), OfferListActivity::class.java))
             }
+        }
+
+        //for emergency ride
+        emergency_ride_button.bringToFront()
+
+        /*
+        ************************************
+               Emergency Ride function
+        ************************************
+        */
+
+        emergency_ride_button.setOnClickListener {
+            val url =
+                "https://maps.googleapis.com/maps/api/place/nearbysearch/json" +
+                        "?location=" + currentLocation!!.latitude + "," + currentLocation!!.longitude +
+                        "&radius=5000" +
+                        "&type=" + "hospital"+
+                        "&sensor=true" + "&key=" + resources.getString(R.string.google_maps_key)
+
+            //PlaceTask().execute(url)
+            var data = ""
+            var jsonParser = JsonParser()
+            var mapList:List<HashMap<String,String>>? = null
+            var jsonObject: JSONObject? = null
+
+            val thread = Thread {
+                try {
+                    var url = URL(url)
+                    var connection = url.openConnection()
+                    connection.connect()
+                    var stream = connection.getInputStream()
+                    var reader = BufferedReader(InputStreamReader(stream))
+                    var builder = StringBuilder()
+                    var line: String? = ""
+
+                    while (line != null) {
+                        line = reader.readLine()
+                        if (line != null) {
+                            builder.append(line)
+                        }
+                    }
+                    data = builder.toString()
+                    reader.close()
+
+                    jsonObject = JSONObject(data)
+                    mapList = jsonParser.parseResult(jsonObject!!)
+
+                    var minDistance = 100000.0
+                    var hospitalLocation:LatLng? = null
+
+                    for(i in 0..mapList!!.size / 2){
+                        var m = mapList!![i]
+                        var temp = LatLng(m["lat"]!!.toDouble(), m["lng"]!!.toDouble())
+                        var dist = SphericalUtil.computeDistanceBetween(
+                            LatLng(currentLocation!!.latitude, currentLocation!!.longitude),
+                            temp)
+
+                        dist /= 1000
+
+                        if(dist < minDistance){
+                            minDistance = dist
+                            hospitalLocation = temp
+                        }
+                    }
+
+                    if(hospitalLocation!= null){
+                        destination = hospitalLocation
+                    }
+                    else{
+                        return@Thread
+                    }
+
+                    if(Common.driversFound.isNotEmpty()){
+                        var maxDistance = 10.0
+                        var riderLocation = Location("")
+                        riderLocation.latitude = currentLocation!!.latitude
+                        riderLocation.longitude = currentLocation!!.longitude
+                        var driverLocation = Location("")
+
+                        var minDistanceToDriver = 10000.0
+                        var pickup = mutableMapOf<String, Any>()
+                        var dropOff = mutableMapOf<String, Any>()
+                        var mid: MutableMap<String, Any>? = null
+                        var driverKey:String? = null
+                        var driverLoc:Location = Location("")
+
+                        for(key in Common.driversFound.keys){
+                            driverLocation.latitude = Common.driversFound[key]!!.geoLocation!!.latitude
+                            driverLocation.longitude = Common.driversFound[key]!!.geoLocation!!.longitude
+                            if(driverLocation.distanceTo(riderLocation)/1000 < maxDistance){
+                                if(driverLocation.distanceTo(riderLocation)/1000 < minDistanceToDriver){
+                                    minDistanceToDriver = (driverLocation.distanceTo(riderLocation)/1000).toDouble()
+                                    driverKey = key
+                                    driverLoc = driverLocation
+                                }
+                                pickup = mutableMapOf<String, Any>()
+                                dropOff = mutableMapOf<String, Any>()
+                                var mid: MutableMap<String, Any>? = null
+                                //var ride = Ride("",FirebaseAuth.getInstance().currentUser!!.uid,key,pickup,dropOff,"pending", 100)
+                                //ref.push().setValue(ride)
+                            }
+                        }
+                        try {
+                            var address = Geocoder(requireContext(), Locale.getDefault()).getFromLocation(
+                                currentLocation!!.latitude, currentLocation!!.longitude, 1)
+                            pickup["Lat"] = currentLocation!!.latitude
+                            pickup["Lng"] = currentLocation!!.longitude
+                            pickup["Address"] = address[0].getAddressLine(0)
+                            address = Geocoder(requireContext(), Locale.getDefault()).getFromLocation(destination.latitude,destination.longitude, 1)
+                            dropOff["Lat"] = destination.latitude
+                            dropOff["Lng"] = destination.longitude
+                            dropOff["Address"] = address[0].getAddressLine(0)
+                        }catch (e:IOException){
+                            e.printStackTrace()
+                        }
+                        midPointFlag = false
+                        if(driverKey!= null) {
+                            RiderSession.getCurrentUser { rider ->
+                                var session: RideSession = RideSession( offerId = "_offerId",
+                                    driverId = driverKey,
+                                    riderId = rider.riderId,
+                                    rideState = "Picking_Up",
+                                    pickUpLocation = pickup,
+                                    dropOffLocation = dropOff,
+                                    driverLat = driverLoc.latitude,
+                                    driverLng = driverLoc.longitude,
+                                    vehicleType = "car",
+                                    money = getString(R.string.EmergencyRideRate),
+                                    midPoint= mid,
+                                    midPointFlag = midPointFlag)
+
+                                var db = FirebaseDatabase.getInstance().getReference("RideSessions")
+                                val offerId = db.push()
+                                session.offerId = offerId.key.toString()
+                                offerId.setValue(session).addOnSuccessListener {
+                                    Toast.makeText(context, "Accepted", Toast.LENGTH_SHORT).show()
+                                }.addOnFailureListener {
+                                    Toast.makeText(context, "Failed", Toast.LENGTH_SHORT).show()
+                                }
+
+                            }
+                        }
+                        else{
+                            Toast.makeText(requireContext(), "Driver Not Found", Toast.LENGTH_SHORT).show()
+                            return@Thread
+                        }
+                    }
+
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+            }
+            thread.start()
+
         }
     }
 

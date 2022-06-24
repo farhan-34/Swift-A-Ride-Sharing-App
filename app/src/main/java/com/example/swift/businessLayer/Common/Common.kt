@@ -10,12 +10,14 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import java.io.IOException
 import java.util.*
+import kotlin.collections.ArrayList
 
 
 object Common {
 
     var endThread: Boolean = false
     val offersReceived: MutableSet<String> = HashSet<String>()
+    var hospital:List<HashMap<String,String>>? = null
 
     fun setWelcomeTextMessage(welcomeTxt: TextView) {
         val hours = Calendar.getInstance().get(Calendar.HOUR_OF_DAY)
