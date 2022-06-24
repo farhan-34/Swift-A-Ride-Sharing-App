@@ -6,7 +6,6 @@ import android.content.ContentValues
 import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.content.pm.PackageManager
-import android.content.res.Resources
 import android.graphics.Color
 import android.location.Location
 import android.os.Bundle
@@ -24,8 +23,7 @@ import com.example.swift.businessLayer.dataClasses.RideSession
 import com.example.swift.databinding.ActivityDriverRideSessionBinding
 import com.example.swift.frontEnd.Remote.IGoogleAPI
 import com.example.swift.frontEnd.Remote.RetroFitClient
-import com.example.swift.frontEnd.driver.main.DriverMainActivity
-import com.example.swift.frontEnd.driver.rating.DriverGiveRatingActivity
+import com.example.swift.frontEnd.driver.rating.Rating_Activity
 import com.google.android.gms.location.*
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -113,9 +111,49 @@ class DriverRideSessionActivity : AppCompatActivity(), OnMapReadyCallback {
         }
 
         session_cancel.setOnClickListener {
+
+
+
             cancelSession()
         }
         session_cancel1.setOnClickListener {
+
+            val db = FirebaseDatabase.getInstance()
+            val query = db.reference.child("RideSessions")
+                .orderByChild("driverId")
+                .equalTo(FirebaseAuth.getInstance().currentUser!!.uid)
+
+            var riderId :String = ""
+            query.addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(dataSnapshot: DataSnapshot) {
+                    var driverId = FirebaseAuth.getInstance().currentUser!!.uid
+                    for (docs in dataSnapshot.children) {
+                        val session = docs.getValue(RideSession::class.java)
+                        riderId=session?.riderId.toString()
+                        docs.ref.removeValue()
+                    }
+
+
+                    val intent = Intent(this@DriverRideSessionActivity, Rating_Activity::class.java)
+                    intent.putExtra("DRIVER_ID", driverId)
+                    intent.putExtra("RIDER_ID",riderId)
+                    intent.putExtra("IS_DRIVER",true)
+                    startActivity(intent)
+
+                    finish()
+
+                }
+
+                override fun onCancelled(databaseError: DatabaseError) {
+                    Log.e(ContentValues.TAG, "onCancelled", databaseError.toException())
+                }
+            })
+
+
+
+
+
+
             cancelSession()
         }
 
@@ -128,16 +166,15 @@ class DriverRideSessionActivity : AppCompatActivity(), OnMapReadyCallback {
             var riderId :String = ""
             query.addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
-                    //TODO: Store the session info in history
+                    var driverId = FirebaseAuth.getInstance().currentUser!!.uid
                     for (docs in dataSnapshot.children) {
                         val session = docs.getValue(RideSession::class.java)
                         riderId=session?.riderId.toString()
                         docs.ref.removeValue()
                     }
-                    var driverId = FirebaseAuth.getInstance().currentUser!!.uid
 
 
-                    val intent = Intent(this@DriverRideSessionActivity, DriverGiveRatingActivity::class.java)
+                    val intent = Intent(this@DriverRideSessionActivity, Rating_Activity::class.java)
                     intent.putExtra("DRIVER_ID", driverId)
                     intent.putExtra("RIDER_ID",riderId)
                     intent.putExtra("IS_DRIVER",true)

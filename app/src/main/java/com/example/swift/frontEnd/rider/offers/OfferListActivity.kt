@@ -40,7 +40,7 @@ class OfferListActivity : AppCompatActivity() {
 
         val db = FirebaseDatabase.getInstance()
         rider_cancelRide.setOnClickListener {
-            RiderSession.getCurrentUser { rider ->
+                RiderSession.getCurrentUser { rider ->
                 //removing existing request for all drivers
                 val query1 = db.reference.child("RideRequests")
                     .orderByChild("riderId")

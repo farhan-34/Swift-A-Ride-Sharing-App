@@ -40,7 +40,6 @@
         <entry key="..\:/Users/mfarh/StudioProjects/Swift-A-Ride-Sharing-App/app/src/main/res/layout/fragment_rider_offer_list.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/mfarh/StudioProjects/Swift-A-Ride-Sharing-App/app/src/main/res/menu/driver_slider_menu.xml" value="0.18802083333333333" />
         <entry key="..\:/Users/mfarh/StudioProjects/Swift-A-Ride-Sharing-App/app/src/main/res/menu/rider_slider_menu.xml" value="0.18802083333333333" />
-        <entry key="..\:/android studio projects/SWIFT/app/src/main/res/drawable/contact_icon.xml" value="0.213" />
         <entry key="..\:/android studio projects/SWIFT/app/src/main/res/drawable/gray_round_to_msg_layout.xml" value="0.258" />
         <entry key="..\:/android studio projects/SWIFT/app/src/main/res/drawable/light_black_rounded_rectangle.xml" value="0.1975" />
         <entry key="..\:/android studio projects/SWIFT/app/src/main/res/drawable/orange_round_msg_layout.xml" value="0.1975" />
@@ -58,7 +57,6 @@
         <entry key="..\:/android studio projects/SWIFT/app/src/main/res/layout/activity_rider_main.xml" value="0.29393115942028986" />
         <entry key="..\:/android studio projects/SWIFT/app/src/main/res/layout/activity_rider_register.xml" value="0.29393115942028986" />
         <entry key="..\:/android studio projects/SWIFT/app/src/main/res/layout/activity_rider_registration_otp.xml" value="0.36666666666666664" />
-        <entry key="..\:/android studio projects/SWIFT/app/src/main/res/layout/activity_rider_ride_session.xml" value="0.28177083333333336" />
         <entry key="..\:/android studio projects/SWIFT/app/src/main/res/layout/activity_rider_sign_in_otp.xml" value="0.36666666666666664" />
         <entry key="..\:/android studio projects/SWIFT/app/src/main/res/layout/activity_send_otp_for_password_reset.xml" value="0.29393115942028986" />
         <entry key="..\:/android studio projects/SWIFT/app/src/main/res/layout/activity_sign_in.xml" value="0.29393115942028986" />
@@ -67,13 +65,12 @@
         <entry key="..\:/android studio projects/SWIFT/app/src/main/res/layout/chat_to_row.xml" value="0.18958333333333333" />
         <entry key="..\:/android studio projects/SWIFT/app/src/main/res/layout/driver_menu_header.xml" value="0.29393115942028986" />
         <entry key="..\:/android studio projects/SWIFT/app/src/main/res/layout/drivers_offers_list_item.xml" value="0.36666666666666664" />
-        <entry key="..\:/android studio projects/SWIFT/app/src/main/res/layout/fragment_donation.xml" value="0.264" />
         <entry key="..\:/android studio projects/SWIFT/app/src/main/res/layout/fragment_driver_display_information.xml" value="0.36666666666666664" />
         <entry key="..\:/android studio projects/SWIFT/app/src/main/res/layout/fragment_driver_home_page.xml" value="0.29393115942028986" />
         <entry key="..\:/android studio projects/SWIFT/app/src/main/res/layout/fragment_driver_request_list.xml" value="0.29393115942028986" />
         <entry key="..\:/android studio projects/SWIFT/app/src/main/res/layout/fragment_driver_ride_request_list.xml" value="0.36666666666666664" />
         <entry key="..\:/android studio projects/SWIFT/app/src/main/res/layout/fragment_driver_vehicle_display_information.xml" value="0.25" />
-        <entry key="..\:/android studio projects/SWIFT/app/src/main/res/layout/fragment_panic_button.xml" value="0.4" />
+        <entry key="..\:/android studio projects/SWIFT/app/src/main/res/layout/fragment_panic_button.xml" value="0.2" />
         <entry key="..\:/android studio projects/SWIFT/app/src/main/res/layout/fragment_rider_display_information.xml" value="0.36666666666666664" />
         <entry key="..\:/android studio projects/SWIFT/app/src/main/res/layout/fragment_rider_home_page.xml" value="0.29393115942028986" />
         <entry key="..\:/android studio projects/SWIFT/app/src/main/res/layout/fragment_rider_offer_list.xml" value="0.36666666666666664" />
@@ -85,6 +82,7 @@
         <entry key="..\:/android studio projects/SWIFT/app/src/main/res/layout/popup_send_offer_layout.xml" value="0.23958333333333334" />
         <entry key="..\:/android studio projects/SWIFT/app/src/main/res/layout/request_list_item.xml" value="0.36666666666666664" />
         <entry key="..\:/android studio projects/SWIFT/app/src/main/res/layout/rider_menu_header.xml" value="0.29393115942028986" />
+        <entry key="app/src/main/res/layout/activity_driver_ride_session.xml" value="0.2694746376811594" />
         <entry key="app/src/main/res/layout/activity_rating.xml" value="0.2694746376811594" />
       </map>
     </option>
