@@ -20,7 +20,7 @@
     <Button
         android:id="@+id/rider_session_cancel"
         android:layout_width="113dp"
-        android:layout_height="47dp"
+        android:layout_height="48dp"
         android:layout_marginStart="72dp"
         android:layout_marginTop="21dp"
         android:layout_marginBottom="16dp"
@@ -34,9 +34,9 @@
     <Button
         android:id="@+id/riderSession_panic"
         android:layout_width="113dp"
-        android:layout_height="47dp"
-        android:text="SOS"
+        android:layout_height="48dp"
         android:backgroundTint="@color/purple_700"
+        android:text="SOS"
         map:layout_constraintBottom_toBottomOf="@+id/rider_session_cancel"
         map:layout_constraintEnd_toEndOf="parent"
         map:layout_constraintStart_toEndOf="@+id/rider_session_cancel"
