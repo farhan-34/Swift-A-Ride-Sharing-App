@@ -466,12 +466,21 @@ GoogleMap.OnCameraMoveStartedListener{
             car_selected.setBackgroundResource(R.drawable.round_orange)
             vehicleType = "car"
             bike_selected.setBackgroundResource(R.drawable.round_grey)
+            rickshaw_selected.setBackgroundResource(R.drawable.round_grey)
+        }
+
+        rickshaw_selected.setOnClickListener {
+            rickshaw_selected.setBackgroundResource(R.drawable.round_orange)
+            vehicleType = "rickshaw"
+            bike_selected.setBackgroundResource(R.drawable.round_grey)
+            car_selected.setBackgroundResource(R.drawable.round_grey)
         }
 
         bike_selected.setOnClickListener {
-            car_selected.setBackgroundResource(R.drawable.round_grey)
-            vehicleType = "bike"
             bike_selected.setBackgroundResource(R.drawable.round_orange)
+            vehicleType = "bike"
+            car_selected.setBackgroundResource(R.drawable.round_grey)
+            rickshaw_selected.setBackgroundResource(R.drawable.round_grey)
         }
 
 
