@@ -645,10 +645,10 @@ GoogleMap.OnCameraMoveStartedListener{
             riderLocation.latitude = origin.latitude
             riderLocation.longitude = origin.longitude
             var driverLocation = Location("")
-            for(key in Common.driversFound.keys){
-                driverLocation.latitude = Common.driversFound[key]!!.geoLocation!!.latitude
-                driverLocation.longitude = Common.driversFound[key]!!.geoLocation!!.longitude
-                if(driverLocation.distanceTo(riderLocation)/1000 < maxDistance){
+            //for(key in Common.driversFound.keys){
+                //driverLocation.latitude = Common.driversFound[key]!!.geoLocation!!.latitude
+                //driverLocation.longitude = Common.driversFound[key]!!.geoLocation!!.longitude
+                //if(driverLocation.distanceTo(riderLocation)/1000 < maxDistance){
                     var pickup = mutableMapOf<String, Any>()
                     var dropOff = mutableMapOf<String, Any>()
                     var mid: MutableMap<String, Any>? = null
@@ -677,15 +677,15 @@ GoogleMap.OnCameraMoveStartedListener{
                         e.printStackTrace()
                     }
                     RiderSession.getCurrentUser { rider ->
-                        var riderRequest = RideRequest("",FirebaseAuth.getInstance().currentUser!!.uid,key,rider.name,rider.rating,pickup,dropOff,vehicleType,mid,midPointFlag)
+                        var riderRequest = RideRequest("",FirebaseAuth.getInstance().currentUser!!.uid,"key",rider.name,rider.rating,pickup,dropOff,vehicleType,mid,midPointFlag)
                         val requestId = ref.push()
                         riderRequest.requestId = requestId.key.toString()
                         requestId.setValue(riderRequest)
                     }
                     //var ride = Ride("",FirebaseAuth.getInstance().currentUser!!.uid,key,pickup,dropOff,"pending", 100)
                     //ref.push().setValue(ride)
-                }
-            }
+                //}
+            //}
         }
     }
 

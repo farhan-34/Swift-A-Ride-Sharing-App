@@ -1,6 +1,7 @@
 package com.example.swift.frontEnd.driver.riderRequests
 
 import android.content.Intent
+import android.location.Location
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.MenuItem
@@ -108,7 +109,10 @@ class DriverRequestListFragment : Fragment() {
                     val temp: RideRequest? = snapshot.getValue(RideRequest::class.java)
 
                     if (temp != null) {
-                        if (temp.driverId == driver.driverId && temp.vehicleType==driver.vehicleType) {
+                        var pickup = Location("")
+                        pickup.latitude = temp.sourceLocation!!["Lat"].toString().toDouble()
+                        pickup.longitude = temp.sourceLocation!!["Lng"].toString().toDouble()
+                        if (temp.vehicleType==driver.vehicleType) {
                             rideRequestList.add(temp!!)
                         }
                     }
