@@ -463,15 +463,15 @@ GoogleMap.OnCameraMoveStartedListener{
         //vehicle type
 
         car_selected.setOnClickListener {
-            car_selected.setBackgroundColor(Color.parseColor("#E87C35"))
+            car_selected.setBackgroundResource(R.drawable.round_orange)
             vehicleType = "car"
-            bike_selected.setBackgroundColor(Color.parseColor("#727272"))
+            bike_selected.setBackgroundResource(R.drawable.round_grey)
         }
 
         bike_selected.setOnClickListener {
-            car_selected.setBackgroundColor(Color.parseColor("#727272"))
+            car_selected.setBackgroundResource(R.drawable.round_grey)
             vehicleType = "bike"
-            bike_selected.setBackgroundColor(Color.parseColor("#E87C35"))
+            bike_selected.setBackgroundResource(R.drawable.round_orange)
         }
 
 

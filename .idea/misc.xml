@@ -3,6 +3,12 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Fast/7. Fall 2021/SMD/Swift-A-Ride-Sharing-App/app/src/main/res/drawable/orange_round_msg_layout.xml" value="0.158" />
+        <entry key="..\:/Fast/7. Fall 2021/SMD/Swift-A-Ride-Sharing-App/app/src/main/res/drawable/orange_to_offer_msg.xml" value="0.1565" />
+        <entry key="..\:/Fast/7. Fall 2021/SMD/Swift-A-Ride-Sharing-App/app/src/main/res/drawable/round_grey.xml" value="0.1565" />
+        <entry key="..\:/Fast/7. Fall 2021/SMD/Swift-A-Ride-Sharing-App/app/src/main/res/drawable/round_orange.xml" value="0.158" />
+        <entry key="..\:/Fast/7. Fall 2021/SMD/Swift-A-Ride-Sharing-App/app/src/main/res/drawable/white_rounded_rectangle.xml" value="0.158" />
+        <entry key="..\:/Fast/7. Fall 2021/SMD/Swift-A-Ride-Sharing-App/app/src/main/res/drawable/white_upper_rounded_rectangle.xml" value="0.1565" />
         <entry key="..\:/Fast/7. Fall 2021/SMD/Swift-A-Ride-Sharing-App/app/src/main/res/layout/activity_chat_log.xml" value="0.33" />
         <entry key="..\:/Fast/7. Fall 2021/SMD/Swift-A-Ride-Sharing-App/app/src/main/res/layout/activity_driver_main.xml" value="0.23839662447257384" />
         <entry key="..\:/Fast/7. Fall 2021/SMD/Swift-A-Ride-Sharing-App/app/src/main/res/layout/activity_driver_registration.xml" value="0.2879999900124293" />
@@ -30,12 +36,13 @@
         <entry key="..\:/Fast/7. Fall 2021/SMD/Swift-A-Ride-Sharing-App/app/src/main/res/layout/fragment_driver_vehicle_display_information.xml" value="0.33" />
         <entry key="..\:/Fast/7. Fall 2021/SMD/Swift-A-Ride-Sharing-App/app/src/main/res/layout/fragment_panic_button.xml" value="0.3052586575459598" />
         <entry key="..\:/Fast/7. Fall 2021/SMD/Swift-A-Ride-Sharing-App/app/src/main/res/layout/fragment_rider_display_information.xml" value="0.2669826224328594" />
-        <entry key="..\:/Fast/7. Fall 2021/SMD/Swift-A-Ride-Sharing-App/app/src/main/res/layout/fragment_rider_home_page.xml" value="0.2942708333333333" />
+        <entry key="..\:/Fast/7. Fall 2021/SMD/Swift-A-Ride-Sharing-App/app/src/main/res/layout/fragment_rider_home_page.xml" value="0.5" />
         <entry key="..\:/Fast/7. Fall 2021/SMD/Swift-A-Ride-Sharing-App/app/src/main/res/layout/gender_dropdown_list_item.xml" value="0.1581196581196581" />
         <entry key="..\:/Fast/7. Fall 2021/SMD/Swift-A-Ride-Sharing-App/app/src/main/res/layout/popup_send_offer_layout.xml" value="0.2975630611372381" />
         <entry key="..\:/Fast/7. Fall 2021/SMD/Swift-A-Ride-Sharing-App/app/src/main/res/layout/request_list_item.xml" value="0.23839662447257384" />
         <entry key="..\:/Fast/7. Fall 2021/SMD/Swift-A-Ride-Sharing-App/app/src/main/res/layout/rider_menu_header.xml" value="0.2" />
         <entry key="..\:/Fast/7. Fall 2021/SMD/Swift-A-Ride-Sharing-App/app/src/main/res/layout/user_row_new_message.xml" value="0.3052586575459598" />
+        <entry key="..\:/Fast/7. Fall 2021/SMD/Swift-A-Ride-Sharing-App/app/src/main/res/menu/driver_slider_menu.xml" value="0.29379485014774165" />
         <entry key="..\:/Fast/7. Fall 2021/SMD/Swift-A-Ride-Sharing-App/app/src/main/res/menu/offer_sortby_items.xml" value="0.2975630611372381" />
         <entry key="..\:/Fast/7. Fall 2021/SMD/Swift-A-Ride-Sharing-App/app/src/main/res/menu/sortby_items.xml" value="0.1" />
         <entry key="..\:/Users/Farhan/Desktop/Swift/app/src/main/res/layout/activity_driver_main.xml" value="0.20520833333333333" />
@@ -96,8 +103,6 @@
         <entry key="..\:/android studio projects/SWIFT/app/src/main/res/layout/popup_send_offer_layout.xml" value="0.23958333333333334" />
         <entry key="..\:/android studio projects/SWIFT/app/src/main/res/layout/request_list_item.xml" value="0.36666666666666664" />
         <entry key="..\:/android studio projects/SWIFT/app/src/main/res/layout/rider_menu_header.xml" value="0.29393115942028986" />
-        <entry key="app/src/main/res/layout/activity_driver_ride_session.xml" value="0.20833333333333334" />
-        <entry key="app/src/main/res/layout/activity_rating.xml" value="0.20833333333333334" />
       </map>
     </option>
   </component>

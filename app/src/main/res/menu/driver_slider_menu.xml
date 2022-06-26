@@ -22,9 +22,8 @@
         <item android:id="@+id/driver_nav_DonationPage"
             android:icon="@drawable/ic_donate"
             android:title="Donation" />
-        <item android:id="@+id/driver_nav_Panic"
-            android:icon="@drawable/ic_panic"
-            android:title="Panic Button" />
+
+
         <item android:id="@+id/driver_nav_logout"
             android:icon="@drawable/ic_logout"
             android:title="Logout"/>

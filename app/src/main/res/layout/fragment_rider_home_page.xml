@@ -51,32 +51,33 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
             android:orientation="horizontal">
 
 
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_car"
                 android:id="@+id/car_selected"
-                sothree:tint="@color/white"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/round_orange"
                 android:clickable="true"
                 android:focusable="true"
-                android:layout_marginLeft="10dp"
-                android:background="@color/main_orange_color"
-                android:paddingHorizontal="8dp"/>
-
+                android:paddingHorizontal="8dp"
+                android:src="@drawable/ic_car"
+                sothree:tint="@color/white" />
 
             <ImageView
                 android:id="@+id/bike_selected"
-                android:layout_width="77dp"
-                android:layout_height="match_parent"
+
+                android:layout_width="40dp"
+                android:layout_height="36dp"
+                android:layout_marginLeft="40dp"
+                android:background="@drawable/round_grey"
                 android:clickable="true"
                 android:focusable="true"
                 android:src="@drawable/ic_baseline_pedal_bike_24"
-                sothree:tint="@color/white"
-                android:layout_marginLeft="40dp"
-                android:background="@color/quantum_grey600"/>
+                sothree:tint="@color/white" />
 
         </LinearLayout>
 
@@ -84,6 +85,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
             android:orientation="horizontal"
             android:weightSum="10">
 
@@ -93,7 +95,8 @@
                 android:layout_marginTop="10dp"
                 android:text="Destination"
                 android:textAlignment="center"
-                android:textSize="20sp"
+                android:textColor="@color/black"
+                android:textSize="16sp"
                 android:textStyle="bold" />
 
             <fragment
@@ -110,7 +113,7 @@
             android:id="@+id/rider_chooseSavedPlaces"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_gravity="center_vertical"
             android:orientation="horizontal">
 
             <TextView
@@ -119,7 +122,8 @@
                 android:layout_marginTop="10dp"
                 android:text="Midpoint    "
                 android:textAlignment="center"
-                android:textSize="20sp"
+                android:textColor="@color/black"
+                android:textSize="16sp"
                 android:textStyle="bold" />
 
             <fragment
@@ -127,6 +131,7 @@
                 android:name="com.google.android.libraries.places.widget.AutocompleteSupportFragment"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
                 android:layout_weight="9"
                 tools:ignore="Suspicious0dp" />
 
