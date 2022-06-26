@@ -30,7 +30,7 @@ class AcceptOfferAction {
         db.get().addOnSuccessListener {
             for (child in it.children) {
                 val req = child.getValue(RideRequest::class.java)
-                if (req!!.driverId == offerDriverId && req.riderId == offerRiderId) {
+                if (req!!.riderId == offerRiderId) {
                     pickUpLocation = req.sourceLocation!!
                     dropOffLocation = req.destinationLocation!!
 
@@ -43,7 +43,7 @@ class AcceptOfferAction {
                     d.get().addOnSuccessListener { i ->
                         for (ch in i.children){
                             val offer = ch.getValue(DriverOffer::class.java)
-                            if (req.driverId == offer?.driverId && req.riderId == offer?.riderId){
+                            if (req.riderId == offer?.riderId){
                                 money = offer!!.text
                                 var session: RideSession = RideSession( offerId = _offerId,
                                     driverId = offerDriverId,
