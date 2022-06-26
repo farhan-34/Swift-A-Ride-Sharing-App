@@ -6,7 +6,6 @@ import android.app.PendingIntent
 import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.content.pm.PackageManager
-import android.content.res.Resources
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -19,13 +18,12 @@ import com.example.swift.R
 import com.example.swift.businessLayer.Common.Common
 import com.example.swift.businessLayer.EventBus.SelectedPlaceEvent
 import com.example.swift.businessLayer.dataClasses.Driver
-import com.example.swift.businessLayer.dataClasses.Ride
 import com.example.swift.businessLayer.dataClasses.RideSession
 import com.example.swift.businessLayer.session.RiderSession
 import com.example.swift.databinding.ActivityRiderRideSessionBinding
 import com.example.swift.frontEnd.Remote.IGoogleAPI
 import com.example.swift.frontEnd.Remote.RetroFitClient
-import com.example.swift.frontEnd.rider.riderMain.RiderMainActivity
+import com.example.swift.frontEnd.driver.rating.Rating_Activity
 
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -33,7 +31,6 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.*
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
@@ -266,8 +263,12 @@ class RiderRideSessionActivity : AppCompatActivity(), OnMapReadyCallback {
                     val id = d.push()
                     id.setValue(session)
 
-                    val intent = Intent(this@RiderRideSessionActivity, RiderMainActivity::class.java)
+                    val intent = Intent(this@RiderRideSessionActivity, Rating_Activity::class.java)
+                    intent.putExtra("DRIVER_ID", session!!.driverId)
+                    intent.putExtra("RIDER_ID",session!!.riderId)
+                    intent.putExtra("IS_DRIVER",false)
                     startActivity(intent)
+
                     finish()
                 }
             }
