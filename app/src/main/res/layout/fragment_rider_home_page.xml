@@ -38,20 +38,15 @@
         android:layout_marginStart="0dp"
         android:layout_marginTop="85dp"
         android:layout_marginBottom="-1dp"
-        android:background="@color/white"
+        android:background="@drawable/white_upper_rounded_rectangle"
         android:orientation="vertical">
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/light_black"
-            android:paddingLeft="8dp"
-            android:paddingRight="8dp" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="10dp"
+            android:gravity="center_horizontal"
             android:orientation="horizontal">
 
 
@@ -59,12 +54,26 @@
                 android:id="@+id/car_selected"
                 android:layout_width="36dp"
                 android:layout_height="36dp"
-                android:layout_marginLeft="10dp"
+                android:layout_marginRight="40dp"
                 android:background="@drawable/round_orange"
                 android:clickable="true"
                 android:focusable="true"
                 android:paddingHorizontal="8dp"
                 android:src="@drawable/ic_car"
+                sothree:tint="@color/white" />
+
+
+            <ImageView
+                android:id="@+id/rickshaw_selected"
+
+                android:layout_width="40dp"
+                android:layout_height="36dp"
+                android:layout_marginLeft="40dp"
+                android:layout_marginRight="40dp"
+                android:background="@drawable/round_grey"
+                android:clickable="true"
+                android:focusable="true"
+                android:src="@drawable/favpng_auto_rickshaw_clip_art"
                 sothree:tint="@color/white" />
 
             <ImageView
@@ -86,6 +95,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
+            android:layout_marginLeft="10dp"
             android:orientation="horizontal"
             android:weightSum="10">
 
@@ -114,6 +124,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
+            android:layout_marginLeft="10dp"
             android:orientation="horizontal">
 
             <TextView
@@ -132,6 +143,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
+                android:layout_marginLeft="3dp"
                 android:layout_weight="9"
                 tools:ignore="Suspicious0dp" />
 
@@ -141,28 +153,29 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal">
-        <Button
-            android:id="@+id/ride_request"
-            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="Request Ride"
-            android:textSize="16sp"
-            android:paddingHorizontal="30dp"
-            android:layout_marginLeft="30dp"
-            android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/ride_request"
+                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="30dp"
+                android:paddingHorizontal="30dp"
+                android:text="Request Ride"
+                android:textSize="16sp"
+                android:textStyle="bold" />
 
             <Button
                 android:id="@+id/emergency_ride_button"
                 style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
                 android:backgroundTint="@color/green"
                 android:text="Emergency Ride"
                 android:textSize="16sp"
-                android:textStyle="bold"
-                android:layout_marginLeft="30dp"/>
+                android:textStyle="bold" />
         </LinearLayout>
 
     </LinearLayout>
