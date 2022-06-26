@@ -95,6 +95,8 @@
         <entry key="..\:/android studio projects/SWIFT/app/src/main/res/layout/popup_send_offer_layout.xml" value="0.23958333333333334" />
         <entry key="..\:/android studio projects/SWIFT/app/src/main/res/layout/request_list_item.xml" value="0.36666666666666664" />
         <entry key="..\:/android studio projects/SWIFT/app/src/main/res/layout/rider_menu_header.xml" value="0.29393115942028986" />
+        <entry key="app/src/main/res/layout/activity_driver_ride_session.xml" value="0.20833333333333334" />
+        <entry key="app/src/main/res/layout/activity_rating.xml" value="0.20833333333333334" />
       </map>
     </option>
   </component>

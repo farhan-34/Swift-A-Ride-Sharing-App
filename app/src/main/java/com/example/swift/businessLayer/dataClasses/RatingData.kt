@@ -1,10 +1,8 @@
 package com.example.swift.businessLayer.dataClasses
 
 class RatingData(
-    var ratingGiver:String,
-    var ratingTaker:String,
-    var messege:String,
+    var count:Int,
     var rating: Double = 0.0
 ) {
-    constructor(): this("","","")
+    constructor(): this(0)
 }

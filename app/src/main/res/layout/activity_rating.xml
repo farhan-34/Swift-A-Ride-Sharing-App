@@ -26,7 +26,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:gravity="center"
-        android:text="Time of Ride"
+        android:text="Please Rate Me"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="@+id/rating_driverName"
         app:layout_constraintHorizontal_bias="0.5"
