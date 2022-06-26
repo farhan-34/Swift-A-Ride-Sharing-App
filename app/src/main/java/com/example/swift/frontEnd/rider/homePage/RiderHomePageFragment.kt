@@ -3,6 +3,7 @@ package com.example.swift.frontEnd.rider.homePage
 import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Color
 import android.location.Address
 import android.location.Geocoder
 import android.location.Location
@@ -100,6 +101,10 @@ GoogleMap.OnCameraMoveStartedListener{
     lateinit var iFirebaseFailure: FirebaseFailedListener
 
     var cityName = ""
+
+    //vehicle type
+    var vehicleType = "car"
+
 
 
 
@@ -453,6 +458,24 @@ GoogleMap.OnCameraMoveStartedListener{
         //for emergency ride
         emergency_ride_button.bringToFront()
 
+
+
+        //vehicle type
+
+        car_selected.setOnClickListener {
+            car_selected.setBackgroundColor(Color.parseColor("#E87C35"))
+            vehicleType = "car"
+            bike_selected.setBackgroundColor(Color.parseColor("#727272"))
+        }
+
+        bike_selected.setOnClickListener {
+            car_selected.setBackgroundColor(Color.parseColor("#727272"))
+            vehicleType = "bike"
+            bike_selected.setBackgroundColor(Color.parseColor("#E87C35"))
+        }
+
+
+
         /*
         ************************************
                Emergency Ride function
@@ -645,7 +668,7 @@ GoogleMap.OnCameraMoveStartedListener{
                         e.printStackTrace()
                     }
                     RiderSession.getCurrentUser { rider ->
-                        var riderRequest = RideRequest("",FirebaseAuth.getInstance().currentUser!!.uid,key,rider.name,rider.rating,pickup,dropOff,"",mid,midPointFlag)
+                        var riderRequest = RideRequest("",FirebaseAuth.getInstance().currentUser!!.uid,key,rider.name,rider.rating,pickup,dropOff,vehicleType,mid,midPointFlag)
                         val requestId = ref.push()
                         riderRequest.requestId = requestId.key.toString()
                         requestId.setValue(riderRequest)

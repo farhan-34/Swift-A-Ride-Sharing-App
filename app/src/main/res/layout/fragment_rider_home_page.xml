@@ -37,7 +37,6 @@
         android:layout_alignParentBottom="true"
         android:layout_marginStart="0dp"
         android:layout_marginTop="85dp"
-        android:layout_marginEnd="9dp"
         android:layout_marginBottom="-1dp"
         android:background="@color/white"
         android:orientation="vertical">
@@ -48,6 +47,38 @@
             android:background="@color/light_black"
             android:paddingLeft="8dp"
             android:paddingRight="8dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_car"
+                android:id="@+id/car_selected"
+                sothree:tint="@color/white"
+                android:clickable="true"
+                android:focusable="true"
+                android:layout_marginLeft="10dp"
+                android:background="@color/main_orange_color"
+                android:paddingHorizontal="8dp"/>
+
+
+            <ImageView
+                android:id="@+id/bike_selected"
+                android:layout_width="77dp"
+                android:layout_height="match_parent"
+                android:clickable="true"
+                android:focusable="true"
+                android:src="@drawable/ic_baseline_pedal_bike_24"
+                sothree:tint="@color/white"
+                android:layout_marginLeft="40dp"
+                android:background="@color/quantum_grey600"/>
+
+        </LinearLayout>
 
 
         <LinearLayout
