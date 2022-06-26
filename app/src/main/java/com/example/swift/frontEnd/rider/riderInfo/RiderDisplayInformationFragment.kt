@@ -85,6 +85,8 @@ class RiderDisplayInformationFragment : Fragment(), AdapterView.OnItemSelectedLi
                 riderInfo_age_view.setText( rider.age)
 
             riderInfo_email_view.setText(rider.email)
+
+            riderInfo_rating_view.setText(rider.rating.toString())
         }
 
 
