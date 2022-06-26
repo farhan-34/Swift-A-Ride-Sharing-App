@@ -108,7 +108,7 @@ class DriverRequestListFragment : Fragment() {
                     val temp: RideRequest? = snapshot.getValue(RideRequest::class.java)
 
                     if (temp != null) {
-                        if (temp.driverId == driver.driverId) {
+                        if (temp.driverId == driver.driverId && temp.vehicleType==driver.vehicleType) {
                             rideRequestList.add(temp!!)
                         }
                     }
