@@ -6,6 +6,10 @@ import android.content.pm.ActivityInfo
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.MenuItem
+import android.view.View
+import android.widget.PopupMenu
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.swift.R
@@ -13,17 +17,49 @@ import com.example.swift.businessLayer.Common.Common
 import com.example.swift.businessLayer.dataClasses.DriverOffer
 import com.example.swift.businessLayer.session.RiderSession
 import com.example.swift.frontEnd.Services.NotifyOnDriverOffer
-import com.example.swift.frontEnd.rider.homePage.RiderHomePageFragment
 import com.example.swift.frontEnd.rider.riderMain.RiderMainActivity
 import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.activity_offer_list.*
-import kotlinx.android.synthetic.main.fragment_rider_offer_list.*
 
 class OfferListActivity : AppCompatActivity() {
 
     private lateinit var driversOffersList : ArrayList<DriverOffer>
     private  lateinit var driversOffersRecyclerView: RecyclerView
     private lateinit var adapter: OfferListAdapter
+
+    // fun to inflate the popup of sort by
+    private fun showPopupSortBy(view: View) {
+        val popup = PopupMenu(this, view)
+        popup.inflate(R.menu.offer_sortby_items)
+
+        popup.setOnMenuItemClickListener(PopupMenu.OnMenuItemClickListener { item: MenuItem? ->
+
+            when (item!!.title) {
+                "Fair" -> {
+                    // Toast.makeText(this@MainActivity, item.title, Toast.LENGTH_SHORT).show()
+
+                    driversOffersList?.sortBy { it.text.toInt() }
+                    init_recycler_view()
+                }
+                "Distance" -> {
+                    // Toast.makeText(this@MainActivity, item.title, Toast.LENGTH_SHORT).show()
+
+                    driversOffersList?.sortBy { it.rating }
+                    init_recycler_view()
+                }
+                "Rating" -> {
+                    //Toast.makeText(this@MainActivity, item.title, Toast.LENGTH_SHORT).show()
+
+                    driversOffersList?.sortByDescending { it.rating }
+                    init_recycler_view()
+                }
+            }
+
+            true
+        })
+
+        popup.show()
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,6 +72,15 @@ class OfferListActivity : AppCompatActivity() {
         driversOffersRecyclerView = findViewById(R.id.driversOffers_recycler)
         load_data()
         init_recycler_view()
+
+        rider_driversOffers_sort.setOnClickListener{
+
+
+            showPopupSortBy(rider_driversOffers_sort)
+
+
+            Toast.makeText(this, "Sort applied", Toast.LENGTH_SHORT).show()
+        }
 
 
         val db = FirebaseDatabase.getInstance()

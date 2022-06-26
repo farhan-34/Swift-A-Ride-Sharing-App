@@ -11,5 +11,6 @@ data class DriverOffer(
     var driverName:String = "",
     var text:String = "",
     var profilePicture:String = "",
+    var distance_between_driver_and_rider: Double = 0.0,
     var rating: Double = 0.0
 ): Parcelable {}

@@ -46,7 +46,7 @@ class DriverRequestListFragment : Fragment() {
     }
 
 
-    // fun to inflate the popup of sor by
+    // fun to inflate the popup of sort by
     private fun showPopupSortBy(view: View) {
         val popup = PopupMenu(requireContext(), view)
         popup.inflate(R.menu.sortby_items)
@@ -57,12 +57,14 @@ class DriverRequestListFragment : Fragment() {
                 "Distance" -> {
                    // Toast.makeText(this@MainActivity, item.title, Toast.LENGTH_SHORT).show()
                     sortBy = 1
-                    rideRequestList?.sortBy { it.distance_between_driver_and_rider }
+                    rideRequestList?.sortBy { it.riderRating }
+                    init_recycler_view()
                 }
                 "Rating" -> {
                     //Toast.makeText(this@MainActivity, item.title, Toast.LENGTH_SHORT).show()
                     sortBy = 2
                     rideRequestList?.sortByDescending { it.riderRating }
+                    init_recycler_view()
                 }
             }
 
