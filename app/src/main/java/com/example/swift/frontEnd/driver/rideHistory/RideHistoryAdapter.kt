@@ -63,6 +63,7 @@ class RideHistoryAdapter(private val rideHistory:  ArrayList<RideSession>) : Rec
 
         if(rideHistory[position].rideState == "Reached"){
             holder.status.text = "Complete"
+            holder.status.setTextColor(Color.rgb(255,255,0))
         }
         else{
             holder.status.text = "Canceled"

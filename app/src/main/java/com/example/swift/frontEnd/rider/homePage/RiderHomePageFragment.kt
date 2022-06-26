@@ -103,7 +103,7 @@ GoogleMap.OnCameraMoveStartedListener{
     var cityName = ""
 
     //vehicle type
-    var vehicleType = "car"
+    var vehicleType = "Car"
 
 
 
@@ -464,21 +464,21 @@ GoogleMap.OnCameraMoveStartedListener{
 
         car_selected.setOnClickListener {
             car_selected.setBackgroundResource(R.drawable.round_orange)
-            vehicleType = "car"
+            vehicleType = "Car"
             bike_selected.setBackgroundResource(R.drawable.round_grey)
             rickshaw_selected.setBackgroundResource(R.drawable.round_grey)
         }
 
         rickshaw_selected.setOnClickListener {
             rickshaw_selected.setBackgroundResource(R.drawable.round_orange)
-            vehicleType = "rickshaw"
+            vehicleType = "Rickshaw"
             bike_selected.setBackgroundResource(R.drawable.round_grey)
             car_selected.setBackgroundResource(R.drawable.round_grey)
         }
 
         bike_selected.setOnClickListener {
             bike_selected.setBackgroundResource(R.drawable.round_orange)
-            vehicleType = "bike"
+            vehicleType = "Bike"
             car_selected.setBackgroundResource(R.drawable.round_grey)
             rickshaw_selected.setBackgroundResource(R.drawable.round_grey)
         }
